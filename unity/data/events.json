@@ -1,0 +1,110 @@
+{
+  "data":
+  {
+    "version":"0.1.0",
+    "events":
+    [
+      { "name":"logInFailed", 
+        "args":[ {"name":"mesg","type":"string"} ]
+      },
+      { "name":"createUserFailed", 
+        "args":[ {"name":"mesg","type":"string"} ]
+      },
+      { "name":"loggedOut", 
+        "args":[]
+      },
+      { "name":"loggedIn", 
+        "args":[]
+      },
+      { "name":"createdUser", 
+        "args":[]
+      },
+      { "name":"goodActivated", 
+        "args":[{"type":"GoodInfo","name":"info"}]
+      },
+      { "name":"goodDeactivated", 
+        "args":[{"type":"GoodInfo","name":"info"}]
+      },
+      { "name":"goodUsed", 
+        "args":[{"type":"GoodInfo","name":"info"}]
+      },
+      { "name":"goodSold", 
+        "args":[{"type":"GoodInfo","name":"info"}]
+      },
+      { "name":"goodBought", 
+        "notes":["Fired when a shop item has been successfully purchased"],
+        "args":[{"type":"PurchaseInfo","name":"info"}]
+      },
+      { "name":"eventDone", 
+        "args":[{"type":"IXMLNode","name":"eventInfo"}]
+      },
+      { "name":"dataLoaded",
+        "args":[{"type":"string","name":"key"},{"type":"string","name":"value"}]
+      },
+      { "name":"dataSaved",
+        "args":[{"type":"string","name":"key"},{"type":"string","name":"value"}]
+      },
+      { "name":"roarNetworkStart",
+        "args":[]
+      },
+      { "name":"roarNetworkEnd",
+        "args":[{"type":"string","name":"call_id"}]
+      },
+      { "name":"callComplete",
+        "args":[{"type":"CallInfo","name":"info"}]
+      },
+      { "name":"roarServerAll",
+        "notes":["@note The object is really an XML Node", "@todo It's ugly to be using an implementation detail like this"],
+        "args":[{"type":"object","name":"info"}]
+      },
+      { "name":"xxxChange",
+        "notes":["@todo These should be generated for each component"],
+        "args":[]
+      }
+    ],
+    "server_events":[
+      { "name":"roarServerUpdate",
+        "notes":["@todo Ugly to be using a hash here", "@todo Implement more server update functions"],
+        "args":[{"type":"IXMLNode","name":"info"}],
+        "server_name":"update"
+      },
+      { "name":"roarServerItemUse",
+        "notes":["@todo Ugly to be using a hash here", "@todo Implement more server update functions"],
+        "args":[{"type":"IXMLNode","name":"info"}],
+        "server_name":"item_use"
+      },
+      { "name":"roarServerItemLose",
+        "notes":["@todo Ugly to be using a hash here", "@todo Implement more server update functions"],
+        "args":[{"type":"IXMLNode","name":"info"}],
+        "server_name":"item_lose"
+      },
+      { "name":"roarServerInventoryChanged",
+        "notes":["@todo Ugly to be using a hash here", "@todo Implement more server update functions"],
+        "args":[{"type":"IXMLNode","name":"info"}],
+        "server_name":"inventory_changed"
+      },
+      { "name":"roarServerRegen",
+        "notes":["@todo Ugly to be using a hash here", "@todo Implement more server update functions"],
+        "args":[{"type":"IXMLNode","name":"info"}],
+        "server_name":"regen"
+      },
+      { "name":"roarServerItemAdd",
+        "notes":["@todo Ugly to be using a hash here", "@todo Implement more server update functions"],
+        "args":[{"type":"IXMLNode","name":"info"}],
+        "server_name":"item_add"
+      },
+      { "name":"roarServerTaskComplete",
+        "notes":["@todo Ugly to be using a hash here", "@todo Implement more server update functions"],
+        "args":[{"type":"IXMLNode","name":"info"}],
+        "server_name":"task_complete"
+      }
+    ],
+    "components":[
+      "properties",
+      "shop",
+      "inventory",
+      "cache",
+      "tasks"
+    ]
+  }
+}

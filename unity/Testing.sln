@@ -1,0 +1,26 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 10.00
+# Visual Studio 2008
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RoarCoreLibrary", "RoarCoreLibrary.csproj", "{670B6A06-6F7A-48A5-99EC-5EA2493B453C}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Testing", "Testing.csproj", "{35FD8200-9AF0-425B-8108-D1D7B13CD8EF}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|x86 = Debug|x86
+		Release|x86 = Release|x86
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{35FD8200-9AF0-425B-8108-D1D7B13CD8EF}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{35FD8200-9AF0-425B-8108-D1D7B13CD8EF}.Debug|x86.Build.0 = Debug|Any CPU
+		{35FD8200-9AF0-425B-8108-D1D7B13CD8EF}.Release|x86.ActiveCfg = Release|Any CPU
+		{35FD8200-9AF0-425B-8108-D1D7B13CD8EF}.Release|x86.Build.0 = Release|Any CPU
+		{670B6A06-6F7A-48A5-99EC-5EA2493B453C}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{670B6A06-6F7A-48A5-99EC-5EA2493B453C}.Debug|x86.Build.0 = Debug|Any CPU
+		{670B6A06-6F7A-48A5-99EC-5EA2493B453C}.Release|x86.ActiveCfg = Release|Any CPU
+		{670B6A06-6F7A-48A5-99EC-5EA2493B453C}.Release|x86.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(MonoDevelopProperties) = preSolution
+		StartupItem = RoarCoreLibrary.csproj
+	EndGlobalSection
+EndGlobal

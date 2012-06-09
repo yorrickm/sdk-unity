@@ -1,0 +1,39 @@
+<roar tick="133591623162">
+  <tasks>
+    <list status="ok">
+      <task ikey="monolith_unlock">
+        <label>Monolith Unlock</label>
+        <description></description>
+        <location></location>
+        <tags/>
+        <rewards>
+          <grant_item ikey="galactic_banana"/>
+          <grant_stat_range type="attribute" ikey="intelligence" min="50" max="50"/>
+        </rewards>
+        <mastery level="" progress=""/>
+        <requires>
+          <item_requirement ikey="banana" number_required="30" ok="false" reason="requires banana(30)"/>
+        </requires>
+      </task>
+    </list>
+  </tasks>
+  <server>
+    <regen name="energy" next="133591633248"/>
+    <item_add item_id="1428068199" item_ikey="galactic_banana"/>
+    <task_complete>
+      <ikey>monolith_unlock</ikey>
+      <label>Monolith Unlock</label>
+      <description></description>
+      <location></location>
+      <tags/>
+      <modifiers>
+        <add_item ikey="galactic_banana" item_id="1428068199"/>
+        <stat_change ikey="intelligence" value="50"/>
+      </modifiers>
+      <mastery level="" progress=""/>
+    </task_complete>
+    <update type="attribute" ikey="intelligence" value="60"/>
+	<update type="attribute" ikey="agility" value="30"/>
+    <inventory_changed/>
+  </server>
+</roar>

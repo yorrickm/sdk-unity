@@ -1,0 +1,164 @@
+{ "data":
+{
+  "version":"0.1.0",
+
+  "modules":
+   [
+     {
+        "name":"admin",
+        "functions":
+        [
+           { "name":"delete_player" },
+           { "name":"inrement_stat" },
+           { "name":"set" },
+           { "name":"set_custom" },
+           { "name":"view_player" }
+        ]
+     },
+     {
+        "name":"appstore",
+        "functions":
+        [
+          { "name":"buy" },
+          { "name":"shop_list" }
+        ]
+     },
+     {
+       "name":"chrome_web_store",
+       "functions":
+       [
+         { "name":"list" }
+       ]
+     },
+     {
+       "name":"facebook",
+       "functions":
+       [
+          { "name":"bind_signed" },
+          { "name":"create_oauth" },
+          { "name":"create_signed" },
+          { "name":"fetch_oauth_token" },
+          { "name":"friends" },
+          { "name":"login_oauth" },
+          { "name":"login_signed" },
+          { "name":"shop_list" }
+       ]
+     },
+     {
+        "name":"friends",
+        "functions":
+        [
+          { "name":"accept" },
+          { "name":"decline" },
+          { "name":"invite" },
+          { "name":"invite_info", "url":"friends/info" },
+          { "name":"list" },
+          { "name":"remove" }
+        ]
+     },
+     {
+        "name":"google",
+        "functions":
+        [
+          { "name":"bind_user" },
+          { "name":"bind_user_token" },
+          { "name":"create_user" },
+          { "name":"create_user_token" },
+          { "name":"friends" },
+          { "name":"login_user" },
+          { "name":"login_user_token" }
+        ]
+     },
+     {
+        "name":"info",
+        "functions":
+        [
+          { "name":"get_bulk_player_info" },
+          { "name":"ping", "obj":"null" },
+          { "name":"user" },
+          { "name":"poll", "obj":"null" }
+        ]
+      },
+     {
+        "name":"items",
+        "functions":
+        [
+          { "name":"equip" },
+          { "name":"list", "obj":"null" },
+          { "name":"sell" },
+          { "name":"set" },
+          { "name":"unequip" },
+          { "name":"use" },
+          { "name":"view" },
+          { "name":"view_all" }
+        ]
+     },
+     {
+        "name":"leaderboards",
+        "functions":
+        [
+          { "name":"list" },
+          { "name":"view" }
+        ]
+     },
+     {
+        "name":"mail",
+        "functions":
+        [
+          { "name":"accept" },
+          { "name":"send" },
+          { "name":"what_can_i_accept" },
+          { "name":"what_can_i_send" }
+        ]
+     },
+     {
+        "name":"shop",
+        "functions":
+        [
+          { "name":"list", "obj":"null" },
+          { "name":"buy" }
+        ]
+     },
+     {
+        "name":"scripts",
+        "functions":
+        [
+          { "name":"run" }
+        ]
+     },
+     {
+        "name":"tasks",
+        "functions":
+        [
+          {"name":"list", "obj":"null"},
+          {"name":"start"}
+        ]
+      },
+      {
+        "name":"user",
+        "functions":
+        [
+          {"name":"achievements", "obj":"null"},
+          {"name":"change_name"},
+          {"name":"change_password"},
+          {"name":"create"},
+          {"name":"login"},
+          {"name":"login_facebook_oauth", "url":"facebook/login_oauth"},
+          {"name":"logout", "obj":"null"},
+          {"name":"netdrive_save", "url":"user/netdrive_set"},
+          {"name":"netdrive_fetch", "url":"user/netdrive_get"},
+          {"name":"set"},
+          {"name":"view", "obj":"null"}
+        ]
+      },
+      {
+        "name":"urbanairship",
+        "functions":
+        [
+          {"name":"ios_register"},
+          {"name":"push"}
+        ]
+      }
+   ]
+}
+}

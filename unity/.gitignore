@@ -1,0 +1,12 @@
+*.swp
+*.swo
+docs/html/
+docs/xml/
+plugins/RoarIO/implementation/IWebAPI.cs
+plugins/RoarIO/implementation/WebAPI.cs
+plugins/RoarIO/RoarIOManager.cs
+bin/
+dist/
+Testing.userprefs
+*.pidb
+test-results/
