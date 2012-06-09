@@ -1,15 +1,15 @@
 
+ifneq ($(wildcard /Applications/Doxygen.app/Contents/Resources/doxygen),)
+	DOXYGEN = /Applications/Doxygen.app/Contents/Resources/doxygen
+else ifneq($(wildcard /usr/bin/doxygen),)
+	DOXYGEN = /usr/bin/doxygen
+else
+	DOXYGEN = doxygen
+endif
+
 docs :
 	rm -rf docs/xml/*
 	rm -rf docs/html/*
-	/Applications/Doxygen.app/Contents/Resources/doxygen api_docs.doxygen
-	#python docs_to_js.py
-	#cp data.js ../codeconsole/data.js
-
-linuxdocs :
-	rm -rf docs/xml/*
-	rm -rf docs/html/*
-	/usr/bin/doxygen api_docs.doxygen
-	#python docs_to_js.py
+	$(DOXYGEN) api_docs.doxygen
 
 .PHONY : docs
