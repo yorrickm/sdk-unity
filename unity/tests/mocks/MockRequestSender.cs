@@ -11,9 +11,9 @@ public class MockRequestSender : RequestSender, IRequestSender
     responses = new Hashtable();
   }
   
-  new public void make_call( string apicall, Hashtable args, RequestCallback cb, Hashtable opt ) {
+  new public void make_call( string apicall, Hashtable args, IRequestCallback<IXMLNode> cb ) {
     Assert.IsTrue(responses.ContainsKey(apicall), "no mock response setup for api path '" + apicall + "'");
-    onServerResponse(responses[apicall] as String, apicall, cb, opt);
+    onServerResponse(responses[apicall] as String, apicall, cb);
   }
   
   public void addMockResponse(string apicall, string rawResponse) {

@@ -30,23 +30,28 @@ using System.Collections;
 namespace Roar
 {
 	
-  public interface CallbackInfo
+  public abstract class CallbackInfo
   {
-	object d { get; }
+	public abstract object d { get; }
+
+	protected CallbackInfo(int in_code, string in_msg )
+	{
+		code = in_code;
+		msg = in_msg;
+	}
+
+	public int code;
+	public string msg;
   }
 
   public class CallbackInfo<T> : CallbackInfo
   {
-    public object d { get { return data; } }
+    public override object d { get { return data; } }
     public T data;
-    public int code;
-    public string msg;
   
-    public CallbackInfo( T in_data, int in_code=IWebAPI.OK, string in_msg="" )
+    public CallbackInfo( T in_data, int in_code=IWebAPI.OK, string in_msg="" ) : base( in_code, in_msg )
     {
       data = in_data;
-      code = in_code;
-      msg = in_msg;
     }
   };
 

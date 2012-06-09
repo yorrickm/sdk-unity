@@ -45,6 +45,13 @@
     <Compile Include="tests\XmlTests.cs">
       <DeployService-Deploy>true</DeployService-Deploy>
     </Compile>
+    <Compile Include="tests\PropertiesTests.cs" />
+    <Compile Include="tests\ComponentTests.cs" />
+    <Compile Include="tests\ActionsTests.cs" />
+    <Compile Include="tests\InventoryTests.cs" />
+    <Compile Include="tests\ShopTests.cs" />
+    <Compile Include="tests\mocks\MockRequestSender.cs" />
+    <Compile Include="tests\mocks\MockRoarIO.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>

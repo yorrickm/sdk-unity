@@ -69,7 +69,7 @@ public class ShopTests : ComponentTests
     Roar.Callback roarCallback = (Roar.CallbackInfo callbackInfo) => { 
       callbackExecuted=true;
       Assert.AreEqual(IWebAPI.OK, callbackInfo.code);
-      Assert.IsNotNull(callbackInfo.data);
+      Assert.IsNotNull(callbackInfo.d);
     };
     mockFetch(shopList, roarCallback);
     Assert.IsTrue(callbackExecuted);
@@ -100,8 +100,8 @@ public class ShopTests : ComponentTests
     Roar.Callback roarCallback = (Roar.CallbackInfo callbackInfo) => { 
       callbackExecuted=true;
       Assert.AreEqual(IWebAPI.OK, callbackInfo.code);
-      Assert.IsNotNull(callbackInfo.data);
-      Assert.AreEqual(callbackInfo.data, itemHashtables);
+      Assert.IsNotNull(callbackInfo.d);
+      Assert.AreEqual(callbackInfo.d, itemHashtables);
     };
     itemHashtables = shop.list(roarCallback);
     Assert.IsTrue(callbackExecuted);

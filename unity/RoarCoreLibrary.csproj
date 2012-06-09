@@ -77,6 +77,8 @@
     <Compile Include="plugins\RoarIO\implementation\Components\Achievements.cs" />
     <Compile Include="plugins\RoarIO\implementation\Components\Gifts.cs" />
     <Compile Include="plugins\RoarIO\IWebAPI.cs" />
+    <Compile Include="plugins\RoarIO\Components\IInAppPurchase.cs" />
+    <Compile Include="plugins\RoarIO\implementation\Components\InAppPurchase.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>

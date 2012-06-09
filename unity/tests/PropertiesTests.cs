@@ -60,7 +60,7 @@ public class PropertiesTests : ComponentTests
     Roar.Callback roarCallback = (Roar.CallbackInfo callbackInfo) => { 
       callbackExecuted=true;
       Assert.AreEqual(IWebAPI.OK, callbackInfo.code);
-      Assert.IsNotNull(callbackInfo.data);
+      Assert.IsNotNull(callbackInfo.d);
     };
     mockFetch(userView, roarCallback);
     Assert.IsTrue(callbackExecuted);
@@ -110,8 +110,8 @@ public class PropertiesTests : ComponentTests
     Roar.Callback roarCallback = (Roar.CallbackInfo callbackInfo) => { 
       callbackExecuted=true;
       Assert.AreEqual(IWebAPI.OK, callbackInfo.code);
-      Assert.IsNotNull(callbackInfo.data);
-      Assert.AreEqual(callbackInfo.data, propertyHashtables);
+      Assert.IsNotNull(callbackInfo.d);
+      Assert.AreEqual(callbackInfo.d, propertyHashtables);
     };
     propertyHashtables = properties.list(roarCallback);
     Assert.IsTrue(callbackExecuted);
