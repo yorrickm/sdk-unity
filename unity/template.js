@@ -1,4 +1,4 @@
-var _ = require("../html5/libs/roarjs/external/underscore/underscore.js")
+var _ = require("underscore")
 
 fs = require('fs')
 
@@ -41,7 +41,7 @@ function augment_template( t )
 
 function build_web_api_cs()
 {
-  api_functions = require("../html5/libs/roarjs/api_functions.json")
+  api_functions = require("../api_functions.json")
   js_template = fs.readFileSync('src/WebAPI.template.cs',"utf8");
   augment_template( api_functions )
 
@@ -52,7 +52,7 @@ function build_web_api_cs()
 
 function build_iweb_api_cs()
 {
-  api_functions = require("../html5/libs/roarjs/api_functions.json")
+  api_functions = require("../api_functions.json")
   js_template = fs.readFileSync('src/IWebAPI.template.cs',"utf8");
   augment_template( api_functions )
 
@@ -90,18 +90,6 @@ function build_event_manager()
   fs.writeFile("plugins/RoarIO/RoarIOManager.cs",output);
 }
 
-function build_ievent_manager()
-{
-  events = require("./data/events.json")
-  cs_template = fs.readFileSync('src/IRoarIOManager.template.cs',"utf8");
-  augment_template( events )
-
-  var output = _.template(cs_template, events)
-
-  fs.writeFile("plugins/RoarIO/IRoarIOManager.cs",output);
-}
-
 build_web_api_cs();
 build_iweb_api_cs();
 build_event_manager();
-//build_ievent_manager();
