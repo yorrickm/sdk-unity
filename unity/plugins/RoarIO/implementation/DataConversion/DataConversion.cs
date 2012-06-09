@@ -310,6 +310,44 @@ namespace Roar.implementation.DataConversion
     }
   }
   
+  public class XmlToAppstoreItemHashtable : IXmlToHashtable
+  {
+    public ICRMParser CrmParser_;
+   
+    public XmlToAppstoreItemHashtable()
+    {
+      CrmParser_ = new CRMParser();
+    }
+   
+    public string GetKey( IXMLNode n )
+    {
+      return n.GetAttribute("product_identifier");
+    }
+    
+    public Hashtable BuildHashtable( IXMLNode n )
+    {
+      Hashtable retval = new Hashtable();
+      foreach( KeyValuePair<string,string> kv in n.Attributes )
+      {
+        retval[kv.Key] = Native.Extract(kv.Value);
+      }
+     
+      foreach( IXMLNode nn in n.Children )
+      {
+        switch( nn.Name )
+        {
+        case "modifiers":
+          retval["modifiers"] = CrmParser_.ParseModifierList( nn );
+          break;
+        default:
+          retval[nn.Name] = nn.Text;
+          break;
+        }
+      }  
+      return retval;
+    }
+  }
+  
   public class XmlToGiftHashtable : IXmlToHashtable
   {
     public ICRMParser CrmParser_;

@@ -58,6 +58,7 @@ public class RoarIO : MonoBehaviour, IRoarIO, IUnityObject
 
 
   public bool debug = true;
+  public bool appstoreSandbox = true;
   public string gameKey="";
 
   public Roar.IConfig Config { get { return Config_; } }
@@ -90,9 +91,11 @@ public class RoarIO : MonoBehaviour, IRoarIO, IUnityObject
   public Roar.Components.IGifts Gifts { get { return Gifts_; } }
   protected Roar.Components.IGifts Gifts_;
   
+  public Roar.Components.IInAppPurchase Appstore { get{ return Appstore_;} }
+  protected Roar.implementation.Components.InAppPurchase Appstore_;
+  
   public Roar.Adapters.IUrbanAirship UrbanAirship { get{ return UrbanAirship_;} }
   protected Roar.implementation.Adapters.UrbanAirship UrbanAirship_;
-
 
   public string AuthToken { get { return Config_.auth_token; } }
 
@@ -115,6 +118,8 @@ public class RoarIO : MonoBehaviour, IRoarIO, IUnityObject
     Shop_ = new Roar.implementation.Components.Shop( WebAPI_.shop, data_store, logger );
     Actions_ = new Roar.implementation.Components.Actions( WebAPI_.tasks, data_store );
 
+    Appstore_ = new Roar.implementation.Components.InAppPurchase( WebAPI_.appstore, "Roar", logger, appstoreSandbox );
+    
     UrbanAirship_ = new Roar.implementation.Adapters.UrbanAirship(WebAPI_);
 
 
@@ -175,6 +180,23 @@ public class RoarIO : MonoBehaviour, IRoarIO, IUnityObject
   {
      this.StartCoroutine(method);
   }
-
-
+ 
+  
+  #region EXTERNAL CALLBACKS
+  void OnAppstoreProductData(string productDataXml) {
+    Appstore.OnProductData(productDataXml);
+  }
+  void OnAppstoreRequestProductDataInvalidProductId(string invalidProductId) {
+    Appstore.OnInvalidProductId(invalidProductId);
+  }
+  void OnAppstoreProductPurchaseComplete(string purchaseXml) {
+    Appstore.OnPurchaseComplete(purchaseXml);
+  }
+  void OnAppstoreProductPurchaseCancelled(string productIdentifier) {
+    Appstore.OnPurchaseCancelled(productIdentifier);
+  }
+  void OnAppstoreProductPurchaseFailed(string errorXml) {
+    Appstore.OnPurchaseFailed(errorXml);
+  }
+  #endregion
 }

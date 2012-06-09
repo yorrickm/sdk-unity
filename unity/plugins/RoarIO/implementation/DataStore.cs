@@ -43,6 +43,7 @@ public class DataStore
     Leaderboards_ = new DataModel("leaderboards", "leaderboards/list", "board", null, null, api, logger);
     Friends_      = new DataModel("friends", "friends/list", "friend", null, null, api, logger);
     Cache_        = new ItemCache("cache", "items/view", "item", null, new DC.XMLToItemHashtable(), api, logger);
+    Appstore_     = new DataModel("appstore", "appstore/shop_list", "shopitem", null, new DC.XmlToAppstoreItemHashtable(), api, logger);
   }
 
   public void clear(bool x)
@@ -56,6 +57,7 @@ public class DataStore
     Leaderboards_.clear(x);
     Friends_.clear(x);
     Cache_.clear(x);
+    Appstore_.clear(x);
   }
 
   public DataModel Properties_;
@@ -66,6 +68,7 @@ public class DataStore
   public DataModel Achievements_;
   public DataModel Leaderboards_;
   public DataModel Friends_;
+  public DataModel Appstore_;
   public ItemCache Cache_;
 }
 

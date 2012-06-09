@@ -131,6 +131,8 @@ public interface IRoarIO
    * Get access to the gifts functions.
    */
   Roar.Components.IGifts Gifts { get; }
+  
+  Roar.Components.IInAppPurchase Appstore { get; }
 
   /**
    * Methods for notifications.
