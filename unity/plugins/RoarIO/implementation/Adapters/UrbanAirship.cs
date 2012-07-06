@@ -30,7 +30,6 @@ using System;
 
 using Roar.Adapters;
 
-
 namespace Roar.implementation.Adapters
 {
 	/**
@@ -51,6 +50,17 @@ namespace Roar.implementation.Adapters
 		{
 			WebAPI_ = webAPI;
 		}
+		
+		protected IWebAPI WebAPI_;
+		
+		#if !UNITY_IOS
+		public void OnStart() {
+		}
+		public void OnUpdate() {
+		}
+		public void sendPushNotification( string message, string targetUserID ) {
+		}
+		#else
 
 		// Flag if the Device token has been sent to UA *this* session
 		protected bool hasTokenBeenSentToUA = false;
@@ -58,8 +68,6 @@ namespace Roar.implementation.Adapters
 
 		// How many remote notifications have we received this session
 		protected int lastRemoteNotificationCount = 0;
-		
-		protected IWebAPI WebAPI_;
 
 		// --------
 		// Fired when remote notifications are successfully registered for
@@ -179,5 +187,6 @@ namespace Roar.implementation.Adapters
 				// string tokenText = ( NotificationServices.remoteNotifications[0] as RemoteNotification).alertBody;
 			}
 		}
+		#endif
 	}
 }

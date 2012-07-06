@@ -192,7 +192,7 @@ public class User : IUser
     // @todo Perform auto loading of game and player data
   }
 
-
+  //TODO: not sure this belongs in this class!
   public void cacheFromInventory( Roar.Callback cb=null )
   {
     if (! DataStore_.Inventory_.hasDataFromServer) return;

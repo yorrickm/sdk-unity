@@ -50,8 +50,6 @@
     <Compile Include="plugins\RoarIO\Components\IShop.cs" />
     <Compile Include="plugins\RoarIO\implementation\DataModel.cs" />
     <Compile Include="plugins\RoarIO\implementation\DataStore.cs" />
-    <Compile Include="plugins\RoarIO\implementation\IUser.cs" />
-    <Compile Include="plugins\RoarIO\implementation\User.cs" />
     <Compile Include="plugins\RoarIO\implementation\Adapters\UrbanAirship.cs" />
     <Compile Include="plugins\RoarIO\implementation\Components\Actions.cs" />
     <Compile Include="plugins\RoarIO\implementation\Components\Data.cs" />
@@ -74,11 +72,13 @@
     <Compile Include="plugins\RoarIO\ILogger.cs" />
     <Compile Include="plugins\RoarIO\Components\IGifts.cs" />
     <Compile Include="plugins\RoarIO\Components\IAchievements.cs" />
-    <Compile Include="plugins\RoarIO\implementation\Components\Achievements.cs" />
-    <Compile Include="plugins\RoarIO\implementation\Components\Gifts.cs" />
-    <Compile Include="plugins\RoarIO\IWebAPI.cs" />
     <Compile Include="plugins\RoarIO\Components\IInAppPurchase.cs" />
+    <Compile Include="plugins\RoarIO\Components\IUser.cs" />
+    <Compile Include="plugins\RoarIO\implementation\Components\Gifts.cs" />
+    <Compile Include="plugins\RoarIO\implementation\Components\Achievements.cs" />
+    <Compile Include="plugins\RoarIO\implementation\Components\User.cs" />
     <Compile Include="plugins\RoarIO\implementation\Components\InAppPurchase.cs" />
+    <Compile Include="plugins\RoarIO\IWebAPI.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>

@@ -30,6 +30,8 @@ namespace Roar.Components
 {
 	/**
 	 * \brief Methods for creating, authenticating and logging out a User.
+	 *
+	 * @todo The naming of the members of this class seem a little odd.
 	 **/
 	public interface IUser
 	{

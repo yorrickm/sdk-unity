@@ -56,7 +56,7 @@ public class Logger : Roar.ILogger
 public class RoarIO : MonoBehaviour, IRoarIO, IUnityObject
 {
 
-
+  //These are purely to enable the values to show up in the unity UI.
   public bool debug = true;
   public bool appstoreSandbox = true;
   public string gameKey="";
@@ -106,6 +106,11 @@ public class RoarIO : MonoBehaviour, IRoarIO, IUnityObject
   public void Awake()
   {
     Config_ = new Roar.implementation.Config();
+    
+     // Apply public settings 
+    Config.game = gameKey;
+    Config.isDebug = debug;
+    
     Logger logger = new Logger();
 
     RequestSender api = new RequestSender(Config_,this,logger);
@@ -122,11 +127,8 @@ public class RoarIO : MonoBehaviour, IRoarIO, IUnityObject
     
     UrbanAirship_ = new Roar.implementation.Adapters.UrbanAirship(WebAPI_);
 
-
     DontDestroyOnLoad( this );
 
-    // Apply public settings 
-    Config.game = gameKey;
   }
 
   public void Start()

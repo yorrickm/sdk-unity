@@ -1,0 +1,3 @@
+[submodule "html5/libs/roarjs"]
+	path = html5/libs/roarjs
+	url = git@github.com:roarengine/roarjs.git
