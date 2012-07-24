@@ -58,6 +58,8 @@ namespace Roar.implementation.DataConversion
 		ArrayList ParseCostList( IXMLNode n );
 		ArrayList ParseModifierList( IXMLNode n );
 		ArrayList ParseRequirementList( IXMLNode n );
+		ArrayList ParsePropertiesList( IXMLNode n );
+		ArrayList ParseChildrenForAttribute( IXMLNode n , string attribute);
 	}
 	
 	public class CRMParser : ICRMParser
@@ -107,7 +109,32 @@ namespace Roar.implementation.DataConversion
 			}
 			return req_list;
 		}
-		
+
+		public ArrayList ParsePropertiesList( IXMLNode n )
+		{
+			ArrayList prop_list = new ArrayList();
+			foreach( IXMLNode nn in n.Children )
+			{
+				prop_list.Add( AttributesAsHash(nn) );
+			}
+			return prop_list;
+		}
+
+		// for each child node that has a matching attribute, adds the attribute
+		// to the list then returns the list
+		public ArrayList ParseChildrenForAttribute( IXMLNode n , string attribute)
+		{
+			ArrayList list = new ArrayList();
+			foreach( IXMLNode nn in n.Children )
+			{
+				string attributeValue = nn.GetAttribute(attribute);
+				if(attributeValue!=null) {
+					list.Add( attributeValue );
+				}
+			}
+			return list;
+		}
+
 	}
 	
 	public class XmlToTaskHashtable : IXmlToHashtable
@@ -149,6 +176,10 @@ namespace Roar.implementation.DataConversion
 					retval["requires"] = CrmParser_.ParseRequirementList( nn );
 					break;
 				case "tags":
+					retval["tags"] = CrmParser_.ParseChildrenForAttribute( nn, "value" );
+					break;
+				case "properties":
+					retval["properties"] = CrmParser_.ParsePropertiesList( nn );
 					break;
 				default:
 					retval[nn.Name] = nn.Text;
@@ -189,6 +220,12 @@ namespace Roar.implementation.DataConversion
 				{
 				case "price":
 					retval["price"] = CrmParser_.ParseModifierList( nn );
+					break;
+				case "tags":
+					retval["tags"] = CrmParser_.ParseChildrenForAttribute( nn, "value" );
+					break;
+				case "properties":
+					retval["properties"] = CrmParser_.ParsePropertiesList( nn );
 					break;
 				default:
 					retval[nn.Name] = nn.Text;
@@ -241,11 +278,17 @@ namespace Roar.implementation.DataConversion
 				case "modifiers":
 					//We require and expect that there be only one modifier and that modifier is a grant_item
 					//were we to support the more general case we'd do this:
-					//    retval["modifiers"] = CrmParser_.ParseCostList( kv.Value[0] );
-					
-					//TODO : Add some checks for this... it could crash if we dontget what we expect!
-
-					retval["ikey"] = nn.GetFirstChild("grant_item").GetAttribute("ikey");
+					//    retval["modifiers"] = CrmParser_.ParseModifierList( nn );
+					IXMLNode grantItemNode = nn.GetFirstChild("grant_item");
+					if(grantItemNode != null) {
+						retval["ikey"] = grantItemNode.GetAttribute("ikey");
+					}
+					break;
+				case "tags":
+					retval["tags"] = CrmParser_.ParseChildrenForAttribute( nn, "value" );
+					break;
+				case "properties":
+					retval["properties"] = CrmParser_.ParsePropertiesList( nn );
 					break;
 				default:
 					retval[nn.Name] = nn.Text;
