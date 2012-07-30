@@ -47,7 +47,9 @@ function build_web_api_cs()
 
   var output = _.template(js_template, api_functions)
 
-  fs.writeFile("plugins/RoarIO/implementation/WebAPI.cs",output);
+  var filename = "plugins/RoarIO/implementation/WebAPI.cs";
+  console.log(filename);
+  fs.writeFile(filename,output);
 }
 
 function build_iweb_api_cs()
@@ -58,7 +60,9 @@ function build_iweb_api_cs()
 
   var output = _.template(js_template, api_functions)
 
-  fs.writeFile("plugins/RoarIO/IWebAPI.cs",output);
+  var filename = "plugins/RoarIO/IWebAPI.cs";
+  console.log(filename);
+  fs.writeFile(filename,output);
 }
 
 function build_event_manager()
@@ -87,9 +91,11 @@ function build_event_manager()
 
   var output = _.template(cs_template, events)
 
-  fs.writeFile("plugins/RoarIO/RoarIOManager.cs",output);
+  var filename = "plugins/RoarIO/RoarIOManager.cs";
+  console.log(filename);
+  fs.writeFile(filename,output);
 }
-
+console.log("\nbuilding roar unity source files from template\n")
 build_web_api_cs();
 build_iweb_api_cs();
 build_event_manager();
