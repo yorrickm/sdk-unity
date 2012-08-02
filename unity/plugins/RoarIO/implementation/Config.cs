@@ -41,7 +41,7 @@ public class Config : Roar.IConfig
        isDebug = true;
        game = "";
        auth_token = "";
-       roar_api_url = "http://api.roar.io/";
+       roar_api_url = "https://api.roar.io/";
        
 // TODO : These exist in javascript version but are not yet used here!
 //    props["apiOnly"]=false;

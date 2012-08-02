@@ -151,3 +151,12 @@ make -f package.Makefile
 ~~~
 
 This will produce the roar unity sdk package file RoarIO.unityPackage
+
+## Secure Communication with RoarEngine
+
+By default the config setting for the roar server uses the https protocol, if you're Unity client does not support
+https you can change the config item at application startup to use unencrypted communication:
+
+roar.Config.roar_api_url = "http://api.roar.io/";
+
+However it should be noted that player usernames and passwords will be plain text when using http and this approach is discouraged.
