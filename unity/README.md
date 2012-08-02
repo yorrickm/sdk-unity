@@ -121,7 +121,7 @@ In summary, these are the steps to get the roar sdk setup in your Unity applicat
 
 For a simple example of using the roar unity sdk, you can try our augmented version of the Unity AngryBots tech demo.
 
-## Building the roar unity package
+## Building the roar unity package (Mac/Linux)
 
 You will need to have node.js installed for the build process to work.
 Inparticular we use jsonlint and underscore for generating some code from templates.
@@ -150,7 +150,67 @@ And finally you can build the roar unity sdk package
 make -f package.Makefile
 ~~~
 
-This will produce the roar unity sdk package file RoarIO.unityPackage
+This will produce the roar unity sdk package file RoarIO.unityPackage, which is to be used as described in
+the first section of this readme.
+
+## Building the roar unity package (Windows)
+
+You will need to have npm and node.js installed for the build process to work.
+We use jsonlint and underscore for generating some code from templates.
+The node package manager (npm) will come with the node installer: http://nodejs.org/#download
+
+After you have installed node/npm make sure they are available in the windows command
+prompt by executing the following commands:
+
+~~~
+node -v
+npm -v
+~~~
+
+If the commands do not exist check that the binaries for node and npm are on your path.
+
+The next step is to install jsonlint and underscore by running the following npm command from the unity directory.
+
+~~~
+cd sdks/unity
+npm install -g jsonlint
+npm install underscore
+~~~
+
+You can then build the generated source code by running
+
+~~~
+build.bat
+~~~
+
+You can then build the API documentation. This will require that you have doxygen installed on the command line.
+
+~~~
+doxygen api_docs.doxygen
+~~~
+
+And finally you can build the roar unity sdk package
+Before running this batch script from the command line, you will need to add the Unity editor executable to
+your windows PATH variable. The addition to PATH will be either:
+
+~~~
+;C:\Program Files (x86)\Unity\Editor
+~~~
+or 
+~~~
+;C:\Program Files\Unity\Editor
+~~~
+
+depending on the location of your Unity installation.
+
+You can then run the package script to build the unity package for the roar sdk.
+
+~~~
+package.bat
+~~~
+
+This will produce the roar unity sdk package file RoarIO.unityPackage, which is to be used as described in
+the first section of this readme.
 
 ## Secure Communication with RoarEngine
 
