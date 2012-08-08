@@ -30,37 +30,37 @@ namespace Roar.Components
 {
 
   /**
-   * \brief IGifts is an interface for listing all of the items belonging to a user that can be gifted to other users.
-   * 
-   * You can get the list of all giftable items via the #list function or
-   * a single giftable item via the #getGift function.
+   * \brief IAchievements is an interface for listing all of a user's achievements.
    *
-   * A gift is represented in a Hashtable using the following keys:
+   * Achievements are created in Roar by setting a task and defining a number of completion
+   * events. Once a user has completed the tasks the prescribed number of times, the achievement
+   * is rewarded. 
+   * 
+   * You can get the list of all achievements via the #list function or
+   * a single achievement via the #getAchievement function.
+   *
+   * An achievement is represented in a Hashtable using the following keys:
    *
    * \code
-   * 
-   *  - id: "3467"
-   *  - type: "gift"
-   *  - label: "a label"
-   *  - requirements : list of requirements to send this give
-   *  - costs : list of costs for this gift
-   *  - on_accept : list of actions to execute on accept
-   *  - on_give : list of actions to execute on give
-   *  - tags
-   * 
+   *   - ikey : "the_big_one"
+   *   - status : "active"
+   *   - label : "The Big One"
+   *   - progress : "0/3"
+   *   - description "Find the dragon three times!"
+   *   - task_ikey : "an_ikey"
+   *   - task_label : "A task label"
    * \endcode
    *
-   * @todo: are all mailable items gifts, or only those of type:'gift'?
    **/
-  public interface IGifts
+  public interface IAchievements
   {
 
     /**
-     * Fetch gifts information from the server.
+     * Fetch achievement information from the server.
      *
      * On success:
-     * - invokes callback with parameter *Hastable data* containing the gifts for the user
-     * - fires the RoarIOManager#giftsReadyEvent
+     * - invokes callback with parameter *Hastable data* containing the achievements for the user
+     * - fires the RoarManager#achievementsReadyEvent
      * - sets #hasDataFromServer to true
      *
      * On failure:
@@ -68,23 +68,23 @@ namespace Roar.Components
      *
      * @param callback the callback function to be passed this function's result.
      *
-     * @returns nothing - use a callback and/or subscribe to RoarIOManager events for results of non-blocking calls.
+     * @returns nothing - use a callback and/or subscribe to RoarManager events for results of non-blocking calls.
      **/
     void fetch (Roar.Callback callback);
 
     /**
-     * Check whether any user gifts data has been obtained from the server.
+     * Check whether any user achievements data has been obtained from the server.
      *
      * @returns true if #fetch has completed execution.
      **/
     bool hasDataFromServer { get; }
 
     /**
-     * Get a list of all the gift objects for the authenticated user.
+     * Get a list of all the achievement objects for the authenticated user.
      *
-     * @returns A list of Hashtables for each gift.
+     * @returns A list of Hashtables for each user achievement.
      *
-     * @note This does _not_ make a server call. It requires the gifts to
+     * @note This does _not_ make a server call. It requires the user achievements to
      *       have already been fetched via a call to #fetch. If this function
      *       is called prior to the successful completion of a #fetch call,
      *       it will return an empty array.
@@ -92,19 +92,19 @@ namespace Roar.Components
     ArrayList list ();
 
     /**
-     * Get a list of all the giftable items for the authenticated user.
+     * Get a list of all the achievement objects for the authenticated user.
      *
      * On success:
-     * - invokes callback with parameter *data* containing the list of gift Hashtables
+     * - invokes callback with parameter *data* containing the list of Hashtable user achievements
      *
      * On failure:
      * - returns an empty list
      *
      * @param callback the callback function to be passed this function's result.
      *
-     * @returns A list of Hashtables for each giftable items.
+     * @returns A list of Hashtables for each user achievement.
      *
-     * @note This does _not_ make a server call. It requires the gifts to
+     * @note This does _not_ make a server call. It requires the user achievements to
      *       have already been fetched via a call to #fetch. If this function
      *       is called prior to the successful completion of a #fetch call,
      *       it will return an empty array.
@@ -113,30 +113,30 @@ namespace Roar.Components
     
     
     /**
-     * Returns the gift object for a given key.
+     * Returns the achievement object for a given key.
      *
-     * @param id the key that uniquely identifies a gift.
+     * @param ikey the key that uniquely identifies an achievement.
      *
-     * @returns the gift Hashtable associated with the *id*
-     *          or null if the gift does not exist in the data store.
+     * @returns the property Hashtable associated with the *key*
+     *          or null if the achievement does not exist in the data store.
      **/
-    Hashtable getGift (string id);
+    Hashtable getAchievement (string ikey);
 
     /**
-     * Returns the gift object for a given id.
+     * Returns the achievement object for a given key.
      *
      * On success:
-     * - invokes callback with parameter *data* containing the gift Hashtable
+     * - invokes callback with parameter *data* containing the achievement Hashtable
      *
      * On failure:
-     * - invokes callback with parameter *data* equalling null if gift does not exist
+     * - invokes callback with parameter *data* equalling null if achievement does not exist
      *
-     * @param id the key that uniquely identifies a gift.
+     * @param ikey the key that uniquely identifies an achievement.
      * @param callback the callback function to be passed this function's result.
      *
-     * @returns the gift Hashtable associated with the *id*
-     *          or null if the gift does not exist in the data store.
+     * @returns the achievement Hashtable associated with the *ikey*
+     *          or null if the achievement does not exist in the data store.
      **/
-    Hashtable getGift (string id, Roar.Callback callback);
+    Hashtable getAchievement (string ikey, Roar.Callback callback);
   }
 }

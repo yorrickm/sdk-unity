@@ -37,11 +37,11 @@ namespace Roar.implementation.Adapters
 	 * 
 	 * The call sequence is a little messy here.
 	 * 
-	 *     RoarIO.Start -> UrbanAirship.OnStart -> NotificationServices.RegisterForRemoteNotificationTypes (Apple)
+	 *     Roar.Start -> UrbanAirship.OnStart -> NotificationServices.RegisterForRemoteNotificationTypes (Apple)
 	 * 
 	 * Then we wait and check for registration to complete:
 	 * 
-	 *     RoarIO.Update -> UrbanAirship.OnUpdate -> remoteRegistrationSucceeded Event -> registerWithUrbanAirship (Roar Server) -> handleUASIOSRegister Callback.
+	 *     Roar.Update -> UrbanAirship.OnUpdate -> remoteRegistrationSucceeded Event -> registerWithUrbanAirship (Roar Server) -> handleUASIOSRegister Callback.
 	 */
 
 	public class UrbanAirship : IUrbanAirship

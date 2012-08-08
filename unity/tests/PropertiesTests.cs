@@ -163,7 +163,7 @@ public class PropertiesTests : ComponentTests
     
     IXMLNode updateNode = IXMLNodeFactory.instance.Create("<update type='attribute' ikey='stamina' value='2'/>").GetFirstChild("update");
     
-    RoarIOManager.OnRoarServerUpdate(updateNode);
+    RoarManager.OnRoarServerUpdate(updateNode);
     
     StringAssert.IsMatch("2", properties.getValue("stamina") as String);
     

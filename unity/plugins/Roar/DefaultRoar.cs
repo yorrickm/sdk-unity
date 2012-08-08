@@ -37,23 +37,23 @@ public class Logger : Roar.ILogger
 }
 
 /**
- * Implementation of the IRoarIO interface.
+ * Implementation of the IRoar interface.
  * This is the class you need to drag onto your unity empty to start using the
- * RoarIO framework. However once that is done you should only use the object
- * through the IRoarIO interface. That is your unity scripts should look
+ * Roar framework. However once that is done you should only use the object
+ * through the IRoar interface. That is your unity scripts should look
  * something like this
  *
- *    var roar_:IRoarIO
+ *    var roar_:IRoar
  *    function Awake()
  *    {
- *      roar_ = GetComponent(RoarIO) as IRoarIO
+ *      roar_ = GetComponent(DefaultRoar) as IRoar
  *    }
  *
- * Further documentation about how you can use the RoarIO object
- * can be found in the IRoarIO class.
+ * Further documentation about how you can use the Roar object
+ * can be found in the IRoar class.
  */
 
-public class RoarIO : MonoBehaviour, IRoarIO, IUnityObject
+public class DefaultRoar : MonoBehaviour, IRoar, IUnityObject
 {
 
   //These are purely to enable the values to show up in the unity UI.

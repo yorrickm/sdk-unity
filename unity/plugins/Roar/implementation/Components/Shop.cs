@@ -43,7 +43,7 @@ public class Shop : IShop
 		data_store_ = data_store;
 		logger_ = logger;
 
-		RoarIOManager.shopReadyEvent += () => cacheFromShop();
+		RoarManager.shopReadyEvent += () => cacheFromShop();
   }
 
   public void fetch(Roar.Callback callback) { data_store_.Shop_.fetch(callback); }
@@ -109,8 +109,8 @@ public class Shop : IShop
 
       string id = item.GetAttribute("item_id");	
 
-      RoarIOManager.OnGoodBought(
-        new RoarIOManager.PurchaseInfo(
+      RoarManager.OnGoodBought(
+        new RoarManager.PurchaseInfo(
           cost.GetAttribute("ikey"),             //currency_name
           int.Parse(cost.GetAttribute("value")), // item_price
           ikey,                                  // iitem_id

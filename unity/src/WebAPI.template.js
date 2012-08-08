@@ -16,7 +16,7 @@ class WebAPI
   // Set these values to your Roar game values
   var roar_api_url:String = "http://api.roar.io/";
   
-  // `gameKey` is exposed and set in RoarIO as a public UnityEditor variable
+  // `gameKey` is exposed and set in Roar as a public UnityEditor variable
   public var gameKey:String = '';
 
 
@@ -24,11 +24,11 @@ class WebAPI
   {
     if (gameKey == '')
     {
-      if (RoarIO.instance.debug) Debug.Log('[roar] -- No game key set!--');
+      if (Roar.instance.debug) Debug.Log('[roar] -- No game key set!--');
       return;
     }
 
-    if (RoarIO.instance.debug) Debug.Log('[roar] -- Calling: '+apicall);
+    if (Roar.instance.debug) Debug.Log('[roar] -- Calling: '+apicall);
 
     // Encode POST parameters
     var post:WWWForm = new WWWForm() as WWWForm;
@@ -40,12 +40,12 @@ class WebAPI
     post.AddField( 'auth_token', roarAuthToken );
 
     // Fire call sending event
-    RoarIOManager.OnRoarNetworkStart();
+    RoarManager.OnRoarNetworkStart();
 
     var xhr = WWW( roar_api_url+gameKey+"/"+apicall+"/", post);
     yield xhr;
 
-    // if (RoarIO.instance.debug) Debug.Log(xhr.text);
+    // if (Roar.instance.debug) Debug.Log(xhr.text);
 
     onServerResponse( xhr.text, apicall, cb, opt );
   }
@@ -134,7 +134,7 @@ class WebAPI
     var call_id = 0; // TODO: Hook this up to History
     
     // Fire call complete event
-    RoarIOManager.OnRoarNetworkEnd(call_id.ToString() );
+    RoarManager.OnRoarNetworkEnd(call_id.ToString() );
 
     // -- Parse the Roar response
     // Unexpected server response 
@@ -195,7 +195,7 @@ class WebAPI
       if (cb) cb( callXmlHash, callback_code, callback_msg, call_id, opt );
     }
 
-    RoarIOManager.OnCallComplete( RoarIOManager.CallInfo(node, callback_code, callback_msg, call_id.ToString() ) );
+    RoarManager.OnCallComplete( RoarManager.CallInfo(node, callback_code, callback_msg, call_id.ToString() ) );
   }
 
 
@@ -209,7 +209,7 @@ class WebAPI
     if (! server) return retData;
 
     // Dispatch the entire <server> object
-    RoarIOManager.OnRoarServerAll(server);
+    RoarManager.OnRoarServerAll(server);
     for (var chunk:DictionaryEntry in server as Boo.Lang.Hash)
     {
       var key:String = chunk.Key as String;
@@ -235,16 +235,16 @@ class WebAPI
         switch(key)
         {
           case "update":
-            RoarIOManager.OnRoarServerUpdate(chunkData);
+            RoarManager.OnRoarServerUpdate(chunkData);
             break;
           case "item_use":
-            RoarIOManager.OnRoarServerItemUse(chunkData);
+            RoarManager.OnRoarServerItemUse(chunkData);
             break;
           case "item_lose":
-            RoarIOManager.OnRoarServerItemLose(chunkData);
+            RoarManager.OnRoarServerItemLose(chunkData);
             break;
           case "inventory_changed":
-            RoarIOManager.OnRoarServerInventoryChanged(chunkData);
+            RoarManager.OnRoarServerInventoryChanged(chunkData);
             break;
           default:
             Debug.Log("Server event "+key+" not yet implemented");
@@ -336,7 +336,7 @@ class WebAPI
      obj = f.obj ? f.obj : "obj";
      print("    function "+fix_reserved_word(f.name)+"(obj:Boo.Lang.Hash, cb:Function, opt:Boo.Lang.Hash)\n");
      print("    {\n");
-     print("      RoarIO.instance.StartCoroutine( api._sendCore('"+url+"', "+obj+", cb, opt ));\n");
+     print("      Roar.instance.StartCoroutine( api._sendCore('"+url+"', "+obj+", cb, opt ));\n");
      print("    }\n\n");
 } ) %>  }
 <% } ) %>

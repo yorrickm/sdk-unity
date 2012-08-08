@@ -32,9 +32,9 @@ public class WebAPITests
 
 		Action<object> callback = o => called=true;
 
-		RoarIOManager.roarServerAllEvent += callback;
+		RoarManager.roarServerAllEvent += callback;
 		
-		RoarIOManager.NotifyOfServerChanges( serverNode );
+		RoarManager.NotifyOfServerChanges( serverNode );
 
 		Assert.IsTrue(called);
 		

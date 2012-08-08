@@ -31,7 +31,7 @@ using System.Collections.Generic;
 using System;
 
 
-public class RoarIOManager
+public class RoarManager
 {
 	public class GoodInfo
 	{

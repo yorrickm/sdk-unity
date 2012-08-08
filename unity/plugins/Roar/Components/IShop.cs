@@ -78,7 +78,7 @@ public interface IShop
    *
    * On success:
    * - invokes callback with parameter *Hastable data* containing the data for the shop.
-   * - fires the RoarIOManager#shopReadyEvent
+   * - fires the RoarManager#shopReadyEvent
    * - sets #hasDataFromServer to true
    *
    * On failure:
@@ -86,7 +86,7 @@ public interface IShop
    *
    * @param callback the callback function to be passed this function's result.
    *
-   * @returns nothing - use a callback and/or subscribe to RoarIOManager events for results of non-blocking calls.
+   * @returns nothing - use a callback and/or subscribe to RoarManager events for results of non-blocking calls.
    */
   void fetch( Roar.Callback callback );
 
@@ -103,8 +103,8 @@ public interface IShop
    *
    * On success:
    * - invokes callback with parameter *Hastable data* containing the "id" of the purchased item and the "ikey" of the shop
-   * - fires the RoarIOManager#goodBoughtEvent
-   * - fires the RoarIOManager#roarServerInventoryChangedEvent
+   * - fires the RoarManager#goodBoughtEvent
+   * - fires the RoarManager#roarServerInventoryChangedEvent
    *
    * On failure:
    * - invokes callback with error code and error message
@@ -112,7 +112,7 @@ public interface IShop
    * @param shop_ikey the shop_ikey of the item to purchase.
    * @param callback the callback function to be passed this function's result.
    *
-   * @returns nothing - use a callback and/or subscribe to RoarIOManager events for results of non-blocking calls.
+   * @returns nothing - use a callback and/or subscribe to RoarManager events for results of non-blocking calls.
    */
   void buy( string shop_ikey, Roar.Callback callback );
 

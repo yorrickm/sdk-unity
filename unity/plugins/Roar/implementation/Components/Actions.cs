@@ -78,7 +78,7 @@ public class Actions : IActions
       //var eventData = d["server"] as Hashtable;
       IXMLNode eventData = info.data.GetFirstChild("server");
 
-      RoarIOManager.OnEventDone(eventData);
+      RoarManager.OnEventDone(eventData);
 
       return eventData;
     }

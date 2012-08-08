@@ -11,11 +11,11 @@ Debug.Log('MyDemoApp!-----');
 // such as the social networking plugin from prime31.
 IXMLNodeFactory.instance = new XMLNodeFactory();
 
-var roar_:IRoarIO;
+var roar_:IRoar;
 function Awake()
 {
   Debug.Log("*** DemoApp.js Awakening ***");
-  roar_ = GetComponent(RoarIO) as IRoarIO;
+  roar_ = GetComponent(DefaultRoar) as IRoar;
 }
 
 function Start()
@@ -35,7 +35,7 @@ function onLogin()
   uiState = UIState.Started;
   roar_.Properties.fetch(null);
 }
-RoarIOManager.loggedInEvent += onLogin;
+RoarManager.loggedInEvent += onLogin;
 
 function onLoginFailed( mesg:String )
 {
@@ -44,8 +44,8 @@ function onLoginFailed( mesg:String )
   uiState = UIState.Error;
   uiErrorMessage = mesg;
 }
-RoarIOManager.logInFailedEvent += onLoginFailed;
-RoarIOManager.createUserFailedEvent += onLoginFailed;
+RoarManager.logInFailedEvent += onLoginFailed;
+RoarManager.createUserFailedEvent += onLoginFailed;
 
 function onFacebookLogin()
 {
@@ -56,10 +56,10 @@ FacebookManager.loginSucceededEvent += onFacebookLogin;
 
 
 var gotProps:boolean = false;
-RoarIOManager.propertiesReadyEvent += function(){ gotProps=true; };
+RoarManager.propertiesReadyEvent += function(){ gotProps=true; };
 
 var gotShop:boolean = false;
-RoarIOManager.shopReadyEvent += function(){ gotShop=true; };
+RoarManager.shopReadyEvent += function(){ gotShop=true; };
 
 var flagShowShop:boolean = false;
 var scroll:Vector2 = Vector2.zero;
@@ -227,7 +227,7 @@ function InventoryUI()
   {
     // GUILayout.BeginHorizontal( GUILayout.MaxWidth(listW) );
     var items = roar_.Inventory.list() as ArrayList;
-//    Debug.Log("inventory = " + RoarIO.ObjectToJSON( items ) );
+//    Debug.Log("inventory = " + Roar.ObjectToJSON( items ) );
     for (var i:int=0; i<items.Count; i++)
     {
       var item = items[i] as Hashtable;

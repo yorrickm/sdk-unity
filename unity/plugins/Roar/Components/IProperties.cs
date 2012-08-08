@@ -58,7 +58,7 @@ namespace Roar.Components
      *
      * On success:
      * - invokes callback with parameter *Hastable data* containing the properties for the user
-     * - fires the RoarIOManager#propertiesReadyEvent
+     * - fires the RoarManager#propertiesReadyEvent
      * - sets #hasDataFromServer to true
      *
      * On failure:
@@ -66,7 +66,7 @@ namespace Roar.Components
      *
      * @param callback the callback function to be passed this function's result.
      *
-     * @returns nothing - use a callback and/or subscribe to RoarIOManager events for results of non-blocking calls.
+     * @returns nothing - use a callback and/or subscribe to RoarManager events for results of non-blocking calls.
      **/
     void fetch (Roar.Callback callback);
 

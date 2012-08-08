@@ -49,7 +49,7 @@ public class RequestSender : IRequestSender
     post.AddField( "auth_token", roarAuthToken );
 
     // Fire call sending event
-    RoarIOManager.OnRoarNetworkStart();
+    RoarManager.OnRoarNetworkStart();
 		
 	Debug.Log ( "roar_api_url = " + roar_api_url );
 		
@@ -69,7 +69,7 @@ public class RequestSender : IRequestSender
     var action = uc[1];
 
     // Fire call complete event
-    RoarIOManager.OnRoarNetworkEnd("no id");
+    RoarManager.OnRoarNetworkEnd("no id");
 
     // -- Parse the Roar response
     // Unexpected server response 
@@ -91,7 +91,7 @@ public class RequestSender : IRequestSender
 
     // Pre-process <server> block if any and attach any processed data
     IXMLNode serverNode = rootNode.GetNode( "roar>0>server>0" );
-    RoarIOManager.NotifyOfServerChanges( serverNode );
+    RoarManager.NotifyOfServerChanges( serverNode );
 
     // Status on Server returned an error. Action did not succeed.
     string status = actionNode.GetAttribute( "status" );
@@ -125,7 +125,7 @@ public class RequestSender : IRequestSender
       if (cb!=null) cb.onRequest( new Roar.CallbackInfo<IXMLNode>( rootNode, callback_code, callback_msg) );
     }
 
-    RoarIOManager.OnCallComplete( new RoarIOManager.CallInfo( rootNode, callback_code, callback_msg, "no id" ) );
+    RoarManager.OnCallComplete( new RoarManager.CallInfo( rootNode, callback_code, callback_msg, "no id" ) );
   }
 	
 

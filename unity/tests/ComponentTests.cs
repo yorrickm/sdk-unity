@@ -3,14 +3,14 @@ using System;
 
 public class ComponentTests
 {
-  protected MockRoarIO roar;
-  protected IRoarIO roarApi;
+  protected MockRoar roar;
+  protected IRoar roarApi;
   protected MockRequestSender requestSender;
   
   public void TestInitialise() {
     IXMLNodeFactory.instance = new SystemXMLNodeFactory();
-    roar = new MockRoarIO();
-    roarApi = roar as IRoarIO;
+    roar = new MockRoar();
+    roarApi = roar as IRoar;
     roar.Awake();
     requestSender = roar.api as MockRequestSender;
   }

@@ -14,7 +14,7 @@ http://u3d.as/content/unity-technologies/angry-bots/2aL
 https://github.com/downloads/roarengine/sdks/roarunitysdk-angrybots.zip
 
 3. The latest stable roar unity sdk package from
-https://github.com/downloads/roarengine/sdks/RoarIO.unityPackage
+https://github.com/downloads/roarengine/sdks/Roar.unityPackage
 
 The process is simple, first you import the AngryBots unity package into a new Unity project,
 at this stage you should run the demo via the play button to ensure the vanilla demo is
@@ -48,7 +48,7 @@ one with the black and white Unity icon).
 Next create an empty Game Object and name it Roar via the menu item at
 Game Object->Create Empty
 
-From the Project panel, drag the RoarIO.cs file within the Plugins/RoarIO/ folder onto the Roar game object.
+From the Project panel, drag the Roar.cs file within the Plugins/Roar/ folder onto the Roar game object.
 
 Next create an empty game object and name it RoarDemo via the menu item at
 Game Object->Create Empty

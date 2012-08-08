@@ -1,5 +1,5 @@
 
-UNITY_ASSET_DIR=/Users/michaelanderson/UnityRoarIO/Assets
+UNITY_ASSET_DIR=/Users/michaelanderson/UnityRoar/Assets
 
 u_pull()
 {

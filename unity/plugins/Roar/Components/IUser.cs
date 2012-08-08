@@ -40,12 +40,12 @@ namespace Roar.Components
 		 * that player in.
 		 *
 		 * On success:
-		 * - fires a RoarIOManager#createdUserEvent
+		 * - fires a RoarManager#createdUserEvent
 		 * - automatically calls doLogin()
 		 *
 		 * On failure:
 		 * - invokes callback with empty data parameter, error code and error message
-		 * - fires a RoarIOManager#createUserFailedEvent containing a failure message
+		 * - fires a RoarManager#createUserFailedEvent containing a failure message
 		 *
 		 * @param name the players username
 		 * @param hash the players password
@@ -61,11 +61,11 @@ namespace Roar.Components
 		 *
 		 * On success:
 		 * - invokes callback with empty data parameter, success code and success message
-		 * - fires a RoarIOManager#loggedInEvent
+		 * - fires a RoarManager#loggedInEvent
 		 *
 		 * On failure:
 		 * - invokes callback with empty data parameter, error code and error message
-		 * - fires a RoarIOManager#logInFailedEvent containing a failure message
+		 * - fires a RoarManager#logInFailedEvent containing a failure message
 		 *
 		 * @param name the players username
 		 * @param hash the players password
@@ -78,11 +78,11 @@ namespace Roar.Components
 		 *
 		 * On success:
 		 * - invokes callback with empty data parameter, success code and success message
-		 * - fires a RoarIOManager#loggedInEvent
+		 * - fires a RoarManager#loggedInEvent
 		 *
 		 * On failure:
 		 * - invokes callback with empty data parameter, error code and error message
-		 * - fires a RoarIOManager#logInFailedEvent containing a failure message
+		 * - fires a RoarManager#logInFailedEvent containing a failure message
 		 *
 		 * @param oauth_token the OAuth token.
 		 * @param cb the callback function to be passed the result of doLogin.
@@ -94,7 +94,7 @@ namespace Roar.Components
 		 * Clears the authentication token for a user. Must re-login to authenticate.
 		 *
 		 * On success:
-		 * - fires a RoarIOManager#loggedOutEvent
+		 * - fires a RoarManager#loggedOutEvent
 		 *
 		 * On failure:
 		 * - invokes callback with empty data parameter, error code and error message

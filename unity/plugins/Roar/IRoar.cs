@@ -59,7 +59,7 @@ namespace Roar
    * Many roar.io functions take a callback function.  Often this callback is
    * optional, but if you wish to use one it is always a #Roar.Callback type.
    * You might not need one if you choose to catch the results of the call using
-   * the events in #RoarIOManager.
+   * the events in #RoarManager.
    *
    * The Hashtable returned will usually contain three parameters:
    *
@@ -69,7 +69,7 @@ namespace Roar
    *   + data : an object with the results of the call.
    *
    * The only place you might need to provide a function of a different signature
-   * is when using the events specified in #RoarIOManager. These events accept a
+   * is when using the events specified in #RoarManager. These events accept a
    * function that corresponds to the data available to the event. See the
    * individual events for details.
    */
@@ -80,13 +80,13 @@ namespace Roar
 /**
  * The public facing container for Roar functionality.
  *
- * You get a real instance of this interface by binding the RoarIO script to an
+ * You get a real instance of this interface by binding the Roar script to an
  * object in your game.
  *
  * This class provides several utility functions for common tasks, and  several
  * lower-level components for more detailed operations.
  */
-public interface IRoarIO
+public interface IRoar
 {
   /**
    * Get a configuration object that lets you configure how various
@@ -98,7 +98,7 @@ public interface IRoarIO
    * Low level access to the entire roar api.
    *
    * @note The callbacks used by the #IWebAPI are slightly different from the Callbacks used by 
-   * the other functions in #IRoarIO .
+   * the other functions in #IRoar .
    */
    IWebAPI WebAPI { get; }
 
@@ -108,7 +108,7 @@ public interface IRoarIO
   Roar.Components.IProperties Properties { get; }
 
   /**
-   * @todo This does nothing and might be internal and should be shifted to RoarIO?
+   * @todo This does nothing and might be internal and should be shifted to Roar?
    */
   Roar.Components.IData Data { get; }
 
@@ -170,11 +170,11 @@ public interface IRoarIO
    *
    * On success:
    * - invokes callback with empty data parameter, success code and success message
-   * - fires a RoarIOManager#loggedInEvent
+   * - fires a RoarManager#loggedInEvent
    *
    * On failure:
    * - invokes callback with empty data parameter, error code and error message
-   * - fires a RoarIOManager#logInFailedEvent containing a failure message
+   * - fires a RoarManager#logInFailedEvent containing a failure message
    *
    * @param name the players username
    * @param hash the players password
@@ -187,11 +187,11 @@ public interface IRoarIO
    *
    * On success:
    * - invokes callback with empty data parameter, success code and success message
-   * - fires a RoarIOManager#loggedInEvent
+   * - fires a RoarManager#loggedInEvent
    *
    * On failure:
    * - invokes callback with empty data parameter, error code and error message
-   * - fires a RoarIOManager#logInFailedEvent containing a failure message
+   * - fires a RoarManager#logInFailedEvent containing a failure message
    *
    * @param oauth_token the OAuth token.
    * @param cb the callback function to be passed the result of doLogin.
@@ -203,7 +203,7 @@ public interface IRoarIO
    * Clears the authentication token for a user. Must re-login to authenticate.
    *
    * On success:
-   * - fires a RoarIOManager#loggedOutEvent
+   * - fires a RoarManager#loggedOutEvent
    *
    * On failure:
    * - invokes callback with empty data parameter, error code and error message
@@ -217,12 +217,12 @@ public interface IRoarIO
    * that player in.
    *
    * On success:
-   * - fires a RoarIOManager#createdUserEvent
+   * - fires a RoarManager#createdUserEvent
    * - automatically calls doLogin()
    *
    * On failure:
    * - invokes callback with empty data parameter, error code and error message
-   * - fires a RoarIOManager#createUserFailedEvent containing a failure message
+   * - fires a RoarManager#createUserFailedEvent containing a failure message
    *
    * @param name the players username
    * @param hash the players password

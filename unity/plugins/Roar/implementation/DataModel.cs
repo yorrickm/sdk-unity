@@ -75,7 +75,7 @@ public class DataModel
     // Set internal changed flag
     this._hasChanged = true;
 
-    if ( !silent ) { RoarIOManager.OnComponentChange( _name ); }
+    if ( !silent ) { RoarManager.OnComponentChange( _name ); }
   }
 
 
@@ -175,7 +175,7 @@ public class DataModel
     logger_.DebugLog("[roar] -- Data Loaded: " + _name);
 
     // Broadcast data ready event
-    RoarIOManager.OnComponentReady(this._name);
+    RoarManager.OnComponentReady(this._name);
   }
 
 
@@ -211,7 +211,7 @@ public class DataModel
 
       // Broadcasts an attribute specific change event of the form:
       // **change:attribute_name**
-      if (!silent) { RoarIOManager.OnComponentChange(this._name); }
+      if (!silent) { RoarManager.OnComponentChange(this._name); }
     }
 
     // Broadcasts a `change` event if the model changed
@@ -245,7 +245,7 @@ public class DataModel
       this._hasChanged = true;
       // Broadcasts an attribute specific change event of the form:
       // **change:attribute_name**
-      if (!silent) { RoarIOManager.OnComponentChange(this._name); }
+      if (!silent) { RoarManager.OnComponentChange(this._name); }
     }
 
     // Broadcasts a `change` event if the model changed
@@ -352,7 +352,7 @@ public class DataModel
   // Manually fires a "change" event on this model
   public void change()
   {
-    RoarIOManager.OnComponentChange(this._name);
+    RoarManager.OnComponentChange(this._name);
     this._hasChanged = false;
   }
 }

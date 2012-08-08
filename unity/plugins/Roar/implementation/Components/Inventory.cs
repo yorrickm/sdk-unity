@@ -42,7 +42,7 @@ public class Inventory : IInventory
 	item_actions_ = item_actions;
 	data_store_ = data_store;
 	logger_ = logger;
-	RoarIOManager.roarServerItemAddEvent += this.OnServerItemAdd;
+	RoarManager.roarServerItemAddEvent += this.OnServerItemAdd;
   }
 
   public bool hasDataFromServer { get { return  data_store_.Inventory_.hasDataFromServer; } }
@@ -88,7 +88,7 @@ public class Inventory : IInventory
       returnObj["ikey"]=item["ikey"];
       returnObj["label"]=item["label"];
 
-      RoarIOManager.OnGoodActivated( new RoarIOManager.GoodInfo( id, item["ikey"] as string, item["label"] as string ) );
+      RoarManager.OnGoodActivated( new RoarManager.GoodInfo( id, item["ikey"] as string, item["label"] as string ) );
      return returnObj;
     }
   }
@@ -127,7 +127,7 @@ public class Inventory : IInventory
       returnObj["ikey"]=item["ikey"];
       returnObj["label"]=item["label"];
 
-      RoarIOManager.OnGoodDeactivated( new RoarIOManager.GoodInfo(id, item["ikey"] as string, item["label"] as string ) );
+      RoarManager.OnGoodDeactivated( new RoarManager.GoodInfo(id, item["ikey"] as string, item["label"] as string ) );
       return returnObj;
     }
   }
@@ -196,7 +196,7 @@ public class Inventory : IInventory
 
       inventory.data_store_.Inventory_.unset( id );
 
-      RoarIOManager.OnGoodSold( new RoarIOManager.GoodInfo(id, item["ikey"] as string, item["label"] as string ) );
+      RoarManager.OnGoodSold( new RoarManager.GoodInfo(id, item["ikey"] as string, item["label"] as string ) );
       return returnObj;
     }
   }
@@ -252,7 +252,7 @@ public class Inventory : IInventory
 
       inventory.data_store_.Inventory_.unset( id );
 
-      RoarIOManager.OnGoodUsed( new RoarIOManager.GoodInfo(id, item["ikey"] as string, item["label"] as string ) );
+      RoarManager.OnGoodUsed( new RoarManager.GoodInfo(id, item["ikey"] as string, item["label"] as string ) );
       return returnObj;
     }
   }

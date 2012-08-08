@@ -99,7 +99,7 @@ public class Data : IData
       return value;
     }
 
-    RoarIOManager.OnDataLoaded( key, value);
+    RoarManager.OnDataLoaded( key, value);
     return value;
   }
   }
@@ -133,7 +133,7 @@ public class Data : IData
 
     public override object onSuccess( CallbackInfo<IXMLNode> info )
     {
-      RoarIOManager.OnDataSaved(key, value);
+      RoarManager.OnDataSaved(key, value);
 
       Hashtable data = new Hashtable();
       data["key"] = key;

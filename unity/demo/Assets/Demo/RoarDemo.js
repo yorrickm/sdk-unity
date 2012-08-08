@@ -45,7 +45,7 @@ public enum UIState {
 private var uiState : UIState = UIState.Login;
 
 // the roar.io api interface
-private var roar:IRoarIO;
+private var roar:IRoar;
 private var inventory:IInventory;
 private var shop:IShop;
 
@@ -77,7 +77,7 @@ private var inMenu = true;
 
 function Awake()
 {
-  roar = gameObject.Find("Roar").GetComponent(RoarIO) as IRoarIO;
+  roar = gameObject.Find("Roar").GetComponent(Roar) as IRoar;
 }
 
 /*
@@ -568,21 +568,21 @@ function handleRoarLoading() {
 	StatusBox.render("Loading roar.io");
 }
 
-RoarIOManager.createUserFailedEvent += onCreateFailed;
+RoarManager.createUserFailedEvent += onCreateFailed;
 function onCreateFailed(msg:String) {
 	rConsole("roar.io Create User failed! " + msg);
 	showConfirm(msg);
 	setUIState(UIState.Create);
 }
 
-RoarIOManager.logInFailedEvent += onLoginFailed;
+RoarManager.logInFailedEvent += onLoginFailed;
 function onLoginFailed(msg:String) {
 	rConsole("roar.io Login failed! " + msg);
 	showConfirm(msg);
 	setUIState(UIState.Login);
 }
 
-RoarIOManager.loggedInEvent += onLogin;
+RoarManager.loggedInEvent += onLogin;
 function onLogin()
 {
   rConsole('Logged in with authtoken ' + roar.AuthToken);
@@ -626,30 +626,30 @@ function onEquippedSelect(index, itemId:String) {
 	selectedItemId = itemId;
 }
 
-RoarIOManager.goodActivatedEvent += onEquipped;
-function onEquipped(goodInfo:RoarIOManager.GoodInfo) {
+RoarManager.goodActivatedEvent += onEquipped;
+function onEquipped(goodInfo:RoarManager.GoodInfo) {
 	gameObject.GetComponent(EquipmentManager).Equip(goodInfo.ikey);
 }
 
-RoarIOManager.goodDeactivatedEvent += onUnequipped;
-function onUnequipped(goodInfo:RoarIOManager.GoodInfo) {
+RoarManager.goodDeactivatedEvent += onUnequipped;
+function onUnequipped(goodInfo:RoarManager.GoodInfo) {
 	gameObject.GetComponent(EquipmentManager).Unequip(goodInfo.ikey);
 }
 
-RoarIOManager.goodUsedEvent += onUsed;
-function onUsed(goodInfo:RoarIOManager.GoodInfo) {
+RoarManager.goodUsedEvent += onUsed;
+function onUsed(goodInfo:RoarManager.GoodInfo) {
 	ResetInventorySelect();
 	gameObject.GetComponent(EquipmentManager).Use(goodInfo.ikey);
 }
 
-RoarIOManager.goodSoldEvent += onGoodSold;
-function onGoodSold(goodInfo:RoarIOManager.GoodInfo) {
+RoarManager.goodSoldEvent += onGoodSold;
+function onGoodSold(goodInfo:RoarManager.GoodInfo) {
 	ResetInventorySelect();
 	gameObject.GetComponent(EquipmentManager).Unequip(goodInfo.ikey);
 }
 
-RoarIOManager.goodBoughtEvent += onGoodBought;
-function onGoodBought(purchaseInfo:RoarIOManager.PurchaseInfo) {
+RoarManager.goodBoughtEvent += onGoodBought;
+function onGoodBought(purchaseInfo:RoarManager.PurchaseInfo) {
 	ResetInventorySelect();
 	userToolbarIndex = 1;
 	setUIState(UIState.Inventory);
@@ -660,7 +660,7 @@ function ResetInventorySelect() {
 	selectedItemId = null;
 }
 
-RoarIOManager.inventoryReadyEvent += onInventoryReady;
+RoarManager.inventoryReadyEvent += onInventoryReady;
 function onInventoryReady() {
 	// make sure the equipment manager knows what the user is equipped with
 	// when the game starts
@@ -759,7 +759,7 @@ function RobotKillCheck() {
 	}
 }
 
-RoarIOManager.eventDoneEvent += onEventDone;
+RoarManager.eventDoneEvent += onEventDone;
 function onEventDone(info:IXMLNode) {
 	showConfirm("You eliminated 3 spider robots!\nSuper Speed reward added to Inventory.");
 }

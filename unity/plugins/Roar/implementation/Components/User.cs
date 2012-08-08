@@ -46,11 +46,11 @@ public class User : IUser
 
     // -- Event Watchers
     // Flush models on logout
-    RoarIOManager.loggedOutEvent += () => { DataStore_.clear(true); };
+    RoarManager.loggedOutEvent += () => { DataStore_.clear(true); };
 
     // Watch for initial inventory ready event, then watch for any
     // subsequent `change` events
-    RoarIOManager.inventoryReadyEvent +=  () => cacheFromInventory();
+    RoarManager.inventoryReadyEvent +=  () => cacheFromInventory();
   }
 
 
@@ -81,12 +81,12 @@ public class User : IUser
     
     public override void onFailure( CallbackInfo<IXMLNode> info )
     {
-      RoarIOManager.OnLogInFailed(info.msg);
+      RoarManager.OnLogInFailed(info.msg);
     }
     
     public override object onSuccess( CallbackInfo<IXMLNode> info )
     {
-      RoarIOManager.OnLoggedIn();
+      RoarManager.OnLoggedIn();
       return null;
     }
   }
@@ -114,12 +114,12 @@ public class User : IUser
     
     public override void onFailure( CallbackInfo<IXMLNode> info )
     {
-      RoarIOManager.OnLogInFailed(info.msg);
+      RoarManager.OnLogInFailed(info.msg);
     }
     
     public override object onSuccess( CallbackInfo<IXMLNode> info )
     {
-      RoarIOManager.OnLoggedIn();
+      RoarManager.OnLoggedIn();
       return null;
     }
   }
@@ -141,7 +141,7 @@ public class User : IUser
 
     public override object onSuccess( CallbackInfo<IXMLNode> info )
     {
-      RoarIOManager.OnLoggedOut();
+      RoarManager.OnLoggedOut();
       return null;
     }
 
@@ -171,13 +171,13 @@ public class User : IUser
 
     public override void onFailure( CallbackInfo<IXMLNode> info )
     {
-      RoarIOManager.OnCreateUserFailed(info.msg);
+      RoarManager.OnCreateUserFailed(info.msg);
     }
 
     public override object onSuccess( CallbackInfo<IXMLNode> info )
     {
-      RoarIOManager.OnCreatedUser();
-      RoarIOManager.OnLoggedIn();
+      RoarManager.OnCreatedUser();
+      RoarManager.OnLoggedIn();
       return null;
     }
   }

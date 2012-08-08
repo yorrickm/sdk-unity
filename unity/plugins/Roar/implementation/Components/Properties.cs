@@ -37,7 +37,7 @@ public class Properties : IProperties
   public Properties( DataStore data_store )
   {
 	data_store_ = data_store;
-	RoarIOManager.roarServerUpdateEvent += this.OnUpdate;
+	RoarManager.roarServerUpdateEvent += this.OnUpdate;
   }
 
   public void fetch( Roar.Callback callback){ data_store_.Properties_.fetch(callback); }
@@ -75,7 +75,7 @@ public class Properties : IProperties
 
     //var d = event['data'] as Hashtable;
 
-    //TODO: This should probably be using RoarIO.Properties._set or something like that but their use is not clear to me
+    //TODO: This should probably be using Roar.Properties._set or something like that but their use is not clear to me
     var v = getProperty(update.GetAttribute("ikey")) as Hashtable;
     if(v!=null)
     {

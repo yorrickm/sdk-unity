@@ -2,15 +2,19 @@
 
 ## Using the roar sdk unity package
 
-The RoarIO.unityPackage and can be imported into a newly created or existing unity project.
+The latest Roar.unityPackage can be downloaded from
+
+https://github.com/roarengine/sdks/downloads
+
+and imported into a newly created or existing unity project.
 
 Run the Unity Editor and open the project that you wish to use roar with or create a new one.
 
-Import the RoarIO Unity client package via the menu item at
+Import the Roar Unity sdk package via the menu item at
 Assets->Import Package->Custom Package...
 
 Ensure that all files are selected for import and click 'Import'.
-This will add a Plugins/RoarIO folder to your project.
+This will add a Plugins/Roar folder to your project.
 
 After you have imported the roar sdk package into your unity project, you will need to
 setup an empty game object to attach the primary Roar script to.
@@ -21,26 +25,26 @@ one with the black and white Unity icon) - create the scene if you don't already
 Next create an empty game object and name it Roar via the menu item at
 Game Object->Create Empty
 
-From the Project panel, drag the RoarIO.cs file within the Plugins/RoarIO/ folder onto the Roar game object.
+From the Project panel, drag the Roar.cs file within the Plugins/Roar/ folder onto the Roar game object.
 
 Select the Roar game object in the Hierarchy panel
 
 The Inspector panel will show the scripts that are attached to the Roar game object.
-Ensure that RoarIO.cs is attached to the Roar object.
+Ensure that Roar.cs is attached to the Roar object.
 
-Using the roar sdk from your application is done through the interface IRoarIO.
+Using the roar sdk from your application is done through the interface IRoar.
 You can setup access to this interface during initialization of your Unity application:
 
 ~~~
-var roar_:IRoarIO;
+var roar_:IRoar;
 function Awake()
 {
-  roar_ = GetComponent(RoarIO) as IRoarIO;
+  roar_ = GetComponent(Roar) as IRoar;
 }
 ~~~
 
-Additionally the use of a lieghtweight or system based XML parser must be selected,
-for the leightweight XML parser use:
+Additionally the use of a leightweight or system based XML parser must be selected,
+for the lightweight XML parser use:
 
 ~~~
 IXMLNodeFactory.instance = new XMLNodeFactory();
@@ -52,7 +56,7 @@ and for the system XML parser use:
 IXMLNodeFactory.instance = new SystemXMLNodeFactory();
 ~~~
 
-We recommend using the lieghtweight implementation of the IXMLNodeFactory, however
+We recommend using the lightweight implementation of the IXMLNodeFactory, however
 if you think that there may be something amiss then you can switch to the system
 implementation to compare behaviour.
 
@@ -66,7 +70,7 @@ function Start()
 }
 ~~~
 
-At this point you will be able to make calls to IRoarIO to interact with the roar server.
+At this point you will be able to make calls to IRoar to interact with the roar server.
 
 There are two ways to handle the results of a roar sdk function.
 
@@ -83,7 +87,7 @@ function doLogin() {
    roar.login(username, password, null);
 }
 
-RoarIOManager.loggedInEvent += onLogin;
+RoarManager.loggedInEvent += onLogin;
 function onLogin()
 {
    ...
@@ -112,12 +116,12 @@ In summary, these are the steps to get the roar sdk setup in your Unity applicat
 
 1. Import the roar unity sdk into your project
 2. Create a Roar empty Game Object
-3. Attach the RoarIO.cs file to the Game Object
-4. For frequent use, make the IRoarIO interface a member of your game class(es) and assign it via GetComponent()
+3. Attach the Roar.cs file to the Game Object
+4. For frequent use, make the IRoar interface a member of your game class(es) and assign it via GetComponent()
 5. Set the IXMLNodeFactory.instance
 6. Set the roar game name (you will need to create a game via the roar admin website)
 7. Configure roar sdk event handlers and callbacks
-8. Update your application to make calls to the roar server via the sdk interface IRoarIO
+8. Update your application to make calls to the roar server via the sdk interface IRoar
 
 For a simple example of using the roar unity sdk, you can try our augmented version of the Unity AngryBots tech demo.
 
@@ -150,7 +154,7 @@ And finally you can build the roar unity sdk package
 make -f package.Makefile
 ~~~
 
-This will produce the roar unity sdk package file RoarIO.unityPackage, which is to be used as described in
+This will produce the roar unity sdk package file Roar.unityPackage, which is to be used as described in
 the first section of this readme.
 
 ## Building the roar unity package (Windows)
@@ -209,7 +213,7 @@ You can then run the package script to build the unity package for the roar sdk.
 package.bat
 ~~~
 
-This will produce the roar unity sdk package file RoarIO.unityPackage, which is to be used as described in
+This will produce the roar unity sdk package file Roar.unityPackage, which is to be used as described in
 the first section of this readme.
 
 ## Secure Communication with RoarEngine

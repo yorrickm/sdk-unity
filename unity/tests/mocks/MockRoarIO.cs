@@ -1,6 +1,6 @@
 using System;
 
-public class MockRoarIO : RoarIO, IRoarIO
+public class MockRoar : Roar, IRoar
 {
   public RequestSender api;
   

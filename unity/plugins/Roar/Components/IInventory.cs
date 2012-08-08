@@ -77,7 +77,7 @@ public interface IInventory
    *
    * On success:
    * - invokes callback with parameter *Hastable data* containing the data for the inventory.
-   * - fires the RoarIOManager#inventoryReadyEvent
+   * - fires the RoarManager#inventoryReadyEvent
    * - sets #hasDataFromServer to true
    *
    * On failure:
@@ -85,7 +85,7 @@ public interface IInventory
    *
    * @param callback the callback function to be passed this function's result.
    *
-   * @returns nothing - use a callback and/or subscribe to RoarIOManager events for results of non-blocking calls.
+   * @returns nothing - use a callback and/or subscribe to RoarManager events for results of non-blocking calls.
    */
   void fetch( Roar.Callback callback );
 
@@ -134,7 +134,7 @@ public interface IInventory
    * Activates an item in the user's inventory.
    *
    * On success:
-   * - fires the RoarIOManager.goodActivatedEvent
+   * - fires the RoarManager.goodActivatedEvent
    * - invokes callback passing *data* parameter a Hashtable containing the:
    *  - "id" : the id of the inventory item instance
    *  - "ikey" : the id of the inventory item type
@@ -146,7 +146,7 @@ public interface IInventory
    * @param id the key that uniquely identifies an inventory item.
    * @param callback the callback function to be passed this function's result.
    *
-   * @returns nothing - use a callback and/or subscribe to RoarIOManager events for results of non-blocking calls.
+   * @returns nothing - use a callback and/or subscribe to RoarManager events for results of non-blocking calls.
    *
    **/
   void activate( string id, Roar.Callback callback ) ;
@@ -155,7 +155,7 @@ public interface IInventory
    * Deactivates an item in the user's inventory.
    *
    * On success:
-   * - fires the RoarIOManager.goodDeactivatedEvent
+   * - fires the RoarManager.goodDeactivatedEvent
    * - invokes callback passing *data* parameter a Hashtable containing the:
    *  - "id" : the id of the inventory item instance
    *  - "ikey" : the id of the inventory item type
@@ -167,7 +167,7 @@ public interface IInventory
    * @param id the key that uniquely identifies an inventory item.
    * @param callback the callback function to be passed this function's result.
    *
-   * @returns nothing - use a callback and/or subscribe to RoarIOManager events for results of non-blocking calls.
+   * @returns nothing - use a callback and/or subscribe to RoarManager events for results of non-blocking calls.
    *
    **/
   void deactivate( string id, Roar.Callback callback );
@@ -227,7 +227,7 @@ public interface IInventory
    * Sells an item in the user's inventory.
    *
    * On success:
-   * - fires the RoarIOManager.goodSoldEvent
+   * - fires the RoarManager.goodSoldEvent
    * - invokes callback passing *data* parameter a Hashtable containing the:
    *  - "id" : the id of the inventory item instance
    *  - "ikey" : the id of the inventory item type
@@ -239,7 +239,7 @@ public interface IInventory
    * @param id the key that uniquely identifies an inventory item.
    * @param callback the callback function to be passed this function's result.
    *
-   * @returns nothing - use a callback and/or subscribe to RoarIOManager events for results of non-blocking calls.
+   * @returns nothing - use a callback and/or subscribe to RoarManager events for results of non-blocking calls.
    *
    **/
   void sell( string id, Roar.Callback callback );
@@ -248,7 +248,7 @@ public interface IInventory
    * Consumes/uses an item in the user's inventory.
    *
    * On success:
-   * - fires the RoarIOManager.goodUsedEvent
+   * - fires the RoarManager.goodUsedEvent
    * - invokes callback passing *data* parameter a Hashtable containing the:
    *  - "id" : the id of the inventory item instance
    *  - "ikey" : the id of the inventory item type
@@ -260,7 +260,7 @@ public interface IInventory
    * @param id the key that uniquely identifies an inventory item.
    * @param callback the callback function to be passed this function's result.
    *
-   * @returns nothing - use a callback and/or subscribe to RoarIOManager events for results of non-blocking calls.
+   * @returns nothing - use a callback and/or subscribe to RoarManager events for results of non-blocking calls.
    **/
   void use( string id, Roar.Callback callback );
 

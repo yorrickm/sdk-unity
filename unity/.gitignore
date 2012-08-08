@@ -2,9 +2,9 @@
 *.swo
 docs/html/
 docs/xml/
-plugins/RoarIO/IWebAPI.cs
-plugins/RoarIO/implementation/WebAPI.cs
-plugins/RoarIO/RoarIOManager.cs
+plugins/Roar/IWebAPI.cs
+plugins/Roar/implementation/WebAPI.cs
+plugins/Roar/RoarManager.cs
 bin/
 dist/
 Testing.userprefs

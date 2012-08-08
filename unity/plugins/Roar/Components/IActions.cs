@@ -113,7 +113,7 @@ public interface IActions
    *
    * @param callback the callback function to be passed this function's result.
    *
-   * @returns nothing - use a callback and/or subscribe to RoarIOManager events for results of non-blocking calls.
+   * @returns nothing - use a callback and/or subscribe to RoarManager events for results of non-blocking calls.
    **/
   void fetch( Roar.Callback callback );
 
@@ -170,7 +170,7 @@ public interface IActions
    * @param ikey the key of the action to execute.
    * @param callback the callback function to be passed this function's result.
    *
-   * @returns nothing - use a callback and/or subscribe to RoarIOManager events for results of non-blocking calls.
+   * @returns nothing - use a callback and/or subscribe to RoarManager events for results of non-blocking calls.
    **/
   void execute( string ikey, Roar.Callback callback );
 }

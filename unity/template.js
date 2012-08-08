@@ -47,7 +47,7 @@ function build_web_api_cs()
 
   var output = _.template(js_template, api_functions)
 
-  var filename = "plugins/RoarIO/implementation/WebAPI.cs";
+  var filename = "plugins/Roar/implementation/WebAPI.cs";
   console.log(filename);
   fs.writeFile(filename,output);
 }
@@ -60,7 +60,7 @@ function build_iweb_api_cs()
 
   var output = _.template(js_template, api_functions)
 
-  var filename = "plugins/RoarIO/IWebAPI.cs";
+  var filename = "plugins/Roar/IWebAPI.cs";
   console.log(filename);
   fs.writeFile(filename,output);
 }
@@ -68,7 +68,7 @@ function build_iweb_api_cs()
 function build_event_manager()
 {
   events = require("./data/events.json")
-  cs_template = fs.readFileSync('src/RoarIOManager.template.cs',"utf8");
+  cs_template = fs.readFileSync('src/RoarManager.template.cs',"utf8");
   augment_template( events )
 
   _.each(
@@ -91,7 +91,7 @@ function build_event_manager()
 
   var output = _.template(cs_template, events)
 
-  var filename = "plugins/RoarIO/RoarIOManager.cs";
+  var filename = "plugins/Roar/RoarManager.cs";
   console.log(filename);
   fs.writeFile(filename,output);
 }
