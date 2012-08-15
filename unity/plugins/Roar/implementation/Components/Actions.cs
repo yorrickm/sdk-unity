@@ -47,8 +47,9 @@ public class Actions : IActions
   public ArrayList list() { return list(null); }
   public ArrayList list(Roar.Callback callback) 
   {
-    if (callback!=null) callback( new Roar.CallbackInfo<object>( data_store_.Actions_.list() ) );
-    return data_store_.Actions_.list();
+	ArrayList listResult = data_store_.Actions_.list();
+    if (callback!=null) callback( new Roar.CallbackInfo<object>( listResult ) );
+    return listResult;
   }
 
   public void execute( string ikey, Roar.Callback callback )
