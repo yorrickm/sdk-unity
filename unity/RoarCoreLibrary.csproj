@@ -39,12 +39,10 @@
     <Compile Include="plugins\Facebook\FacebookBinding.cs" />
     <Compile Include="plugins\Facebook\FacebookManager.cs" />
     <Compile Include="plugins\Roar\IRoar.cs" />
-    <Compile Include="plugins\Roar\Roar.cs" />
     <Compile Include="plugins\Roar\RoarManager.cs" />
     <Compile Include="plugins\Roar\ToJson.cs" />
     <Compile Include="plugins\Roar\Adapters\IUrbanAirship.cs" />
     <Compile Include="plugins\Roar\Components\IActions.cs" />
-    <Compile Include="plugins\Roar\Components\IData.cs" />
     <Compile Include="plugins\Roar\Components\IInventory.cs" />
     <Compile Include="plugins\Roar\Components\IProperties.cs" />
     <Compile Include="plugins\Roar\Components\IShop.cs" />
@@ -79,6 +77,7 @@
     <Compile Include="plugins\Roar\implementation\Components\User.cs" />
     <Compile Include="plugins\Roar\implementation\Components\InAppPurchase.cs" />
     <Compile Include="plugins\Roar\IWebAPI.cs" />
+    <Compile Include="plugins\Roar\DefaultRoar.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>

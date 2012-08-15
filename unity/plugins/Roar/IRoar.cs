@@ -108,11 +108,6 @@ public interface IRoar
   Roar.Components.IProperties Properties { get; }
 
   /**
-   * @todo This does nothing and might be internal and should be shifted to Roar?
-   */
-  Roar.Components.IData Data { get; }
-
-  /**
    * Get access to the players inventory functions.
    */
   Roar.Components.IInventory Inventory { get; }
