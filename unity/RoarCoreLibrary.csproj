@@ -43,7 +43,6 @@
     <Compile Include="plugins\Roar\ToJson.cs" />
     <Compile Include="plugins\Roar\Adapters\IUrbanAirship.cs" />
     <Compile Include="plugins\Roar\Components\IActions.cs" />
-    <Compile Include="plugins\Roar\Components\IData.cs" />
     <Compile Include="plugins\Roar\Components\IInventory.cs" />
     <Compile Include="plugins\Roar\Components\IProperties.cs" />
     <Compile Include="plugins\Roar\Components\IShop.cs" />
