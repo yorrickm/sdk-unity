@@ -26,7 +26,10 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 */
 public abstract class IXMLNodeFactory
 {
-	public static IXMLNodeFactory instance;
+  // defaults to the SystemXMLNodeFactory
+  // Note that the XMLNodeFactory is more lightweight but experimental
+  // and is sure to contain bugs - use at your own risk
+	public static IXMLNodeFactory instance = new SystemXMLNodeFactory();
 	
 	public abstract IXMLNode Create();
 	public abstract IXMLNode Create(string xml);
