@@ -50,7 +50,6 @@
     <Compile Include="plugins\Roar\implementation\DataStore.cs" />
     <Compile Include="plugins\Roar\implementation\Adapters\UrbanAirship.cs" />
     <Compile Include="plugins\Roar\implementation\Components\Actions.cs" />
-    <Compile Include="plugins\Roar\implementation\Components\Data.cs" />
     <Compile Include="plugins\Roar\implementation\Components\Inventory.cs" />
     <Compile Include="plugins\Roar\implementation\Components\Properties.cs" />
     <Compile Include="plugins\Roar\implementation\Components\Shop.cs" />
