@@ -75,7 +75,6 @@ public class Properties : IProperties
 
     //var d = event['data'] as Hashtable;
 
-    //TODO: This should probably be using Roar.Properties._set or something like that but their use is not clear to me
     var v = getProperty(update.GetAttribute("ikey")) as Hashtable;
     if(v!=null)
     {
