@@ -47,7 +47,6 @@ public class Actions : IActions
   public ArrayList list() { return list(null); }
   public ArrayList list(Roar.Callback callback) 
   {
-    //TODO: Odd that this accepts a callback, but does not pass it to the data_store_!
     if (callback!=null) callback( new Roar.CallbackInfo<object>( data_store_.Actions_.list() ) );
     return data_store_.Actions_.list();
   }
