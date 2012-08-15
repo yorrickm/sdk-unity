@@ -73,9 +73,6 @@ public class DefaultRoar : MonoBehaviour, IRoar, IUnityObject
   public Roar.Components.IProperties Properties { get { return Properties_; } }
   protected Roar.Components.IProperties Properties_;
 
-  public Roar.Components.IData Data { get { return Data_; } }
-  protected Roar.Components.IData Data_;
-
   public Roar.Components.IInventory Inventory { get { return Inventory_; } }
   protected Roar.Components.IInventory Inventory_ = null;
 
