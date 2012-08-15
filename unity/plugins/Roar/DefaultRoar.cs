@@ -119,7 +119,6 @@ public class DefaultRoar : MonoBehaviour, IRoar, IUnityObject
     User_ = new Roar.implementation.Components.User(WebAPI_.user,data_store, logger);
     Properties_ = new Roar.implementation.Components.Properties( data_store );
     Inventory_ = new Roar.implementation.Components.Inventory( WebAPI_.items, data_store, logger);
-    Data_ = new Roar.implementation.Components.Data( WebAPI_.user, data_store, logger);
     Shop_ = new Roar.implementation.Components.Shop( WebAPI_.shop, data_store, logger );
     Actions_ = new Roar.implementation.Components.Actions( WebAPI_.tasks, data_store );
 
