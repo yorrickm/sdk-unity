@@ -1,9 +1,9 @@
 using System;
 
-public class MockRoar : Roar, IRoar
+public class MockRoar : DefaultRoar, IRoar
 {
   public RequestSender api;
-  
+
   new public void Awake ()
   {
     Config_ = new Roar.implementation.Config ();
@@ -21,7 +21,7 @@ public class MockRoar : Roar, IRoar
 
     UrbanAirship_ = new Roar.implementation.Adapters.UrbanAirship (WebAPI_);
 
-    // Apply public settings 
+    // Apply public settings
     Config.game = gameKey;
   }
 }
