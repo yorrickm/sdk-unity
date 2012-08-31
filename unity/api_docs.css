@@ -1010,3 +1010,16 @@ div.toc li.level4 {
   }
 }
 
+/* Roar Doxygen CSS customisations */
+
+ol li {
+  padding-bottom:10px;
+}
+
+h2 {
+  margin-top: 22px;
+}
+
+h3 {
+  margin-top: 20px;
+}
