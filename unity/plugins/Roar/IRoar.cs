@@ -27,6 +27,132 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 using System;
 using System.Collections;
 
+/*! \mainpage %Roar Unity SDK Reference
+ *
+ * \section intro_sec Introduction
+ *
+ * \subsection what_is_roar What is Roar?
+ *
+ * %Roar is a configurable game mechanics platform.<br/>
+ * You can access the creation tools from the Admin dashboard.<br/>
+ *
+ * \subsection what_is_roar_unity What is the Roar Unity SDK used for?
+ *
+ * The Unity SDK provides a wrapper around the %Roar Web API, making it easier to interact with a %Roar game server from your Unity game.
+ * Should you desire to do so, you can roll your own code that uses the Web API directly.
+ * However if your game is built with Unity, we recommend the use of the %Roar Unity SDK and welcome any open source contributions to it.
+ *
+ * \section sdk_basics Roar Unity SDK Basics
+ *
+ * The two key objects within the %Roar Unity SDK are the interface IRoar (found in IRoar.cs and implemented in DefaultRoar.cs) and the class that provides event management – RoarManager (found in RoarManager.cs).
+ *
+ * \subsection iroar_interface The IRoar Interface
+ *
+ * The IRoar interface is what game developers use to interact with their %Roar game on the server.
+ * IRoar is composed of a number of component interfaces each representing a distinct area of game functionality.
+ * The following table lists each component, clicking on a component name will show more detailed class level documentation.
+ *
+ *
+ <table>
+   <tr>
+    <th>Component</th>
+    <th>Provides Methods For</th>
+   </tr>
+   <tr>
+    <td>Roar.Components.IUser</td>
+    <td>Creating, authenticating and logging out a player.</td>
+   </tr>
+   <tr>
+    <td>Roar.Components.IProperties</td>
+    <td>Retrieving the properties of a player, properties can include user attributes, resources and currencies for a given user. Properties are setup in the Admin dashboard.</td>
+   </tr>
+   <tr>
+    <td>Roar.Components.IInventory</td>
+    <td>Viewing and manipulating a user's inventory. Inventory items are obtained through purchase, as gifts or completing Actions.</td>
+   </tr>
+   <tr>
+    <td>Roar.Components.IShop</td>
+    <td>Viewing and buying shop items.</td>
+   </tr>
+   <tr>
+    <td>Roar.Components.IActions</td>
+    <td>Listing and executing actions. An action can be 'completed' if requirements/costs can be met, often resulting in player rewards such as levelling up or receiving a bonus item.</td>
+   </tr>
+   <tr>
+    <td>Roar.Components.IAchievements</td>
+    <td>Viewing a player's achievements, achievements are attained by completing certain actions.</td>
+   </tr>
+   <tr>
+    <td>Roar.Components.IGifts</td>
+    <td>Viewing items a player can gift to other players</td>
+   </tr>
+   <tr>
+    <td>Roar.Components.IInAppPurchase</td>
+    <td>Viewing and buying appstore items - Unity iOS builds only</td>
+   </tr>
+ </table>
+ *
+ * \subsection roar_manager RoarManager
+ *
+ * The Unity %Roar SDK handles responses from the server by using a two pronged approach. Some %Roar functions take a callback function as the last argument, this callback function is executed when the %Roar server response has been received and processed by the Unity SDK. However, some events occur on the server and must be subscribed to via event handling functions. Where possible both approaches are made available to the developer e.g. if an authentication attempt fails, it could be handled by:
+ *
+ * subscribing a login failed function to the logInFailedEvent
+ *
+ * <code>
+ * RoarManager.logInFailedEvent += onLoginFailed;
+ * function onLoginFailed(msg) {
+ *  ...
+ * }
+ * roar.login(username, password);
+ * </code>
+ *
+ * or by passing a login failed callback function to the authenticate function
+ *
+ * <code>
+ * roar.login(username, password, function(cb_info:Roar.CallbackInfo){
+ *   // cb_info.code
+ *   // cb_info.message
+ * });
+ * </code>
+ *
+ * Notice how the function is defined within the login function's argument list; this is an anonymous function. Callbacks can (but don't have to) be anonymous functions.
+ *
+ * The RoarManager class documentation contains a list of all the events that can be subscribed to.
+ *
+ *
+ * \section troubleshooting Troubleshooting
+ *
+ *
+ * Most %Roar API calls require an <strong>auth_token</strong> (authentication token). The auth token is automatically retrieved when a player is authenticated.
+ *
+ * If you are experiencing problems with %Roar, first check that an authentication token has been assigned as part of player authentication. You can do this by logging the IRoar interface's AuthToken string.
+ *
+ * If authentication isn't your problem, here's a suggested list of steps you can take to get your problem resolved:
+ *
+ * <ol>
+ *   <li>Read the documentation. Available for you is the:<br/>
+ *     <ul>
+ *       <li>doxygen generated class documentation<br/>
+ *         http://roarengine.github.com/unityapi/
+ *       </li>
+ *       <li>
+ *         project readme on github<br/>
+ *         https://github.com/roarengine/sdks/blob/master/unity/README.md
+ *       </li>
+ *       <li>
+ *         %Roar knowledge base<br/>
+ *         http://support.roarengine.com/kb
+ *       </li>
+         <br/>
+ *     </ul>
+ *   </li>
+ *   <li>
+ *     Search the support forums for your problem<br/>
+ *     http://support.roarengine.com/discussions/support<br/>
+ *     If you can't find an existing solution, create a ticket detailing what your problem is, providing whatever details you think will help the %Roar support team and the community solve your problem.
+ *   </li>
+ * </ol>
+ */
 namespace Roar
 {
 	
