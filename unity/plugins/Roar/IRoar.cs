@@ -152,6 +152,29 @@ using System.Collections;
  *     If you can't find an existing solution, create a ticket detailing what your problem is, providing whatever details you think will help the %Roar support team and the community solve your problem.
  *   </li>
  * </ol>
+ *
+ * \section unity_sdk_vs_web_api Does the Unity SDK support all the features available to the Web API?
+ *
+ * There is a Unity to Web API bridge that enables developers to make any call to the Web API, accessible via the IRoar.WebAPI interface; however due to the nature of the roar server responses, it's important that the right events are fired when a WebAPI response is received.
+ *
+ * The sdk has several levels of abstraction, some features of the web api are exposed at a high level via 'Components' such as the player's inventory or player's properties, whilst other features are exposed at a low level such as interaction with friends. A short code level comparison of the two follows:
+ *
+ * To get the contents of the player's inventory:
+ * <code>
+ * roar.Inventory.list()
+ * </code>
+ *
+ * To get the list of player's friends:
+ * <code>
+ * roar.WebAPI.IFriendsActions.list(Hashtable obj, IRequestCallback<IXMLNode> cb)
+ * </code>
+ *
+ * where the first argument is the options to send to the roar server and the second argument is the callback function to be passed the xml response from the server.
+ *
+ * It is important in using the low level api to ensure that the correct events are passed to the RoarManager class, one can browse through the component classes in the sdk's Roar.implementation.Components namespace to see examples of this requirement.
+ *
+ * It should be noted that due to the api's alpha status, the low level api is less stable and more likely to evolve than the high level components interface i.e. you are welcome to use the low level api to leverage features that are not yet implemented as components, however you do so at your own risk, with the knowledge that the low level api may change in the near future.
+ *
  */
 namespace Roar
 {
