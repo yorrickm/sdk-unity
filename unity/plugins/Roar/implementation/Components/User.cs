@@ -87,6 +87,7 @@ public class User : IUser
     public override object onSuccess( CallbackInfo<IXMLNode> info )
     {
       RoarManager.OnLoggedIn();
+	  // @todo Perform auto loading of game and player data
       return null;
     }
   }
@@ -120,6 +121,7 @@ public class User : IUser
     public override object onSuccess( CallbackInfo<IXMLNode> info )
     {
       RoarManager.OnLoggedIn();
+	  // @todo Perform auto loading of game and player data
       return null;
     }
   }
@@ -180,16 +182,6 @@ public class User : IUser
       RoarManager.OnLoggedIn();
       return null;
     }
-  }
-
-  //TODO: Hoist this into a parent class of all the callback classes?
-  protected void onLogin( Roar.Callback cb, int code, string msg )
-  {
-
-
-    if (cb!=null) cb( new Roar.CallbackInfo<object>(null, code, msg) );
-
-    // @todo Perform auto loading of game and player data
   }
 
   //TODO: not sure this belongs in this class!

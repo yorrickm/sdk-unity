@@ -158,11 +158,26 @@ public interface IActions
 
   /**
    * Initiates an action on the server, which evaluates the requirements and conditions for the action.
-   * @todo examine format of data returned from IActions.execute().
-   * @todo document events fired by IActions.execute().
    *
    * On success:
    * - invokes callback with data param containing result of executed action
+   * - if the action is complete, fires the RoarManager#roarServerTaskCompleteEvent, passing it an IXmlNode
+   *  with the following structure:
+   *
+   *       <task_complete>
+   *         <ikey>task_ikey</ikey>
+   *         <label>Task label</label>
+   *         <description>Task description</description>
+   *         <location></location>
+   *         <tags>comma,separated,tags</tags>
+   *         <costs>
+   *           <stat_change ikey="energy" value="10"/>
+   *         </costs>
+   *         <modifiers>
+   *           <stat_change ikey="xp" value="20"/>
+   *         </modifiers>
+   *         <mastery level="3" progress="100"/>
+   *       </task_complete>
    *
    * On failure:
    * - invokes callback with error code and error message
