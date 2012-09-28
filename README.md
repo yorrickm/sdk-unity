@@ -10,7 +10,7 @@ but you can also click through to each SDK (such as Unity3D) for instructions on
 
 ### Current SDKs: 
 
-- **Unity3D** - [Download](https://github.com/downloads/roarengine/sdks/Roar.unityPackage) (Unity package) | [README](https://github.com/roarengine/sdks/blob/master/unity/README.md)
+- **Unity3D** - [Download](https://github.com/downloads/roarengine/sdks/) (folder containing Roar Unity package) | [README](https://github.com/roarengine/sdks/blob/master/unity/README.md)
 
 Upcoming:
 
