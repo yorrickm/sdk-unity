@@ -10,3 +10,5 @@ dist/
 Testing.userprefs
 *.pidb
 test-results/
+rayg.Makefile
+
