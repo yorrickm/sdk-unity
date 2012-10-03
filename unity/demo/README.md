@@ -8,7 +8,7 @@ To try out the AngryBots Roar Unity SDK demo application, 3 artifacts are requir
 
 2. The latest augmented [AngryBots *Roar* Unity files](https://github.com/downloads/roarengine/sdks/roarunitysdk-angrybots.zip)
 
-3. The latest stable [**Roar Unity SDK** package](https://github.com/downloads/roarengine/sdks/Roar.unityPackage)
+3. The latest stable [**Roar Unity SDK** package](https://github.com/roarengine/sdks/downloads)
 
 The process is simple: first you **import the AngryBots Unity package** into a new Unity project (at this stage you should run the demo via the play button to ensure the vanilla demo is functioning as expected). You can either download the AngryBots demo from the Unity Asset Store or in recent versions of Unity you will find that AngryBots comes as part of the install and can be imported during the creation of a new Unity project.
 
