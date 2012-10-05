@@ -61,6 +61,7 @@ public class DefaultRoar : MonoBehaviour, IRoar, IUnityObject
 	public string gameKey = string.Empty;
 	public enum XMLType { Lightweight, System };
 	public XMLType xmlParser = XMLType.Lightweight;
+	public GUISkin defaultGUISkin;
 	
 	public Roar.IConfig Config { get { return Config_; } }
 	protected Roar.IConfig Config_;
@@ -97,22 +98,40 @@ public class DefaultRoar : MonoBehaviour, IRoar, IUnityObject
 	
 	public string AuthToken { get { return Config_.auth_token; } }
 
-	private static IRoar instance;	
+	private static DefaultRoar instance;	
+	private static IRoar api;	
 	
 	/**
 	 * Access to the Roar Engine singleton.
 	 */
-	public static IRoar Instance
+	public static DefaultRoar Instance
 	{
 		get
 		{
 			if (instance == null)
 			{
-				instance = GameObject.FindObjectOfType(typeof(DefaultRoar)) as IRoar;
+				instance = GameObject.FindObjectOfType(typeof(DefaultRoar)) as DefaultRoar;
 				if (instance == null)
 					Debug.LogWarning("Unable to locate the Roar interface.");
 			}
 			return instance;
+		}
+	}
+	
+	/**
+	 * Access to the Roar Engine API singleton.
+	 */
+	public static IRoar API
+	{
+		get
+		{
+			if (api == null)
+			{
+				DefaultRoar defaultRoar = Instance;
+				if (defaultRoar != null)
+					api = (IRoar)defaultRoar;
+			}
+			return api;
 		}
 	}
 	
@@ -124,8 +143,10 @@ public class DefaultRoar : MonoBehaviour, IRoar, IUnityObject
 	{
 		Config_ = new Roar.implementation.Config();
 		
-		// Apply public settings 
-		Config.game = gameKey;
+		// Apply public settings
+		string key = gameKey.ToLower();
+		       key = key.Replace("_", "");
+		Config.game = key;
 		Config.isDebug = debug;
 		
 		Logger logger = new Logger();

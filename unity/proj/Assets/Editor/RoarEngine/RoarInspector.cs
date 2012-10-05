@@ -9,6 +9,8 @@ public abstract class RoarInspector : Editor
 	protected static GUISkin roarInspectorSkin;
 	protected static GUISkin inspectorSkin;
 	
+	private bool showRoarLogo = true;
+	
 	protected virtual void OnEnable()
 	{
 		if (roarInspectorSkin == null)
@@ -38,18 +40,44 @@ public abstract class RoarInspector : Editor
 		serializedObject.Update();
 		
 		// custom inspector GUI
-		DrawGUI();
+		/*
+		if (EditorApplication.isPlaying)
+		{
+			EditorGUILayout.Space();
+			EditorGUILayout.HelpBox("Editing disabled while in Play mode.", MessageType.Warning); 
+		}
+		else
+		*/
+		{
+			DrawGUI();
+		}
 		
 		serializedObject.ApplyModifiedProperties();
 		
 		// the logo
-		GUILayout.FlexibleSpace();
-		GUILayout.BeginHorizontal();
-		GUILayout.FlexibleSpace();
-		GUILayout.Label(string.Empty, roarInspectorSkin.customStyles[STYLE_LOGO]);
-		GUILayout.Space(8);
-		GUILayout.EndHorizontal();
+		if (showRoarLogo)
+		{
+			GUILayout.FlexibleSpace();
+			GUILayout.BeginHorizontal();
+			GUILayout.FlexibleSpace();
+			GUILayout.Label(string.Empty, roarInspectorSkin.customStyles[STYLE_LOGO]);
+			GUILayout.Space(8);
+			GUILayout.EndHorizontal();
+		}
 	}
 	
 	protected abstract void DrawGUI();
+	
+	protected bool ShowRoarLogo
+	{
+		get { return showRoarLogo; }
+		set { showRoarLogo = value; }
+	}
+
+	protected void Comment(string comment)
+	{
+		EditorGUILayout.Space();
+		EditorGUILayout.HelpBox(comment, MessageType.None);
+		EditorGUILayout.Space();
+	}
 }
