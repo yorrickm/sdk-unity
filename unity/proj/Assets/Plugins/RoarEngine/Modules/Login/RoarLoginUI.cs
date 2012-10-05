@@ -14,10 +14,10 @@ public class RoarLoginUI : RoarUI
 	
 	public float buttonWidth = 240;
 	public float buttonHeight = 32;
-	public float spacingAboveButtons = 8;
+	public float spacingAboveButtons = 16;
 	public float spacingBetweenButtons = 4;
 	
-	public float verticalOffset = -24;
+	public float verticalOffset = -40;
 	
 	private string status = "Supply a username and password to log in or to register a new account.";
 	private bool isError;

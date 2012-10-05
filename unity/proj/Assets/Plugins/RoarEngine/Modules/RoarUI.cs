@@ -23,8 +23,8 @@ public abstract class RoarUI : MonoBehaviour
 	public Color backgroundColor = Color.white;
 	public Texture backgroundImage;
 	public string backgroundStyle = "RoundedBackground";
-	public float extendedBackgroundWidth = 360;
-	public float extendedBackgroundHeight = 264;
+	public float extendedBackgroundWidth;
+	public float extendedBackgroundHeight;
 	
 	protected GUISkin skin;
 	protected DefaultRoar roar;

@@ -62,6 +62,10 @@ public class RoarUIControllerInspector : RoarUIInspector
 					roarLoginUI.uiController = roarUIController;
 					roarLoginUI.depth = 1;
 					roarLoginUI.parent = roarUIController;
+					roarLoginUI.backgroundType = RoarUI.BackgroundType.ExtentedImage;
+					roarLoginUI.backgroundColor = new Color32(199,199,199,192);
+					roarLoginUI.extendedBackgroundWidth = 360;
+					roarLoginUI.extendedBackgroundHeight = 324;
 					EditorUtility.SetDirty(roarLoginUI);
 					
 					if (uiModules.arraySize <= (int)RoarUIPanel.Login)
