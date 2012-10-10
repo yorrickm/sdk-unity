@@ -19,9 +19,8 @@ public class RoarObjectFactory : Editor
 			
 			GameObject ui = new GameObject("RoarUI");
 			ui.transform.parent = go.transform;
-			RoarUIController uiController = ui.AddComponent<RoarUIController>();			
-			uiController.backgroundType = RoarUI.BackgroundType.SolidColor;
-			uiController.backgroundColor = new Color32(188,191,198,217);
+			RoarModuleController uiController = ui.AddComponent<RoarModuleController>();			
+			uiController.ResetToDefaultConfiguration();
 			
 			Selection.activeGameObject = go;
 		}

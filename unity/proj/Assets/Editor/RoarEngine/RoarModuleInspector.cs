@@ -2,7 +2,7 @@ using UnityEngine;
 using UnityEditor;
 using System.Collections;
 
-public abstract class RoarUIInspector : RoarInspector
+public abstract class RoarModuleInspector : RoarInspector
 {
 	protected SerializedProperty customGUISkin;
 	protected SerializedProperty constrainToBounds;
@@ -38,7 +38,7 @@ public abstract class RoarUIInspector : RoarInspector
 		EditorGUILayout.PropertyField(customGUISkin);
 		
 		// constrainToBounds
-		bool isController = (this is RoarUIControllerInspector);
+		bool isController = (this is RoarModuleControllerInspector);
 		if (!isController)
 		{
 			Comment("UI boundary constraint.");

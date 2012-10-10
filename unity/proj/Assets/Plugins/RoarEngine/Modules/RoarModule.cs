@@ -7,13 +7,13 @@ public enum RoarUIStyles
 	LoginLabel = 1,
 }
 
-public abstract class RoarUI : MonoBehaviour
+public abstract class RoarModule : MonoBehaviour
 {
 	public enum BackgroundType { None, SolidColor, Image, ExtentedImage };
 	
 	public GUISkin customGUISkin;
-	public RoarUIController uiController;
-	public RoarUI parent;
+	public RoarModuleController uiController;
+	public RoarModule parent;
 	public int depth;
 	public bool constrainToBounds = false;
 	public Rect bounds;
@@ -104,4 +104,18 @@ public abstract class RoarUI : MonoBehaviour
 	}
 	
 	protected abstract void DrawGUI();
+	
+	#region Utility
+	public virtual void ResetToDefaultConfiguration()
+	{
+		depth = 1;
+		constrainToBounds = false;
+		backgroundType = BackgroundType.SolidColor;
+		backgroundColor = Color.white;
+		backgroundImage = null;
+		backgroundStyle = "RoundedBackground";
+		extendedBackgroundWidth = 0;
+		extendedBackgroundHeight = 0;
+	}
+	#endregion
 }

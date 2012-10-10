@@ -225,6 +225,16 @@ public class DefaultRoar : MonoBehaviour, IRoar, IUnityObject
 		return Properties.getValue( "name" );
 	}
 	
+	public void fetchProperties(Roar.Callback callback=null)
+	{
+		Properties_.fetch(callback);
+	}
+	
+	public ArrayList properties(Roar.Callback callback=null)
+	{
+		return Properties_.list(callback);
+	}
+	
 	public bool isDebug{ get { return Config.isDebug; } }
 	
 	public void doCoroutine( IEnumerator method )

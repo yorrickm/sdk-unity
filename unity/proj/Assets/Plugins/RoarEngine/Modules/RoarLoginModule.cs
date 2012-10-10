@@ -1,7 +1,7 @@
 using UnityEngine;
 using System.Collections;
 
-public class RoarLoginUI : RoarUI
+public class RoarLoginModule : RoarModule
 {
 	public float statusWidth = 320;
 	public float statusHeight = 48;
@@ -147,7 +147,7 @@ public class RoarLoginUI : RoarUI
 		{
 		case 200: // (success)
 			isError = false;
-			uiController.UIPanel = RoarUIPanel.Off;
+			uiController.CurrentModulePanel = RoarModulePanel.Off;
 			break;
 		case 3: // Invalid name or password
 		default:
@@ -175,4 +175,31 @@ public class RoarLoginUI : RoarUI
 		}
 		networkActionInProgress = false;
 	}
+
+	#region Utility
+	public override void ResetToDefaultConfiguration()
+	{
+		base.ResetToDefaultConfiguration();
+		backgroundType = RoarModule.BackgroundType.ExtentedImage;
+		backgroundColor = new Color32(199,199,199,192);
+		extendedBackgroundWidth = 360;
+		extendedBackgroundHeight = 324;
+
+		statusWidth = 320;
+		statusHeight = 48;
+		statusNormalStyle = "StatusNormal";
+		statusErrorStyle = "StatusError";
+		
+		textfieldWidth = 240;
+		textfieldHeight = 32;
+		textFieldSpacing = 4;
+		
+		buttonWidth = 240;
+		buttonHeight = 32;
+		spacingAboveButtons = 16;
+		spacingBetweenButtons = 4;
+		
+		verticalOffset = -40;
+	}
+	#endregion
 }

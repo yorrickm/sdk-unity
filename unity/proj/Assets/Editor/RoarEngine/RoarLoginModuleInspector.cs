@@ -2,8 +2,8 @@ using UnityEngine;
 using UnityEditor;
 using System.Collections;
 
-[CustomEditor(typeof(RoarLoginUI))]
-public class RoarLoginUIInspector : RoarUIInspector
+[CustomEditor(typeof(RoarLoginModule))]
+public class RoarLoginModuleInspector : RoarModuleInspector
 {
 	private SerializedProperty statusWidth;
 	private SerializedProperty statusHeight;
