@@ -339,7 +339,7 @@ public class RoarLeaderboardsModule : RoarModule
 					GUI.EndScrollView();
 				}
 				
-				GUIPageNavigator(new Rect((Screen.width-rankingEntryWidth)/2 + horizontalContentOffset,entry.y + spacing,rankingEntryWidth,rankingEntryHeight));
+				GUIPageNavigator(new Rect((Screen.width-rankingEntryWidth)/2 + horizontalContentOffset,entry.y + spacing + verticalContentOffset,rankingEntryWidth,rankingEntryHeight));
 			}
 		}
 		else
@@ -375,7 +375,7 @@ public class RoarLeaderboardsModule : RoarModule
 		navigateButtonStyle = skin.FindStyle(rankingNavigateLeftButtonStyle);
 		rect.width = navigateButtonStyle.fixedWidth;
 		rect.height = navigateButtonStyle.fixedHeight;
-		if (activeLeaderboard.HasPrevious)
+		//if (activeLeaderboard.HasPrevious)
 		{
 			if (GUI.Button(rect, string.Empty, rankingNavigateLeftButtonStyle))
 			{
@@ -384,14 +384,14 @@ public class RoarLeaderboardsModule : RoarModule
 		}
 		
 		rect.width = w;
-		if (activeLeaderboard.HasPrevious || activeLeaderboard.HasNext)
+		//if (activeLeaderboard.HasPrevious || activeLeaderboard.HasNext)
 			GUI.Label(rect, activeLeaderboard.page.ToString(), rankingNavigatePageValueStyle);
 
 		navigateButtonStyle = skin.FindStyle(rankingNavigateRightButtonStyle);
 		rect.width = navigateButtonStyle.fixedWidth;
 		rect.height = navigateButtonStyle.fixedHeight;
 		rect.x = w - rect.width;
-		if (activeLeaderboard.HasNext)
+		//if (activeLeaderboard.HasNext)
 		{
 			if (GUI.Button(rect, string.Empty, rankingNavigateRightButtonStyle))
 			{
