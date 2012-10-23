@@ -146,6 +146,38 @@ public class RoarLeaderboardsModule : RoarModule
 		}
 	}
 #endif
+
+	#region Utility
+	public override void ResetToDefaultConfiguration()
+	{
+		base.ResetToDefaultConfiguration();
+		horizontalContentAlignment = AlignmentHorizontal.Center;
+		horizontalContentOffset = 0;
+		verticalContentAlignment = AlignmentVertical.Top;
+		verticalContentOffset = 148;
+		backgroundType = RoarModule.BackgroundType.ExtentedImage;
+		backgroundImageStyle = "RoundedBackground";
+		backgroundColor = new Color32(199,199,199,192);
+		extendedBackgroundWidth = 564;
+		extendedBackgroundHeight = 532;
+		whenToFetch = WhenToFetch.OnEnable;
+		scrollViewHeight = 448;
+		scrollBarPadding = 4;
+		leaderboardEntryWidth = 512;
+		leaderboardEntryHeight = 64;
+		leaderboardEntrySpacing = 2;
+		leaderboardEntryStyle = "LeaderboardEntryButton";
+		leaderboardTitleRect = new Rect(0,0,512,24);
+		leaderboardTitleOnRankingStyle = "LeaderboardTitleOnRanking";
+		leaderboardTitlePadding = 8;
+		leaderboardEntryWidth = 512;
+		leaderboardEntryHeight = 64;
+		rankingEntrySpacing = 2;
+		rankingEntryPlayerRankStyle = "LeaderboardRankingPlayerRank";
+		rankingEntryPlayerNameStyle = "LeaderboardRankingPlayerName";
+		rankingEntryPlayerScoreStyle = "LeaderboardRankingPlayerScore";
+	}
+	#endregion
 	
 	#region Leaderboards
 	
@@ -191,17 +223,20 @@ public class RoarLeaderboardsModule : RoarModule
 			}
 			else
 			{				
+				GUI.Label(leaderboardTitleRect, "Leaderboards", leaderboardTitleOnRankingStyle);
+				float spacing = leaderboardTitleRect.height + leaderboardTitlePadding;
+				
 				Rect entry;				
 				float totalHeight = (leaderboardEntryHeight + leaderboardEntrySpacing) * leaderboards.Count;
 				if (totalHeight > scrollViewHeight)
 				{
-					entry = new Rect((Screen.width-leaderboardEntryWidth)/2 + horizontalContentOffset,verticalContentOffset,leaderboardEntryWidth + verticalScrollbarWidth + scrollBarPadding,scrollViewHeight);
+					entry = new Rect((Screen.width-leaderboardEntryWidth)/2 + horizontalContentOffset,verticalContentOffset + spacing,leaderboardEntryWidth + verticalScrollbarWidth + scrollBarPadding,scrollViewHeight);
 					scrollViewPosition = GUI.BeginScrollView(entry, scrollViewPosition, new Rect(0,0,leaderboardEntryWidth, totalHeight));
 					entry = new Rect(0,0,leaderboardEntryWidth,leaderboardEntryHeight);
 				}
 				else
 				{
-					entry = new Rect((Screen.width-leaderboardEntryWidth)/2 + horizontalContentOffset,verticalContentOffset,leaderboardEntryWidth,leaderboardEntryHeight);
+					entry = new Rect((Screen.width-leaderboardEntryWidth)/2 + horizontalContentOffset,verticalContentOffset + spacing,leaderboardEntryWidth,leaderboardEntryHeight);
 				}
 				
 				foreach (Leaderboard leaderboard in leaderboards)
@@ -339,7 +374,16 @@ public class RoarLeaderboardsModule : RoarModule
 					GUI.EndScrollView();
 				}
 				
-				GUIPageNavigator(new Rect((Screen.width-rankingEntryWidth)/2 + horizontalContentOffset,entry.y + spacing + verticalContentOffset,rankingEntryWidth,rankingEntryHeight));
+				Rect pageNavigatorRect;
+				if (backgroundType == RoarModule.BackgroundType.ExtentedImage)
+				{
+					pageNavigatorRect = new Rect((Screen.width-rankingEntryWidth)/2 + horizontalContentOffset, extendedBackgroundHeight + spacing + verticalContentOffset,rankingEntryWidth,rankingEntryHeight);
+				}
+				else
+				{
+					pageNavigatorRect = new Rect((Screen.width-rankingEntryWidth)/2 + horizontalContentOffset, scrollViewHeight + spacing + verticalContentOffset,rankingEntryWidth,rankingEntryHeight);
+				}
+				GUIPageNavigator(pageNavigatorRect);
 			}
 		}
 		else
@@ -375,7 +419,7 @@ public class RoarLeaderboardsModule : RoarModule
 		navigateButtonStyle = skin.FindStyle(rankingNavigateLeftButtonStyle);
 		rect.width = navigateButtonStyle.fixedWidth;
 		rect.height = navigateButtonStyle.fixedHeight;
-		//if (activeLeaderboard.HasPrevious)
+		if (activeLeaderboard.HasPrevious)
 		{
 			if (GUI.Button(rect, string.Empty, rankingNavigateLeftButtonStyle))
 			{
@@ -384,14 +428,14 @@ public class RoarLeaderboardsModule : RoarModule
 		}
 		
 		rect.width = w;
-		//if (activeLeaderboard.HasPrevious || activeLeaderboard.HasNext)
+		if (activeLeaderboard.HasPrevious || activeLeaderboard.HasNext)
 			GUI.Label(rect, activeLeaderboard.page.ToString(), rankingNavigatePageValueStyle);
 
 		navigateButtonStyle = skin.FindStyle(rankingNavigateRightButtonStyle);
 		rect.width = navigateButtonStyle.fixedWidth;
 		rect.height = navigateButtonStyle.fixedHeight;
 		rect.x = w - rect.width;
-		//if (activeLeaderboard.HasNext)
+		if (activeLeaderboard.HasNext)
 		{
 			if (GUI.Button(rect, string.Empty, rankingNavigateRightButtonStyle))
 			{
