@@ -28,19 +28,19 @@ using System.Collections;
 
 namespace Roar
 {
-  /**
+	/**
    * \brief IConfig is an interface for setting roar client configuration.
    **/
-  public interface IConfig
-  {
-    // gets/sets the roar client debug mode
-    bool isDebug { get; set; }
-    // gets/sets the name of the game on the roar server
-    string game { get; set; }
-    // gets/sets the game authorization token, automatically set after player login/create
-    string auth_token { get; set; }
-    // gets/sets the url of the roar server, defaults to https
-    string roar_api_url { get; set; }
-  }
+	public interface IConfig
+	{
+		// gets/sets the roar client debug mode
+		bool IsDebug { get; set; }
+		// gets/sets the name of the game on the roar server
+		string Game { get; set; }
+		// gets/sets the game authorization token, automatically set after player login/create
+		string AuthToken { get; set; }
+		// gets/sets the url of the roar server, defaults to https
+		string RoarAPIUrl { get; set; }
+	}
 }
 

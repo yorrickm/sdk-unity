@@ -106,7 +106,7 @@ public class RoarLeaderboardsModule : RoarModule
 		mode = Mode.Leaderboards;
 		
 		if (whenToFetch == WhenToFetch.OnEnable 
-		|| (whenToFetch == WhenToFetch.Once && !boards.hasDataFromServer)
+		|| (whenToFetch == WhenToFetch.Once && !boards.HasDataFromServer)
 		|| (whenToFetch == WhenToFetch.Occassionally && (whenLastFetched == 0 || Time.realtimeSinceStartup - whenLastFetched >= howOftenToFetch))
 		)
 		{
@@ -184,14 +184,14 @@ public class RoarLeaderboardsModule : RoarModule
 	public void FetchLeaderboards()
 	{
 		isFetching = true;
-		boards.fetch(OnRoarFetchLeaderboardsComplete);
+		boards.Fetch(OnRoarFetchLeaderboardsComplete);
 	}
 	
 	void OnRoarFetchLeaderboardsComplete(Roar.CallbackInfo info)
 	{
 		whenLastFetched = Time.realtimeSinceStartup;
 		isFetching = false;
-		leaderboardsRaw = boards.list();
+		leaderboardsRaw = boards.List();
 		
 		leaderboards = new List<Leaderboard>(leaderboardsRaw.Count);
 		Leaderboard leaderboard;
@@ -217,7 +217,7 @@ public class RoarLeaderboardsModule : RoarModule
 		}
 		else
 		{
-			if (!boards.hasDataFromServer || leaderboardsRaw == null || leaderboardsRaw.Count == 0)
+			if (!boards.HasDataFromServer || leaderboardsRaw == null || leaderboardsRaw.Count == 0)
 			{
 				GUI.Label(new Rect(Screen.width/2f - 256,Screen.height/2f - 32,512,64), "No leaderboards to display", "StatusNormal");
 			}
@@ -244,7 +244,7 @@ public class RoarLeaderboardsModule : RoarModule
 					if (GUI.Button(entry, leaderboard.label, leaderboardEntryStyle))
 					{
 						if ((whenToFetch == WhenToFetch.OnEnable)
-						||  (whenToFetch == WhenToFetch.Once && !leaderboard.ranking.hasDataFromServer)
+						||  (whenToFetch == WhenToFetch.Once && !leaderboard.ranking.HasDataFromServer)
 						||  (whenToFetch == WhenToFetch.Occassionally && (leaderboard.whenLastFetched == 0 || Time.realtimeSinceStartup - leaderboard.whenLastFetched >= howOftenToFetch))
 						)
 						{
@@ -271,15 +271,15 @@ public class RoarLeaderboardsModule : RoarModule
 	{
 		isFetching = true;
 		activeLeaderboard = leaderboard;
-		leaderboard.ranking.page = page;
-		leaderboard.ranking.fetch(OnRoarFetchRankingsComplete);
+		leaderboard.ranking.Page = page;
+		leaderboard.ranking.Fetch(OnRoarFetchRankingsComplete);
 	}
 
 	void OnRoarFetchRankingsComplete(Roar.CallbackInfo info)
 	{
 		activeLeaderboard.whenLastFetched = Time.realtimeSinceStartup;
 		isFetching = false;
-		activeLeaderboard.rankingRaw = activeLeaderboard.ranking.list();
+		activeLeaderboard.rankingRaw = activeLeaderboard.ranking.List();
 		foreach (Hashtable data in activeLeaderboard.rankingRaw)
 		{
 			foreach (DictionaryEntry datum in data)
@@ -341,7 +341,7 @@ public class RoarLeaderboardsModule : RoarModule
 		}
 		else if (activeLeaderboard != null)
 		{
-			if (!activeLeaderboard.ranking.hasDataFromServer || activeLeaderboard.ranks == null || activeLeaderboard.ranks.Count == 0)
+			if (!activeLeaderboard.ranking.HasDataFromServer || activeLeaderboard.ranks == null || activeLeaderboard.ranks.Count == 0)
 			{
 				GUI.Label(new Rect(Screen.width/2f - 256,Screen.height/2f - 32,512,64), "No rankings to display", "StatusNormal");
 			}

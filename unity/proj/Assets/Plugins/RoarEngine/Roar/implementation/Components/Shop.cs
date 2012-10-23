@@ -30,123 +30,136 @@ using UnityEngine;
 
 namespace Roar.implementation.Components
 {
+	public class Shop : IShop
+	{
+		protected IWebAPI.IShopActions shopActions;
+		protected DataStore dataStore;
+		protected ILogger logger;
 
-public class Shop : IShop
-{
-  protected IWebAPI.IShopActions shop_actions_;
-  protected DataStore data_store_;
-  protected ILogger logger_;
+		public Shop (IWebAPI.IShopActions shopActions, DataStore dataStore, ILogger logger)
+		{
+			this.shopActions = shopActions;
+			this.dataStore = dataStore;
+			this.logger = logger;
 
-  public Shop( IWebAPI.IShopActions shop_actions, DataStore data_store, ILogger logger )
-  {
-		shop_actions_ = shop_actions;
-		data_store_ = data_store;
-		logger_ = logger;
+			RoarManager.shopReadyEvent += () => CacheFromShop ();
+		}
 
-		RoarManager.shopReadyEvent += () => cacheFromShop();
-  }
+		public void Fetch (Roar.Callback callback)
+		{
+			dataStore.shop.Fetch (callback);
+		}
 
-  public void fetch(Roar.Callback callback) { data_store_.Shop_.fetch(callback); }
-  public bool hasDataFromServer { get { return data_store_.Shop_.hasDataFromServer; } }
+		public bool HasDataFromServer { get { return dataStore.shop.HasDataFromServer; } }
 
-  public void buy( string shop_ikey, Roar.Callback callback ) { shopBuy( shop_ikey, callback ); }
+		public void Buy (string shop_ikey, Roar.Callback callback)
+		{
+			ShopBuy (shop_ikey, callback);
+		}
 
-  public ArrayList list() { return list(null); }
-  public ArrayList list(Roar.Callback callback) 
-  {
-    if (callback!=null) callback( new Roar.CallbackInfo<object>( data_store_.Shop_.list() ) );
-    return data_store_.Shop_.list();
-  }
+		public ArrayList List ()
+		{
+			return List (null);
+		}
 
-  // Returns the *object* associated with attribute `key`
-  public object getShopItem( string ikey ) { return getShopItem(ikey,null); }
-  public object getShopItem( string ikey, Roar.Callback callback )
-  {
-    if (callback!=null) callback( new Roar.CallbackInfo<object>( data_store_.Shop_._get(ikey) ) );
-    return data_store_.Shop_._get(ikey); 
-  }
+		public ArrayList List (Roar.Callback callback)
+		{
+			if (callback != null)
+				callback (new Roar.CallbackInfo<object> (dataStore.shop.List ()));
+			return dataStore.shop.List ();
+		}
+
+		// Returns the *object* associated with attribute `key`
+		public object GetShopItem (string ikey)
+		{
+			return GetShopItem (ikey, null);
+		}
+
+		public object GetShopItem (string ikey, Roar.Callback callback)
+		{
+			if (callback != null)
+				callback (new Roar.CallbackInfo<object> (dataStore.shop.Get (ikey)));
+			return dataStore.shop.Get (ikey); 
+		}
 		
-  public void shopBuy( string shop_ikey, Roar.Callback cb )
-  {
-    var shop_item = data_store_.Shop_._get( shop_ikey);
+		public void ShopBuy (string shop_ikey, Roar.Callback cb)
+		{
+			var shop_item = dataStore.shop.Get (shop_ikey);
 
-    // Make the call if the item is in the shop
-    if (shop_item==null)
-    {
-      logger_.DebugLog("[roar] -- Cannot find to purchase: "+ shop_ikey);
-      return;
-    }
-    logger_.DebugLog ("trying to buy me a : "+Roar.Json.ObjectToJSON(shop_item) );
-    string ikey = shop_item["ikey"] as string;
+			// Make the call if the item is in the shop
+			if (shop_item == null) {
+				logger.DebugLog ("[roar] -- Cannot find to purchase: " + shop_ikey);
+				return;
+			}
+			logger.DebugLog ("trying to buy me a : " + Roar.Json.ObjectToJSON (shop_item));
+			string ikey = shop_item ["ikey"] as string;
 		
-	Hashtable args = new Hashtable();
-	args["shop_item_ikey"] = shop_ikey;
+			Hashtable args = new Hashtable ();
+			args ["shop_item_ikey"] = shop_ikey;
 
-    shop_actions_.buy( args, new OnShopBuy(cb,this,ikey) );
-  }
+			shopActions.buy (args, new ShopBuyCallback (cb, this, ikey));
+		}
   
-  protected class OnShopBuy : SimpleRequestCallback<IXMLNode>
-  {
-    Shop shop;
-    string ikey;
+		protected class ShopBuyCallback : SimpleRequestCallback<IXMLNode>
+		{
+			//Shop shop;
+			string ikey;
     
-    public OnShopBuy( Roar.Callback in_cb, Shop in_shop, string in_ikey) : base(in_cb)
-    {
-      shop = in_shop;
-      ikey = in_ikey;
-    }
+			public ShopBuyCallback (Roar.Callback in_cb, Shop in_shop, string in_ikey) : base(in_cb)
+			{
+				//shop = in_shop;
+				ikey = in_ikey;
+			}
     
-    public override object onSuccess( CallbackInfo<IXMLNode> info )
-    {
-      IXMLNode result = info.data.GetNode("roar>0>shop>0>buy>0");	
+			public override object OnSuccess (CallbackInfo<IXMLNode> info)
+			{
+				IXMLNode result = info.data.GetNode ("roar>0>shop>0>buy>0");	
 
-      // Obtain the server id for the purchased item
-      // NOTE: Assumes ONLY ONE item per "shopitem" entity
+				// Obtain the server id for the purchased item
+				// NOTE: Assumes ONLY ONE item per "shopitem" entity
 
-      IXMLNode cost = result.GetNode( "costs>0>cost>0" );
-      IXMLNode item = result.GetNode( "modifiers>0>modifier>0" );
+				IXMLNode cost = result.GetNode ("costs>0>cost>0");
+				IXMLNode item = result.GetNode ("modifiers>0>modifier>0");
 
 
-      string id = item.GetAttribute("item_id");	
+				string id = item.GetAttribute ("item_id");	
 
-      RoarManager.OnGoodBought(
-        new RoarManager.PurchaseInfo(
-          cost.GetAttribute("ikey"),             //currency_name
-          int.Parse(cost.GetAttribute("value")), // item_price
-          ikey,                                  // iitem_id
-          1                                      //item_qty
-          ));
+				RoarManager.OnGoodBought (
+					new RoarManager.PurchaseInfo (
+						cost.GetAttribute ("ikey"), //currency_name
+						int.Parse (cost.GetAttribute ("value")), // item_price
+						ikey, // iitem_id
+						1                                      //item_qty
+				));
 
-      Hashtable data = new Hashtable();
-      data["id"]=id;
-      data["ikey"]=ikey;
+				Hashtable data = new Hashtable ();
+				data ["id"] = id;
+				data ["ikey"] = ikey;
       
-      return data;
-    }
-  }
+				return data;
+			}
+		}
 
-  // Builds a list of items to fetch from Server by comparing
-  // what's in the Shop list and what's currently in the cache
-  public bool cacheFromShop()
-  {
-    if (data_store_.Shop_.hasDataFromServer)
-    {
-      // Build sanitised ARRAY of ikeys from Shop.list()
-      var l = data_store_.Shop_.list() as ArrayList;
-      var ikeyList = new ArrayList();
+		// Builds a list of items to fetch from Server by comparing
+		// what's in the Shop list and what's currently in the cache
+		public bool CacheFromShop ()
+		{
+			if (dataStore.shop.HasDataFromServer) {
+				// Build sanitised ARRAY of ikeys from Shop.list()
+				var l = dataStore.shop.List () as ArrayList;
+				var ikeyList = new ArrayList ();
 
-      foreach( Hashtable v in l)
-      {
-         ikeyList.Add( v["ikey"] );
-      } 
+				foreach (Hashtable v in l) {
+					ikeyList.Add (v ["ikey"]);
+				} 
       
-      return data_store_.Cache_.addToCache( ikeyList );
-    }
-    else return false;
-  }
+				return dataStore.cache.AddToCache (ikeyList);
+			} else
+				return false;
+		}
 		
 
 		
-}
+	}
 	
 }

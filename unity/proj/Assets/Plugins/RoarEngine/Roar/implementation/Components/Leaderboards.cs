@@ -32,31 +32,45 @@ namespace Roar.implementation.Components
 {
 	public class Leaderboards : ILeaderboards
 	{
-    protected DataStore data_store_;
-    protected ILogger logger_;
+		protected DataStore dataStore;
+		protected ILogger logger;
   
-    public Leaderboards(DataStore data_store, ILogger logger)
-    {
-  		data_store_ = data_store;
-  		logger_ = logger;
-  	}
+		public Leaderboards (DataStore dataStore, ILogger logger)
+		{
+			this.dataStore = dataStore;
+			this.logger = logger;
+		}
     
-    public void fetch( Roar.Callback callback){ data_store_.Leaderboards_.fetch(callback); }
-    public bool hasDataFromServer { get { return data_store_.Leaderboards_.hasDataFromServer; } }
+		public void Fetch (Roar.Callback callback)
+		{
+			dataStore.leaderboards.Fetch (callback);
+		}
+
+		public bool HasDataFromServer { get { return dataStore.leaderboards.HasDataFromServer; } }
   
-    public ArrayList list() { return list(null); }
-    public ArrayList list( Roar.Callback callback) 
-    {
-      if (callback!=null) callback( new Roar.CallbackInfo<object>( data_store_.Leaderboards_.list() ) );
-      return data_store_.Leaderboards_.list();
-    }
+		public ArrayList List ()
+		{
+			return List (null);
+		}
+
+		public ArrayList List (Roar.Callback callback)
+		{
+			if (callback != null)
+				callback (new Roar.CallbackInfo<object> (dataStore.leaderboards.List ()));
+			return dataStore.leaderboards.List ();
+		}
   
-    // Returns the leaderboard Hashtable associated with attribute `ikey`
-    public Hashtable getLeaderboard( string ikey ) { return getLeaderboard(ikey,null); }
-    public Hashtable getLeaderboard( string ikey, Roar.Callback callback )
-    {
-      if (callback!=null) callback( new Roar.CallbackInfo<object>( data_store_.Leaderboards_._get(ikey) ) );
-      return data_store_.Leaderboards_._get(ikey);
-    }
-  }
+		// Returns the leaderboard Hashtable associated with attribute `ikey`
+		public Hashtable GetLeaderboard (string ikey)
+		{
+			return GetLeaderboard (ikey, null);
+		}
+
+		public Hashtable GetLeaderboard (string ikey, Roar.Callback callback)
+		{
+			if (callback != null)
+				callback (new Roar.CallbackInfo<object> (dataStore.leaderboards.Get (ikey)));
+			return dataStore.leaderboards.Get (ikey);
+		}
+	}
 }

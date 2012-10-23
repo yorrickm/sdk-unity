@@ -30,277 +30,298 @@ using UnityEngine;
 
 namespace Roar.implementation.Components
 {
+	public class Inventory : IInventory
+	{
+		protected DataStore dataStore;
+		protected IWebAPI.IItemsActions itemActions;
+		protected ILogger logger;
 
-public class Inventory : IInventory
-{
-  protected DataStore data_store_;
-  protected IWebAPI.IItemsActions item_actions_;
-  protected ILogger logger_;
+		public Inventory (IWebAPI.IItemsActions itemActions, DataStore dataStore, ILogger logger)
+		{
+			this.itemActions = itemActions;
+			this.dataStore = dataStore;
+			this.logger = logger;
+			RoarManager.roarServerItemAddEvent += this.OnServerItemAdd;
+		}
 
-  public Inventory( IWebAPI.IItemsActions item_actions, DataStore data_store, ILogger logger )
-  {
-	item_actions_ = item_actions;
-	data_store_ = data_store;
-	logger_ = logger;
-	RoarManager.roarServerItemAddEvent += this.OnServerItemAdd;
-  }
+		public bool HasDataFromServer { get { return  dataStore.inventory.HasDataFromServer; } }
 
-  public bool hasDataFromServer { get { return  data_store_.Inventory_.hasDataFromServer; } }
-  public void fetch( Roar.Callback callback) { data_store_.Inventory_.fetch(callback); }
+		public void Fetch (Roar.Callback callback)
+		{
+			dataStore.inventory.Fetch (callback);
+		}
 
-  public ArrayList list() { return list(null); }
-  public ArrayList list(Roar.Callback callback) 
-  {
-    if (callback!=null) callback( new Roar.CallbackInfo<object>( data_store_.Inventory_.list() ) );
-    return data_store_.Inventory_.list();
-  }
+		public ArrayList List ()
+		{
+			return List (null);
+		}
 
-  public void activate( string id, Roar.Callback callback )
-  {
-    var item = data_store_.Inventory_._get( id );
-    if (item==null)
-    {
-      logger_.DebugLog("[roar] -- Failed: no record with id: "+id);
-      return;
-    }
+		public ArrayList List (Roar.Callback callback)
+		{
+			if (callback != null)
+				callback (new Roar.CallbackInfo<object> (dataStore.inventory.List ()));
+			return dataStore.inventory.List ();
+		}
 
-    Hashtable args = new Hashtable();
-    args["item_id"] = id;
-    item_actions_.equip( args, new OnActivate( callback, this, id) );
-  }
-  class OnActivate : SimpleRequestCallback<IXMLNode>
-  {
-    Inventory inventory;
-    string id;
+		public void Activate (string id, Roar.Callback callback)
+		{
+			var item = dataStore.inventory.Get (id);
+			if (item == null) {
+				logger.DebugLog ("[roar] -- Failed: no record with id: " + id);
+				return;
+			}
+
+			Hashtable args = new Hashtable ();
+			args ["item_id"] = id;
+			itemActions.equip (args, new ActivateCallback (callback, this, id));
+		}
+		class ActivateCallback : SimpleRequestCallback<IXMLNode>
+		{
+			Inventory inventory;
+			string id;
     
-    public OnActivate( Roar.Callback in_cb, Inventory in_inventory, string in_id) : base(in_cb)
-    {
-      inventory = in_inventory;
-      id = in_id;
-    }
+			public ActivateCallback (Roar.Callback in_cb, Inventory in_inventory, string in_id) : base(in_cb)
+			{
+				inventory = in_inventory;
+				id = in_id;
+			}
 
-    public override object onSuccess( CallbackInfo<IXMLNode> info )
-    {
-      var item = inventory.data_store_.Inventory_._get( id );
-      item["equipped"]=true;
-      Hashtable returnObj = new Hashtable();
-      returnObj["id"]=id;
-      returnObj["ikey"]=item["ikey"];
-      returnObj["label"]=item["label"];
+			public override object OnSuccess (CallbackInfo<IXMLNode> info)
+			{
+				var item = inventory.dataStore.inventory.Get (id);
+				item ["equipped"] = true;
+				Hashtable returnObj = new Hashtable ();
+				returnObj ["id"] = id;
+				returnObj ["ikey"] = item ["ikey"];
+				returnObj ["label"] = item ["label"];
 
-      RoarManager.OnGoodActivated( new RoarManager.GoodInfo( id, item["ikey"] as string, item["label"] as string ) );
-     return returnObj;
-    }
-  }
+				RoarManager.OnGoodActivated (new RoarManager.GoodInfo (id, item ["ikey"] as string, item ["label"] as string));
+				return returnObj;
+			}
+		}
 
-  public void deactivate( string id, Roar.Callback callback )
-  {
-    var item = data_store_.Inventory_._get( id as string );
-    if (item==null)
-    {
-      logger_.DebugLog("[roar] -- Failed: no record with id: "+id);
-      return;
-    }
+		public void Deactivate (string id, Roar.Callback callback)
+		{
+			var item = dataStore.inventory.Get (id as string);
+			if (item == null) {
+				logger.DebugLog ("[roar] -- Failed: no record with id: " + id);
+				return;
+			}
 
-	Hashtable args = new Hashtable();
-	args["item_id"] = id;
+			Hashtable args = new Hashtable ();
+			args ["item_id"] = id;
 
-    item_actions_.unequip( args, new OnDeactivate(callback,this,id) );
-  }
-  class OnDeactivate : SimpleRequestCallback<IXMLNode>
-  {
-    Inventory inventory;
-    string id;
+			itemActions.unequip (args, new DeactivateCallback (callback, this, id));
+		}
+		class DeactivateCallback : SimpleRequestCallback<IXMLNode>
+		{
+			Inventory inventory;
+			string id;
     
-    public OnDeactivate( Roar.Callback in_cb, Inventory in_inventory, string in_id) : base(in_cb)
-    {
-      inventory = in_inventory;
-      id = in_id;
-    }
+			public DeactivateCallback (Roar.Callback in_cb, Inventory in_inventory, string in_id) : base(in_cb)
+			{
+				inventory = in_inventory;
+				id = in_id;
+			}
   
-    public override object onSuccess( CallbackInfo<IXMLNode> info )
-    {
-      var item = inventory.data_store_.Inventory_._get( id );
-      item["equipped"]=false;
-      Hashtable returnObj = new Hashtable();
-      returnObj["id"]=id;
-      returnObj["ikey"]=item["ikey"];
-      returnObj["label"]=item["label"];
+			public override object OnSuccess (CallbackInfo<IXMLNode> info)
+			{
+				var item = inventory.dataStore.inventory.Get (id);
+				item ["equipped"] = false;
+				Hashtable returnObj = new Hashtable ();
+				returnObj ["id"] = id;
+				returnObj ["ikey"] = item ["ikey"];
+				returnObj ["label"] = item ["label"];
 
-      RoarManager.OnGoodDeactivated( new RoarManager.GoodInfo(id, item["ikey"] as string, item["label"] as string ) );
-      return returnObj;
-    }
-  }
+				RoarManager.OnGoodDeactivated (new RoarManager.GoodInfo (id, item ["ikey"] as string, item ["label"] as string));
+				return returnObj;
+			}
+		}
 
-  // `has( key, num )` boolean checks whether user has object `key`
-  // and optionally checks for a `num` number of `keys` *(default 1)*
-  public bool has( string ikey ) { return has(ikey, 1, null); }
-  public bool has( string ikey, int num, Roar.Callback callback )
-  { 
-    if (callback!=null) callback( new Roar.CallbackInfo<object>(data_store_.Inventory_.has( ikey, num )) );
-    return data_store_.Inventory_.has( ikey, num );
-  }
+		// `has( key, num )` boolean checks whether user has object `key`
+		// and optionally checks for a `num` number of `keys` *(default 1)*
+		public bool Has (string ikey)
+		{
+			return Has (ikey, 1, null);
+		}
 
-  // `quantity( key )` returns the number of `key` objects held by user
-  public int quantity( string ikey ) { return quantity(ikey, null); }
-  public int quantity( string ikey, Roar.Callback callback )
-  { 
-    if (callback!=null) callback( new Roar.CallbackInfo<object>(data_store_.Inventory_.quantity( ikey )) );
-    return data_store_.Inventory_.quantity( ikey );
-  }
+		public bool Has (string ikey, int num, Roar.Callback callback)
+		{ 
+			if (callback != null)
+				callback (new Roar.CallbackInfo<object> (dataStore.inventory.Has (ikey, num)));
+			return dataStore.inventory.Has (ikey, num);
+		}
 
-  // `sell(id)` performs a sell on the item `id` specified
-  public void sell( string id, Roar.Callback callback )
-  {
+		// `quantity( key )` returns the number of `key` objects held by user
+		public int Quantity (string ikey)
+		{
+			return Quantity (ikey, null);
+		}
 
-    var item = data_store_.Inventory_._get( id as string );
-    if (item==null)
-    {
-      logger_.DebugLog("[roar] -- Failed: no record with id: "+id);
-      return;
-    }
+		public int Quantity (string ikey, Roar.Callback callback)
+		{ 
+			if (callback != null)
+				callback (new Roar.CallbackInfo<object> (dataStore.inventory.Quantity (ikey)));
+			return dataStore.inventory.Quantity (ikey);
+		}
 
-    // Ensure item is sellable first
-    if ( (bool)item["sellable"] != true)
-    {
-      var error = item["ikey"]+": Good is not sellable";
-      logger_.DebugLog("[roar] -- " + error );
-      if (callback!=null) callback( new Roar.CallbackInfo<object>(null, IWebAPI.DISALLOWED,error) );
-      return;
-    }
+		// `sell(id)` performs a sell on the item `id` specified
+		public void Sell (string id, Roar.Callback callback)
+		{
 
-    Hashtable args = new Hashtable();
-    args["item_id"] = id;
+			var item = dataStore.inventory.Get (id as string);
+			if (item == null) {
+				logger.DebugLog ("[roar] -- Failed: no record with id: " + id);
+				return;
+			}
 
-    item_actions_.sell( args, new OnSell(callback,this,id) );
-  }
+			// Ensure item is sellable first
+			if ((bool)item ["sellable"] != true) {
+				var error = item ["ikey"] + ": Good is not sellable";
+				logger.DebugLog ("[roar] -- " + error);
+				if (callback != null)
+					callback (new Roar.CallbackInfo<object> (null, IWebAPI.DISALLOWED, error));
+				return;
+			}
+
+			Hashtable args = new Hashtable ();
+			args ["item_id"] = id;
+
+			itemActions.sell (args, new SellCallback (callback, this, id));
+		}
   
-  class OnSell : SimpleRequestCallback<IXMLNode>
-  {
-    Inventory inventory;
-    string id;
+		class SellCallback : SimpleRequestCallback<IXMLNode>
+		{
+			Inventory inventory;
+			string id;
     
-    public OnSell( Roar.Callback in_cb, Inventory in_inventory, string in_id) : base(in_cb)
-    {
-      inventory = in_inventory;
-      id = in_id;
-    }
+			public SellCallback (Roar.Callback in_cb, Inventory in_inventory, string in_id) : base(in_cb)
+			{
+				inventory = in_inventory;
+				id = in_id;
+			}
     
-    public override object onSuccess( CallbackInfo<IXMLNode> info )
-    {
-      var item = inventory.data_store_.Inventory_._get( id );
-      Hashtable returnObj = new Hashtable();
-      returnObj["id"]=id;
-      returnObj["ikey"]=item["ikey"];
-      returnObj["label"]=item["label"];
+			public override object OnSuccess (CallbackInfo<IXMLNode> info)
+			{
+				var item = inventory.dataStore.inventory.Get (id);
+				Hashtable returnObj = new Hashtable ();
+				returnObj ["id"] = id;
+				returnObj ["ikey"] = item ["ikey"];
+				returnObj ["label"] = item ["label"];
 
-      inventory.data_store_.Inventory_.unset( id );
+				inventory.dataStore.inventory.Unset (id);
 
-      RoarManager.OnGoodSold( new RoarManager.GoodInfo(id, item["ikey"] as string, item["label"] as string ) );
-      return returnObj;
-    }
-  }
+				RoarManager.OnGoodSold (new RoarManager.GoodInfo (id, item ["ikey"] as string, item ["label"] as string));
+				return returnObj;
+			}
+		}
 
-  // `use(id)` consumes/uses the item `id`
-  public void use( string id, Roar.Callback callback )
-  {
+		// `use(id)` consumes/uses the item `id`
+		public void Use (string id, Roar.Callback callback)
+		{
 
-    var item = data_store_.Inventory_._get( id as string );
+			var item = dataStore.inventory.Get (id as string);
 
-    if (item==null)
-    {
-      logger_.DebugLog("[roar] -- Failed: no record with id: "+id);
-      return;
-    }
+			if (item == null) {
+				logger.DebugLog ("[roar] -- Failed: no record with id: " + id);
+				return;
+			}
 		
-    // GH#152: Ensure item is consumable first
-	logger_.DebugLog ( Roar.Json.ObjectToJSON(item) );
+			// GH#152: Ensure item is consumable first
+			logger.DebugLog (Roar.Json.ObjectToJSON (item));
 		
-    if ( (bool)item["consumable"] != true)
-    {
-      var error = item["ikey"]+": Good is not consumable";
-      logger_.DebugLog( "[roar] -- "+error );
-      if (callback!=null) callback( new Roar.CallbackInfo<object>(null,IWebAPI.DISALLOWED,error) );
-      return;
-    }
+			if ((bool)item ["consumable"] != true) {
+				var error = item ["ikey"] + ": Good is not consumable";
+				logger.DebugLog ("[roar] -- " + error);
+				if (callback != null)
+					callback (new Roar.CallbackInfo<object> (null, IWebAPI.DISALLOWED, error));
+				return;
+			}
 
 
-    Hashtable args = new Hashtable();
-    args["item_id"] = id;
+			Hashtable args = new Hashtable ();
+			args ["item_id"] = id;
 
-    item_actions_.use( args, new OnUse(callback,this,id) );
-  }
+			itemActions.use (args, new UseCallback (callback, this, id));
+		}
   
-  class OnUse : SimpleRequestCallback<IXMLNode>
-  {
-    Inventory inventory;
-    string id;
+		class UseCallback : SimpleRequestCallback<IXMLNode>
+		{
+			Inventory inventory;
+			string id;
     
-    public OnUse( Roar.Callback in_cb, Inventory in_inventory, string in_id) : base(in_cb)
-    {
-      inventory = in_inventory;
-      id = in_id;
-    }
+			public UseCallback (Roar.Callback in_cb, Inventory in_inventory, string in_id) : base(in_cb)
+			{
+				inventory = in_inventory;
+				id = in_id;
+			}
     
-    public override object onSuccess( CallbackInfo<IXMLNode> info )
-    {
-      var item = inventory.data_store_.Inventory_._get( id );
-      Hashtable returnObj = new Hashtable();
-      returnObj["id"]=id;
-      returnObj["ikey"]=item["ikey"];
-      returnObj["label"]=item["label"];
+			public override object OnSuccess (CallbackInfo<IXMLNode> info)
+			{
+				var item = inventory.dataStore.inventory.Get (id);
+				Hashtable returnObj = new Hashtable ();
+				returnObj ["id"] = id;
+				returnObj ["ikey"] = item ["ikey"];
+				returnObj ["label"] = item ["label"];
 
-      inventory.data_store_.Inventory_.unset( id );
+				inventory.dataStore.inventory.Unset (id);
 
-      RoarManager.OnGoodUsed( new RoarManager.GoodInfo(id, item["ikey"] as string, item["label"] as string ) );
-      return returnObj;
-    }
-  }
+				RoarManager.OnGoodUsed (new RoarManager.GoodInfo (id, item ["ikey"] as string, item ["label"] as string));
+				return returnObj;
+			}
+		}
 
-  // `remove(id)` for now is simply an *alias* to sell
-  public void remove( string id, Roar.Callback callback ) { sell(id, callback); }
+		// `remove(id)` for now is simply an *alias* to sell
+		public void Remove (string id, Roar.Callback callback)
+		{
+			Sell (id, callback);
+		}
 
-  // Returns raw data object for inventory
-  public Hashtable getGood( string id ) { return getGood(id, null); }
-  public Hashtable getGood( string id, Roar.Callback callback )
-  {
-    if (callback!=null) callback( new Roar.CallbackInfo<object>(data_store_.Inventory_._get( id )) );
-    return data_store_.Inventory_._get( id );
-  }
+		// Returns raw data object for inventory
+		public Hashtable GetGood (string id)
+		{
+			return GetGood (id, null);
+		}
 
-  protected void OnServerItemAdd(IXMLNode d) {
-	// Only add to inventory if it has previously been intialised
-    if (hasDataFromServer)
-    {
-      var keysToAdd = new ArrayList();
-      var id = d.GetAttribute("item_id");
-      var ikey = d.GetAttribute("item_ikey");
+		public Hashtable GetGood (string id, Roar.Callback callback)
+		{
+			if (callback != null)
+				callback (new Roar.CallbackInfo<object> (dataStore.inventory.Get (id)));
+			return dataStore.inventory.Get (id);
+		}
+
+		protected void OnServerItemAdd (IXMLNode d)
+		{
+			// Only add to inventory if it Has previously been intialised
+			if (HasDataFromServer) {
+				var keysToAdd = new ArrayList ();
+				var id = d.GetAttribute ("item_id");
+				var ikey = d.GetAttribute ("item_ikey");
 				
-      keysToAdd.Add(ikey);
+				keysToAdd.Add (ikey);
 
-      if (!data_store_.Cache_.has( ikey )) 
-      {
-        data_store_.Cache_.addToCache( keysToAdd, h => addToInventory( ikey, id ) );
-      }
-      else addToInventory( ikey, id );
-    }
-  }
+				if (!dataStore.cache.Has (ikey)) {
+					dataStore.cache.AddToCache (keysToAdd, h => AddToInventory (ikey, id));
+				} else
+					AddToInventory (ikey, id);
+			}
+		}
 		
-  protected void addToInventory( string ikey, string id )
-  {
-    // Prepare the item to manually add to Inventory
-    Hashtable item = new Hashtable();
-    item[id] = DataModel._clone( data_store_.Cache_._get( ikey ) );
+		protected void AddToInventory (string ikey, string id)
+		{
+			// Prepare the item to manually add to Inventory
+			Hashtable item = new Hashtable ();
+			item [id] = DataModel.Clone (dataStore.cache.Get (ikey));
 
-    // Also set the internal reference id (used by templates)
-    var idspec = item[id] as Hashtable;
-    idspec["id"] = id;
+			// Also set the internal reference id (used by templates)
+			var idspec = item [id] as Hashtable;
+			idspec ["id"] = id;
 
-    // Manually add to inventory
-    data_store_.Inventory_._set( item );
-  }
+			// Manually add to inventory
+			dataStore.inventory.Set (item);
+		}
 		
-}
+	}
 
 }
 

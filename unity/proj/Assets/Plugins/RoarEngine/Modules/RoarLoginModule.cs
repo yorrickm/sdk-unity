@@ -151,7 +151,7 @@ public class RoarLoginModule : RoarModule
 			uiController.CurrentModulePanel = RoarModulePanel.Off;
 			
 			// fetch the player's properties after successful login
-			DefaultRoar.Instance.Properties.fetch(null);
+			DefaultRoar.Instance.Properties.Fetch(null);
 			
 			break;
 		case 3: // Invalid name or password

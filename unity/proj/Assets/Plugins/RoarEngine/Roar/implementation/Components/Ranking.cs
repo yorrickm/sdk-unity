@@ -33,46 +33,46 @@ namespace Roar.implementation.Components
 	public class Ranking : IRanking
 	{
 		protected string boardId;
-		protected int page_ = 1;
+		protected int page = 1;
 		
-		protected DataStore data_store_;
-		protected ILogger logger_;
+		protected DataStore dataStore;
+		protected ILogger logger;
 		
-		public Ranking(string boardId, DataStore data_store, ILogger logger)
+		public Ranking(string boardId, DataStore dataStore, ILogger logger)
 		{
 			this.boardId = boardId;
-			data_store_ = data_store;
-			logger_ = logger;
+			this.dataStore = dataStore;
+			this.logger = logger;
 		}
 		
-		public int page
+		public int Page
 		{
-			set { page_ = value; }
+			set { page = value; }
 		}
 		
-		public void fetch(Roar.Callback callback)
+		public void Fetch(Roar.Callback callback)
 		{ 
 			Hashtable data = new Hashtable();
 			data.Add("board_id", boardId);
-			data.Add("page", page_.ToString());
-			data_store_.Ranking_.fetch(callback, data);
+			data.Add("page", page.ToString());
+			dataStore.ranking.Fetch(callback, data);
 		}
 		
-		public bool hasDataFromServer { get { return data_store_.Ranking_.hasDataFromServer; } }
+		public bool HasDataFromServer { get { return dataStore.ranking.HasDataFromServer; } }
 		
-		public ArrayList list() { return list(null); }
-		public ArrayList list( Roar.Callback callback) 
+		public ArrayList List() { return List(null); }
+		public ArrayList List( Roar.Callback callback) 
 		{
-			if (callback!=null) callback( new Roar.CallbackInfo<object>( data_store_.Ranking_.list() ) );
-			return data_store_.Ranking_.list();
+			if (callback!=null) callback( new Roar.CallbackInfo<object>( dataStore.ranking.List() ) );
+			return dataStore.ranking.List();
 		}
 		
 		// Returns the ranking Hashtable associated with attribute `ikey`
-		public Hashtable getEntry( string ikey ) { return getEntry(ikey,null); }
-		public Hashtable getEntry( string ikey, Roar.Callback callback )
+		public Hashtable GetEntry( string ikey ) { return GetEntry(ikey,null); }
+		public Hashtable GetEntry( string ikey, Roar.Callback callback )
 		{
-			if (callback!=null) callback( new Roar.CallbackInfo<object>( data_store_.Ranking_._get(ikey) ) );
-			return data_store_.Ranking_._get(ikey);
+			if (callback!=null) callback( new Roar.CallbackInfo<object>( dataStore.ranking.Get(ikey) ) );
+			return dataStore.ranking.Get(ikey);
 		}
 	}
 }

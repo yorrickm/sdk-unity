@@ -32,31 +32,45 @@ namespace Roar.implementation.Components
 {
 	public class Achievements : IAchievements
 	{
-    protected DataStore data_store_;
-    protected ILogger logger_;
+		protected DataStore dataStore;
+		protected ILogger logger;
   
-    public Achievements(DataStore data_store, ILogger logger)
-    {
-  		data_store_ = data_store;
-  		logger_ = logger;
-  	}
+		public Achievements (DataStore dataStore, ILogger logger)
+		{
+			this.dataStore = dataStore;
+			this.logger = logger;
+		}
     
-    public void fetch( Roar.Callback callback){ data_store_.Achievements_.fetch(callback); }
-    public bool hasDataFromServer { get { return data_store_.Achievements_.hasDataFromServer; } }
+		public void Fetch (Roar.Callback callback)
+		{
+			dataStore.achievements.Fetch (callback);
+		}
+
+		public bool HasDataFromServer { get { return dataStore.achievements.HasDataFromServer; } }
   
-    public ArrayList list() { return list(null); }
-    public ArrayList list( Roar.Callback callback) 
-    {
-      if (callback!=null) callback( new Roar.CallbackInfo<object>( data_store_.Achievements_.list() ) );
-      return data_store_.Achievements_.list();
-    }
+		public ArrayList List ()
+		{
+			return List (null);
+		}
+
+		public ArrayList List (Roar.Callback callback)
+		{
+			if (callback != null)
+				callback (new Roar.CallbackInfo<object> (dataStore.achievements.List ()));
+			return dataStore.achievements.List ();
+		}
   
-    // Returns the achievement Hashtable associated with attribute `ikey`
-    public Hashtable getAchievement( string ikey ) { return getAchievement(ikey,null); }
-    public Hashtable getAchievement( string ikey, Roar.Callback callback )
-    {
-      if (callback!=null) callback( new Roar.CallbackInfo<object>( data_store_.Achievements_._get(ikey) ) );
-      return data_store_.Achievements_._get(ikey);
-    }
-  }
+		// Returns the achievement Hashtable associated with attribute `ikey`
+		public Hashtable GetAchievement (string ikey)
+		{
+			return GetAchievement (ikey, null);
+		}
+
+		public Hashtable GetAchievement (string ikey, Roar.Callback callback)
+		{
+			if (callback != null)
+				callback (new Roar.CallbackInfo<object> (dataStore.achievements.Get (ikey)));
+			return dataStore.achievements.Get (ikey);
+		}
+	}
 }

@@ -35,16 +35,16 @@ using System.Collections;
 
 public class FacebookBinding : MonoBehaviour
 {
-	static bool logged_in = false;
+	static bool isLoggedIn = false;
 	
-	public static void init( string applicationId )
+	public static void Init( string applicationId )
 	{
-		Debug.Log("FacebookBinding.init called with "+applicationId);
+		Debug.Log("FacebookBinding.Init called with "+applicationId);
 	}
 	
-	public static string getAccessToken()
+	public static string GetAccessToken()
 	{
-		if( ! logged_in )
+		if( ! isLoggedIn )
 		{
 			Debug.LogError("FacebookBinding.getAccessToken used when not logged in");
 			return "invalid";
@@ -54,16 +54,16 @@ public class FacebookBinding : MonoBehaviour
 		return "abefbedb123123b123abda_facebook_";
 	}
 	
-	public static void login()
+	public static void Login()
 	{
-		logged_in = true;
+		isLoggedIn = true;
 		Debug.Log ("FacebookBinding.login called");
 		FacebookManager.OnLogin();
 	}
 	
-	public static void logout()
+	public static void Logout()
 	{
-		logged_in = false;
+		isLoggedIn = false;
 		Debug.Log ("FacebookBinding.logout called");
 		FacebookManager.OnLogout();
 	}

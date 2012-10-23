@@ -48,17 +48,17 @@ namespace Roar.implementation.Adapters
 	{
 		public UrbanAirship( IWebAPI webAPI )
 		{
-			WebAPI_ = webAPI;
+			this.webAPI = webAPI;
 		}
 		
-		protected IWebAPI WebAPI_;
+		protected IWebAPI webAPI;
 		
 		#if !UNITY_IOS
 		public void OnStart() {
 		}
 		public void OnUpdate() {
 		}
-		public void sendPushNotification( string message, string targetUserID ) {
+		public void SendPushNotification( string message, string targetUserID ) {
 		}
 		#else
 
@@ -119,7 +119,7 @@ namespace Roar.implementation.Adapters
 			post["device_token"] = formatToken;
 
 			// Send registration token to UrbanAirship
-			WebAPI_.urbanairship.ios_register( post, new HandleUASIOSRegister(null,this) );
+			webAPI.urbanairship.ios_register( post, new HandleUASIOSRegister(null,this) );
 		}
 
 		// Called with the response from the call to roar to register the deviceToken.
@@ -164,7 +164,7 @@ namespace Roar.implementation.Adapters
 
 		// Expose this to developers to enable them to wire push notices on ANYthing...
 		// @todo This should accept a callback so that if roar goes bad they can catch it.
-		public void sendPushNotification( string message, string targetUserID )
+		public void SendPushNotification( string message, string targetUserID )
 		{
 			// Only allow send if this device has been registered
 			if (!hasTokenBeenSentToUA) return;
@@ -173,7 +173,7 @@ namespace Roar.implementation.Adapters
 			post["message"] = message;
 			post["roar_id"] = targetUserID;
 			
-			WebAPI_.urbanairship.push( post, null );
+			webAPI.urbanairship.push( post, null );
 		}
 
 

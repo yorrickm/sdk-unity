@@ -29,50 +29,49 @@ using System.Collections;
 
 namespace Roar.implementation
 {
+	public class DataStore
+	{
+		public DataStore (IRequestSender api, ILogger logger)
+		{
+			properties = new DataModel ("properties", "user/view", "attribute", null, new DC.XmlToPropertyHashtable (), api, logger);
+			inventory = new DataModel ("inventory", "items/list", "item", null, new DC.XmlToInventoryItemHashtable (), api, logger);
+			shop = new DataModel ("shop", "shop/list", "shopitem", null, new DC.XmlToShopItemHashtable (), api, logger);
+			actions = new DataModel ("tasks", "tasks/list", "task", null, new DC.XmlToTaskHashtable (), api, logger);
+			gifts = new DataModel ("gifts", "mail/what_can_i_send", "mailable", null, new DC.XmlToGiftHashtable (), api, logger);
+			achievements = new DataModel ("achievements", "user/achievements", "achievement", null, new DC.XmlToAchievementHashtable (), api, logger);
+			leaderboards = new DataModel ("leaderboards", "leaderboards/list", "board", null, new DC.XmlToLeaderboardsHashtable (), api, logger);
+			ranking = new DataModel ("ranking", "leaderboards/view", "ranking", null, new DC.XmlToRankingHashtable (), api, logger);
+			friends = new DataModel ("friends", "friends/list", "friend", null, null, api, logger);
+			cache = new ItemCache ("cache", "items/view", "item", null, new DC.XMLToItemHashtable (), api, logger);
+			appStore = new DataModel ("appstore", "appstore/shop_list", "shopitem", null, new DC.XmlToAppstoreItemHashtable (), api, logger);
+		}
 
-public class DataStore
-{
-  public DataStore(IRequestSender api, ILogger logger)
-  {
-    Properties_   = new DataModel("properties", "user/view", "attribute", null, new DC.XmlToPropertyHashtable(), api, logger);
-    Inventory_    = new DataModel("inventory", "items/list", "item", null, new DC.XmlToInventoryItemHashtable(), api, logger);
-    Shop_         = new DataModel("shop", "shop/list", "shopitem", null, new DC.XmlToShopItemHashtable(), api, logger);
-    Actions_      = new DataModel("tasks", "tasks/list", "task", null, new DC.XmlToTaskHashtable(), api, logger);
-    Gifts_        = new DataModel("gifts", "mail/what_can_i_send", "mailable", null, new DC.XmlToGiftHashtable(), api, logger);
-    Achievements_ = new DataModel("achievements", "user/achievements", "achievement", null, new DC.XmlToAchievementHashtable(), api, logger);
-    Leaderboards_ = new DataModel("leaderboards", "leaderboards/list", "board", null, new DC.XmlToLeaderboardsHashtable(), api, logger);
-    Ranking_      = new DataModel("ranking", "leaderboards/view", "ranking", null, new DC.XmlToRankingHashtable(), api, logger);
-    Friends_      = new DataModel("friends", "friends/list", "friend", null, null, api, logger);
-    Cache_        = new ItemCache("cache", "items/view", "item", null, new DC.XMLToItemHashtable(), api, logger);
-    Appstore_     = new DataModel("appstore", "appstore/shop_list", "shopitem", null, new DC.XmlToAppstoreItemHashtable(), api, logger);
-  }
+		public void Clear (bool x)
+		{
+			properties.Clear (x);
+			inventory.Clear (x);
+			shop.Clear (x);
+			actions.Clear (x);
+			gifts.Clear (x);
+			achievements.Clear (x);
+			leaderboards.Clear (x);
+			ranking.Clear (x);
+			friends.Clear (x);
+			cache.Clear (x);
+			appStore.Clear (x);
+		}
 
-  public void clear(bool x)
-  {
-    Properties_.clear(x);
-    Inventory_.clear(x);
-    Shop_.clear(x);
-    Actions_.clear(x);
-    Gifts_.clear(x);
-    Achievements_.clear(x);
-    Leaderboards_.clear(x);
-    Ranking_.clear(x);
-    Friends_.clear(x);
-    Cache_.clear(x);
-    Appstore_.clear(x);
-  }
-
-  public DataModel Properties_;
-  public DataModel Inventory_;
-  public DataModel Shop_;
-  public DataModel Actions_;
-  public DataModel Gifts_;
-  public DataModel Achievements_;
-  public DataModel Leaderboards_;
-  public DataModel Ranking_;
-  public DataModel Friends_;
-  public DataModel Appstore_;
-  public ItemCache Cache_;
-}
+		public DataModel properties;
+		public DataModel inventory;
+		public DataModel shop;
+		public DataModel actions;
+		public DataModel gifts;
+		public DataModel achievements;
+		public DataModel leaderboards;
+		public DataModel ranking;
+		public DataModel friends;
+		public DataModel appStore;
+		public ItemCache cache;
+	}
 
 }

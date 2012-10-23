@@ -59,13 +59,9 @@ namespace Roar.implementation.DataConversion
 	public interface ICRMParser
 	{
 		ArrayList ParseCostList (IXMLNode n);
-
 		ArrayList ParseModifierList (IXMLNode n);
-
 		ArrayList ParseRequirementList (IXMLNode n);
-
 		ArrayList ParsePropertiesList (IXMLNode n);
-
 		ArrayList ParseChildrenForAttribute (IXMLNode n, string attribute);
 	}
 	

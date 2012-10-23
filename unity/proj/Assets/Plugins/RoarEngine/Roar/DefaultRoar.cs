@@ -103,7 +103,7 @@ public class DefaultRoar : MonoBehaviour, IRoar, IUnityObject
 	public Roar.Adapters.IUrbanAirship UrbanAirship { get{ return urbanAirship;} }
 	protected Roar.implementation.Adapters.UrbanAirship urbanAirship;
 	
-	public string AuthToken { get { return config.auth_token; } }
+	public string AuthToken { get { return config.AuthToken; } }
 
 	private static DefaultRoar instance;	
 	private static IRoar api;	
@@ -155,8 +155,8 @@ public class DefaultRoar : MonoBehaviour, IRoar, IUnityObject
 		// Apply public settings
 		string key = gameKey.ToLower();
 		       key = key.Replace("_", "");
-		Config.game = key;
-		Config.isDebug = debug;
+		Config.Game = key;
+		Config.IsDebug = debug;
 				
 		switch (xmlParser)
 		{
@@ -208,37 +208,37 @@ public class DefaultRoar : MonoBehaviour, IRoar, IUnityObject
 	
 	public void Login( string username, string password, Roar.Callback callback=null )
 	{
-		User.doLogin(username,password,callback);
+		User.DoLogin(username,password,callback);
 	}
 	
 	public void LoginFacebookOAuth( string oauth_token, Roar.Callback callback=null )
 	{
-		User.doLoginFacebookOAuth(oauth_token,callback);
+		User.DoLoginFacebookOAuth(oauth_token,callback);
 	}
 	
 	public void Logout( Roar.Callback callback=null )
 	{
-		User.doLogout(callback);
+		User.DoLogout(callback);
 	}
 	
 	public void Create( string username, string password, Roar.Callback callback=null )
 	{
-		User.doCreate(username,password,callback);
+		User.DoCreate(username,password,callback);
 	}
 	
 	public string WhoAmI( Roar.Callback callback=null )
 	{
-		if (callback!=null) callback( new Roar.CallbackInfo<object>(Properties.getValue( "name" )) );
-		return Properties.getValue( "name" );
+		if (callback!=null) callback( new Roar.CallbackInfo<object>(Properties.GetValue( "name" )) );
+		return Properties.GetValue( "name" );
 	}
 	
 	public string PlayerId( Roar.Callback callback=null )
 	{
-		if (callback!=null) callback( new Roar.CallbackInfo<object>(Properties.getValue( "id" )) );
-		return Properties.getValue( "id" );
+		if (callback!=null) callback( new Roar.CallbackInfo<object>(Properties.GetValue( "id" )) );
+		return Properties.GetValue( "id" );
 	}
 	
-	public bool IsDebug{ get { return Config.isDebug; } }
+	public bool IsDebug{ get { return Config.IsDebug; } }
 	
 	public void DoCoroutine( IEnumerator method )
 	{

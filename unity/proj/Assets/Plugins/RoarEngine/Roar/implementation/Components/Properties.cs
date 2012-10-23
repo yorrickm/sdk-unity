@@ -29,58 +29,74 @@ using Roar.Components;
 
 namespace Roar.implementation.Components
 {
-
-public class Properties : IProperties
-{
-  protected DataStore data_store_;
+	public class Properties : IProperties
+	{
+		protected DataStore dataStore;
 	
-  public Properties( DataStore data_store )
-  {
-	data_store_ = data_store;
-	RoarManager.roarServerUpdateEvent += this.OnUpdate;
-  }
+		public Properties (DataStore dataStore)
+		{
+			this.dataStore = dataStore;
+			RoarManager.roarServerUpdateEvent += this.OnUpdate;
+		}
 
-  public void fetch( Roar.Callback callback){ data_store_.Properties_.fetch(callback); }
-  public bool hasDataFromServer { get { return data_store_.Properties_.hasDataFromServer; } }
+		public void Fetch (Roar.Callback callback)
+		{
+			dataStore.properties.Fetch (callback);
+		}
 
-  public ArrayList list() { return list(null); }
-  public ArrayList list( Roar.Callback callback) 
-  {
-    if (callback!=null) callback( new Roar.CallbackInfo<object>( data_store_.Properties_.list() ) );
-    return data_store_.Properties_.list();
-  }
+		public bool HasDataFromServer { get { return dataStore.properties.HasDataFromServer; } }
 
-  // Returns the *object* associated with attribute `key`
-  public object getProperty( string key ) { return getProperty(key,null); }
-  public object getProperty( string key, Roar.Callback callback )
-  {
-    if (callback!=null) callback( new Roar.CallbackInfo<object>( data_store_.Properties_._get(key) ) );
-    return data_store_.Properties_._get(key);
-  }
+		public ArrayList List ()
+		{
+			return List (null);
+		}
 
-  // Returns the *value* of attribute `key`
-  public string getValue( string ikey ) { return getValue(ikey,null); }
-  public string getValue( string ikey, Roar.Callback callback )
-  {
-    if (callback!=null) callback( new Roar.CallbackInfo<object>( data_store_.Properties_.getValue(ikey) ) );
-    return data_store_.Properties_.getValue(ikey);
-    }
+		public ArrayList List (Roar.Callback callback)
+		{
+			if (callback != null)
+				callback (new Roar.CallbackInfo<object> (dataStore.properties.List ()));
+			return dataStore.properties.List ();
+		}
 
-	
+		// Returns the *object* associated with attribute `key`
+		public object GetProperty (string key)
+		{
+			return GetProperty (key, null);
+		}
 
-  protected void OnUpdate(IXMLNode update)
-  {
-    //Since you can get change events from login calls, when the Properties object is not yet setup we need to be careful here:
-    if( ! hasDataFromServer ) return;
+		public object GetProperty (string key, Roar.Callback callback)
+		{
+			if (callback != null)
+				callback (new Roar.CallbackInfo<object> (dataStore.properties.Get (key)));
+			return dataStore.properties.Get (key);
+		}
 
-    //var d = event['data'] as Hashtable;
+		// Returns the *value* of attribute `key`
+		public string GetValue (string ikey)
+		{
+			return GetValue (ikey, null);
+		}
 
-    var v = getProperty(update.GetAttribute("ikey")) as Hashtable;
-    if(v!=null)
-    {
-      v["value"] = update.GetAttribute("value");
-    }
- }	
+		public string GetValue (string ikey, Roar.Callback callback)
+		{
+			if (callback != null)
+				callback (new Roar.CallbackInfo<object> (dataStore.properties.GetValue (ikey)));
+			return dataStore.properties.GetValue (ikey);
+		}
 
-}
+		protected void OnUpdate (IXMLNode update)
+		{
+			//Since you can get change events from login calls, when the Properties object is not yet setup we need to be careful here:
+			if (! HasDataFromServer)
+				return;
+
+			//var d = event['data'] as Hashtable;
+
+			var v = GetProperty (update.GetAttribute ("ikey")) as Hashtable;
+			if (v != null) {
+				v ["value"] = update.GetAttribute ("value");
+			}
+		}	
+
+	}
 }

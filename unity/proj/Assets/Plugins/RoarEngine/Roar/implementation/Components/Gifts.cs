@@ -32,31 +32,45 @@ namespace Roar.implementation.Components
 {
 	public class Gifts : IGifts
 	{
-    protected DataStore data_store_;
-    protected ILogger logger_;
+		protected DataStore dataStore;
+		protected ILogger logger;
   
-    public Gifts(DataStore data_store, ILogger logger)
-    {
-  		data_store_ = data_store;
-  		logger_ = logger;
-  	}
+		public Gifts (DataStore dataStore, ILogger logger)
+		{
+			this.dataStore = dataStore;
+			this.logger = logger;
+		}
     
-    public void fetch( Roar.Callback callback){ data_store_.Gifts_.fetch(callback); }
-    public bool hasDataFromServer { get { return data_store_.Gifts_.hasDataFromServer; } }
+		public void Fetch (Roar.Callback callback)
+		{
+			dataStore.gifts.Fetch (callback);
+		}
+
+		public bool HasDataFromServer { get { return dataStore.gifts.HasDataFromServer; } }
   
-    public ArrayList list() { return list(null); }
-    public ArrayList list( Roar.Callback callback) 
-    {
-      if (callback!=null) callback( new Roar.CallbackInfo<object>( data_store_.Gifts_.list() ) );
-      return data_store_.Gifts_.list();
-    }
+		public ArrayList List ()
+		{
+			return List (null);
+		}
+
+		public ArrayList List (Roar.Callback callback)
+		{
+			if (callback != null)
+				callback (new Roar.CallbackInfo<object> (dataStore.gifts.List ()));
+			return dataStore.gifts.List ();
+		}
   
-    // Returns the gift Hashtable associated with attribute `id`
-    public Hashtable getGift( string id ) { return getGift(id,null); }
-    public Hashtable getGift( string id, Roar.Callback callback )
-    {
-      if (callback!=null) callback( new Roar.CallbackInfo<object>( data_store_.Gifts_._get(id) ) );
-      return data_store_.Gifts_._get(id);
-    }
-  }
+		// Returns the gift Hashtable associated with attribute `id`
+		public Hashtable GetGift (string id)
+		{
+			return GetGift (id, null);
+		}
+
+		public Hashtable GetGift (string id, Roar.Callback callback)
+		{
+			if (callback != null)
+				callback (new Roar.CallbackInfo<object> (dataStore.gifts.Get (id)));
+			return dataStore.gifts.Get (id);
+		}
+	}
 }

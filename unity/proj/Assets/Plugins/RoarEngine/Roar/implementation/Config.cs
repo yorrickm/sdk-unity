@@ -31,17 +31,17 @@ namespace Roar.implementation
 
 public class Config : Roar.IConfig
 {
-    public bool isDebug { get; set; }
-    public string game { get; set; }
-    public string auth_token { get; set; }
-    public string roar_api_url { get; set; }
+    public bool IsDebug { get; set; }
+    public string Game { get; set; }
+    public string AuthToken { get; set; }
+    public string RoarAPIUrl { get; set; }
 
     public Config()
     {
-       isDebug = true;
-       game = "";
-       auth_token = "";
-       roar_api_url = "https://api.roar.io/";
+       IsDebug = true;
+       Game = "";
+       AuthToken = "";
+       RoarAPIUrl = "https://api.roar.io/";
        
 // TODO : These exist in javascript version but are not yet used here!
 //    props["apiOnly"]=false;

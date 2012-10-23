@@ -99,95 +99,95 @@ namespace Roar.Components
  * @note once #fetch has received and processed actions from the server, the #hasDataFromServer
  * property will return true and calls to #list will be functional.
  **/
-public interface IActions
-{
-  /**
-   * Fetch user actions from the server.
-   *
-   * On success:
-   * - invokes callback with parameter *Hastable data* containing the actions for the user
-   * - sets #hasDataFromServer to true
-   *
-   * On failure:
-   * - invokes callback with error code and error message
-   *
-   * @param callback the callback function to be passed this function's result.
-   *
-   * @returns nothing - use a callback and/or subscribe to RoarManager events for results of non-blocking calls.
-   **/
-  void fetch( Roar.Callback callback );
+	public interface IActions
+	{
+		/**
+	   * Fetch user actions from the server.
+	   *
+	   * On success:
+	   * - invokes callback with parameter *Hastable data* containing the actions for the user
+	   * - sets #hasDataFromServer to true
+	   *
+	   * On failure:
+	   * - invokes callback with error code and error message
+	   *
+	   * @param callback the callback function to be passed this function's result.
+	   *
+	   * @returns nothing - use a callback and/or subscribe to RoarManager events for results of non-blocking calls.
+	   **/
+		void Fetch (Roar.Callback callback);
 
-  /**
-   * Check whether any action data has been obtained from the server.
-   *
-   * @returns true if #fetch has completed execution.
-   */
-  bool hasDataFromServer { get; }
+		/**
+	   * Check whether any action data has been obtained from the server.
+	   *
+	   * @returns true if #fetch has completed execution.
+	   */
+		bool HasDataFromServer { get; }
 
-  /**
-   * Get a list of all the actions for the authenticated user.
-   *
-   * @returns A list of Hashtables for each action.
-   *
-   * @note This does _not_ make a server call. It requires the actions to
-   *       have already been fetched via a call to #fetch. If this function
-   *       is called prior to the successful completion of a #fetch call,
-   *       it will return an empty array.
-   **/
-  ArrayList list();
+		/**
+	   * Get a list of all the actions for the authenticated user.
+	   *
+	   * @returns A list of Hashtables for each action.
+	   *
+	   * @note This does _not_ make a server call. It requires the actions to
+	   *       have already been fetched via a call to #fetch. If this function
+	   *       is called prior to the successful completion of a #fetch call,
+	   *       it will return an empty array.
+	   **/
+		ArrayList List ();
 
-  /**
-   * Get a list of all the actions for the authenticated user.
-   *
-   * On success:
-   * - invokes callback with parameter *data* containing the list of Hashtable actions
-   *
-   * On failure:
-   * - returns an empty list
-   *
-   * @param callback the callback function to be passed this function's result.
-   *
-   * @returns A list of Hashtables for each action.
-   *
-   * @note This does _not_ make a server call. It requires the actions to
-   *       have already been fetched via a call to #fetch. If this function
-   *       is called prior to the successful completion of a #fetch call,
-   *       it will return an empty array.
-   **/
-  ArrayList list(Roar.Callback callback);
+		/**
+	   * Get a list of all the actions for the authenticated user.
+	   *
+	   * On success:
+	   * - invokes callback with parameter *data* containing the list of Hashtable actions
+	   *
+	   * On failure:
+	   * - returns an empty list
+	   *
+	   * @param callback the callback function to be passed this function's result.
+	   *
+	   * @returns A list of Hashtables for each action.
+	   *
+	   * @note This does _not_ make a server call. It requires the actions to
+	   *       have already been fetched via a call to #fetch. If this function
+	   *       is called prior to the successful completion of a #fetch call,
+	   *       it will return an empty array.
+	   **/
+		ArrayList List (Roar.Callback callback);
 
-  /**
-   * Initiates an action on the server, which evaluates the requirements and conditions for the action.
-   *
-   * On success:
-   * - invokes callback with data param containing result of executed action
-   * - if the action is complete, fires the RoarManager#roarServerTaskCompleteEvent, passing it an IXmlNode
-   *  with the following structure:
-   *
-   *       <task_complete>
-   *         <ikey>task_ikey</ikey>
-   *         <label>Task label</label>
-   *         <description>Task description</description>
-   *         <location></location>
-   *         <tags>comma,separated,tags</tags>
-   *         <costs>
-   *           <stat_change ikey="energy" value="10"/>
-   *         </costs>
-   *         <modifiers>
-   *           <stat_change ikey="xp" value="20"/>
-   *         </modifiers>
-   *         <mastery level="3" progress="100"/>
-   *       </task_complete>
-   *
-   * On failure:
-   * - invokes callback with error code and error message
-   *
-   * @param ikey the key of the action to execute.
-   * @param callback the callback function to be passed this function's result.
-   *
-   * @returns nothing - use a callback and/or subscribe to RoarManager events for results of non-blocking calls.
-   **/
-  void execute( string ikey, Roar.Callback callback );
-}
+		/**
+	   * Initiates an action on the server, which evaluates the requirements and conditions for the action.
+	   *
+	   * On success:
+	   * - invokes callback with data param containing result of executed action
+	   * - if the action is complete, fires the RoarManager#roarServerTaskCompleteEvent, passing it an IXmlNode
+	   *  with the following structure:
+	   *
+	   *       <task_complete>
+	   *         <ikey>task_ikey</ikey>
+	   *         <label>Task label</label>
+	   *         <description>Task description</description>
+	   *         <location></location>
+	   *         <tags>comma,separated,tags</tags>
+	   *         <costs>
+	   *           <stat_change ikey="energy" value="10"/>
+	   *         </costs>
+	   *         <modifiers>
+	   *           <stat_change ikey="xp" value="20"/>
+	   *         </modifiers>
+	   *         <mastery level="3" progress="100"/>
+	   *       </task_complete>
+	   *
+	   * On failure:
+	   * - invokes callback with error code and error message
+	   *
+	   * @param ikey the key of the action to execute.
+	   * @param callback the callback function to be passed this function's result.
+	   *
+	   * @returns nothing - use a callback and/or subscribe to RoarManager events for results of non-blocking calls.
+	   **/
+		void Execute (string ikey, Roar.Callback callback);
+	}
 
 }
