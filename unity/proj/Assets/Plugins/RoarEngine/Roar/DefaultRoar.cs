@@ -226,11 +226,16 @@ public class DefaultRoar : MonoBehaviour, IRoar, IUnityObject
 		User.doCreate(username,password,callback);
 	}
 	
-	
 	public string WhoAmI( Roar.Callback callback=null )
 	{
 		if (callback!=null) callback( new Roar.CallbackInfo<object>(Properties.getValue( "name" )) );
 		return Properties.getValue( "name" );
+	}
+	
+	public string PlayerId( Roar.Callback callback=null )
+	{
+		if (callback!=null) callback( new Roar.CallbackInfo<object>(Properties.getValue( "id" )) );
+		return Properties.getValue( "id" );
 	}
 	
 	public bool IsDebug{ get { return Config.isDebug; } }
