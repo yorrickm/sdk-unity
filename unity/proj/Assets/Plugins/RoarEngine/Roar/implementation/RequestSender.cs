@@ -23,7 +23,7 @@ public class RequestSender : IRequestSender
   
   public void make_call( string apicall, Hashtable args, IRequestCallback<IXMLNode> cb )
   {
-    unity_object_.doCoroutine( sendCore( apicall, args, cb ) );
+    unity_object_.DoCoroutine( sendCore( apicall, args, cb ) );
   }
 
   protected IEnumerator sendCore( string apicall, Hashtable args, IRequestCallback<IXMLNode> cb )

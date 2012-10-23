@@ -125,7 +125,7 @@ public class RoarLoginModule : RoarModule
 #endif
 			status = "Logging in...";
 			networkActionInProgress = true;
-			roar.login(username, password, OnRoarLoginComplete);
+			roar.Login(username, password, OnRoarLoginComplete);
 		}
 		if (GUI.Button(createButtonRect, "Create Account"))
 		{
@@ -134,7 +134,7 @@ public class RoarLoginModule : RoarModule
 #endif
 			status = "Creating new player account...";
 			networkActionInProgress = true;
-			roar.create(username, password, OnRoarAccountCreateComplete);
+			roar.Create(username, password, OnRoarAccountCreateComplete);
 		}
 		
 		GUI.enabled = true;

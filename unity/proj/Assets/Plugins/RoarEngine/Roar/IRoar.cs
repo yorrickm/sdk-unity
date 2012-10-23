@@ -304,7 +304,7 @@ public interface IRoar
    *
    *     {"data":"version string", "code":IWebAPI.OK, "msg":null}
    */
-  string version( Roar.Callback callback = null );
+  string Version( Roar.Callback callback = null );
 
   /**
    * Login a player.
@@ -324,7 +324,7 @@ public interface IRoar
    * @param hash the players password
    * @param cb the callback function to be passed the result of doLogin.
    **/
-  void login( string username, string password, Roar.Callback callback=null );
+  void Login( string username, string password, Roar.Callback callback=null );
 
   /**
    * Login a player using Facebook OAuth.
@@ -340,7 +340,7 @@ public interface IRoar
    * @param oauth_token the OAuth token.
    * @param cb the callback function to be passed the result of doLogin.
    **/
-  void login_facebook_oauth( string oauth_token, Roar.Callback callback=null );
+  void LoginFacebookOAuth( string oauth_token, Roar.Callback callback=null );
 
   /**
    * Logs out a user.
@@ -354,7 +354,7 @@ public interface IRoar
    *
    * @param the callback function to be passed the result of doLoginFacebookOAuth.
    **/
-  void logout( Roar.Callback callback=null );
+  void Logout( Roar.Callback callback=null );
 
   /**
    * Creates a new user with the given username and password, and logs
@@ -372,12 +372,12 @@ public interface IRoar
    * @param hash the players password
    * @param cb the callback function to be passed the result of doCreate.
    **/
-  void create( string username, string password, Roar.Callback callback=null );
+  void Create( string username, string password, Roar.Callback callback=null );
 
   /**
    * @todo Document me!
    */
-  string whoami( Roar.Callback callback=null );
+  string WhoAmI( Roar.Callback callback=null );
 }
 
 

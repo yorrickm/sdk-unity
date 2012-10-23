@@ -64,50 +64,50 @@ public class DefaultRoar : MonoBehaviour, IRoar, IUnityObject
 	public XMLType xmlParser = XMLType.Lightweight;
 	public GUISkin defaultGUISkin;
 	
-	public Roar.IConfig Config { get { return Config_; } }
-	protected Roar.IConfig Config_;
+	public Roar.IConfig Config { get { return config; } }
+	protected Roar.IConfig config;
 	
-	public IWebAPI WebAPI { get { return WebAPI_; } }
-	protected IWebAPI WebAPI_;
+	public IWebAPI WebAPI { get { return webAPI; } }
+	protected IWebAPI webAPI;
 	
-	public Roar.Components.IUser User { get { return User_; } }
-	protected Roar.Components.IUser User_;
+	public Roar.Components.IUser User { get { return user; } }
+	protected Roar.Components.IUser user;
 	
-	public Roar.Components.IProperties Properties { get { return Properties_; } }
-	protected Roar.Components.IProperties Properties_;
+	public Roar.Components.IProperties Properties { get { return properties; } }
+	protected Roar.Components.IProperties properties;
 
-	public Roar.Components.ILeaderboards Leaderboards { get { return Leaderboards_; } }
-	protected Roar.Components.ILeaderboards Leaderboards_;
+	public Roar.Components.ILeaderboards Leaderboards { get { return leaderboards; } }
+	protected Roar.Components.ILeaderboards leaderboards;
 
 	//public Roar.Components.IRanking Ranking { get { return Ranking_; } }
 	//protected Roar.Components.IRanking Ranking_;
 	
-	public Roar.Components.IInventory Inventory { get { return Inventory_; } }
-	protected Roar.Components.IInventory Inventory_ = null;
+	public Roar.Components.IInventory Inventory { get { return inventory; } }
+	protected Roar.Components.IInventory inventory = null;
 	
-	public Roar.Components.IShop Shop { get { return Shop_; } }
-	protected Roar.Components.IShop Shop_;
+	public Roar.Components.IShop Shop { get { return shop; } }
+	protected Roar.Components.IShop shop;
 	
-	public Roar.Components.IActions Actions { get { return Actions_; } }
-	protected Roar.Components.IActions Actions_;
+	public Roar.Components.IActions Actions { get { return actions; } }
+	protected Roar.Components.IActions actions;
 	
-	public Roar.Components.IAchievements Achievements { get { return Achievements_; } }
-	protected Roar.Components.IAchievements Achievements_;
+	public Roar.Components.IAchievements Achievements { get { return achievements; } }
+	protected Roar.Components.IAchievements achievements;
 	
-	public Roar.Components.IGifts Gifts { get { return Gifts_; } }
-	protected Roar.Components.IGifts Gifts_;
+	public Roar.Components.IGifts Gifts { get { return gifts; } }
+	protected Roar.Components.IGifts gifts;
 	
-	public Roar.Components.IInAppPurchase Appstore { get{ return Appstore_;} }
-	protected Roar.implementation.Components.InAppPurchase Appstore_;
+	public Roar.Components.IInAppPurchase Appstore { get{ return appstore;} }
+	protected Roar.implementation.Components.InAppPurchase appstore;
 	
-	public Roar.Adapters.IUrbanAirship UrbanAirship { get{ return UrbanAirship_;} }
-	protected Roar.implementation.Adapters.UrbanAirship UrbanAirship_;
+	public Roar.Adapters.IUrbanAirship UrbanAirship { get{ return urbanAirship;} }
+	protected Roar.implementation.Adapters.UrbanAirship urbanAirship;
 	
-	public string AuthToken { get { return Config_.auth_token; } }
+	public string AuthToken { get { return config.auth_token; } }
 
 	private static DefaultRoar instance;	
 	private static IRoar api;	
-	private Roar.implementation.DataStore data_store;
+	private Roar.implementation.DataStore datastore;
 	private Logger logger = new Logger();
 	
 	/**
@@ -150,7 +150,7 @@ public class DefaultRoar : MonoBehaviour, IRoar, IUnityObject
 	 */
 	public void Awake()
 	{
-		Config_ = new Roar.implementation.Config();
+		config = new Roar.implementation.Config();
 		
 		// Apply public settings
 		string key = gameKey.ToLower();
@@ -168,82 +168,81 @@ public class DefaultRoar : MonoBehaviour, IRoar, IUnityObject
 			break;
 		}
 		
-		RequestSender api = new RequestSender(Config_,this,logger);
-		data_store = new Roar.implementation.DataStore(api, logger);
-		WebAPI_ = new global::WebAPI(api);
-		User_ = new Roar.implementation.Components.User(WebAPI_.user,data_store, logger);
-		Properties_ = new Roar.implementation.Components.Properties( data_store );
-		Leaderboards_ = new Roar.implementation.Components.Leaderboards(data_store, logger);
-		//Ranking_ = new Roar.implementation.Components.Ranking(data_store, logger);
-		Inventory_ = new Roar.implementation.Components.Inventory( WebAPI_.items, data_store, logger);
-		Shop_ = new Roar.implementation.Components.Shop( WebAPI_.shop, data_store, logger );
-		Actions_ = new Roar.implementation.Components.Actions( WebAPI_.tasks, data_store );
+		RequestSender api = new RequestSender(config,this,logger);
+		datastore = new Roar.implementation.DataStore(api, logger);
+		webAPI = new global::WebAPI(api);
+		user = new Roar.implementation.Components.User(webAPI.user,datastore, logger);
+		properties = new Roar.implementation.Components.Properties( datastore );
+		leaderboards = new Roar.implementation.Components.Leaderboards(datastore, logger);
+		inventory = new Roar.implementation.Components.Inventory( webAPI.items, datastore, logger);
+		shop = new Roar.implementation.Components.Shop( webAPI.shop, datastore, logger );
+		actions = new Roar.implementation.Components.Actions( webAPI.tasks, datastore );
 		
 		if (!Application.isEditor)
 		{
-			Appstore_ = new Roar.implementation.Components.InAppPurchase( WebAPI_.appstore, "Roar", logger, appstoreSandbox );
+			appstore = new Roar.implementation.Components.InAppPurchase( webAPI.appstore, "Roar", logger, appstoreSandbox );
 		}
 		
-		UrbanAirship_ = new Roar.implementation.Adapters.UrbanAirship(WebAPI_);
+		urbanAirship = new Roar.implementation.Adapters.UrbanAirship(webAPI);
 		
 		DontDestroyOnLoad( this );	
 	}
 
 	public void Start()
 	{
-		if(UrbanAirship_!=null) UrbanAirship_.OnStart();
+		if(urbanAirship!=null) urbanAirship.OnStart();
 	}
 	
 	public void OnUpdate()
 	{
-		if(UrbanAirship_!=null) UrbanAirship_.OnUpdate();
+		if(urbanAirship!=null) urbanAirship.OnUpdate();
 	}
 	
-	string _version="1.0.0";
+	string version="1.0.0";
 	
-	public string version( Roar.Callback callback = null )
+	public string Version( Roar.Callback callback = null )
 	{
-		if(callback!=null) callback( new Roar.CallbackInfo<object>( _version ) );
-		return _version;
+		if(callback!=null) callback( new Roar.CallbackInfo<object>( version ) );
+		return version;
 	}
 	
-	public void login( string username, string password, Roar.Callback callback=null )
+	public void Login( string username, string password, Roar.Callback callback=null )
 	{
 		User.doLogin(username,password,callback);
 	}
 	
-	public void login_facebook_oauth( string oauth_token, Roar.Callback callback=null )
+	public void LoginFacebookOAuth( string oauth_token, Roar.Callback callback=null )
 	{
 		User.doLoginFacebookOAuth(oauth_token,callback);
 	}
 	
-	public void logout( Roar.Callback callback=null )
+	public void Logout( Roar.Callback callback=null )
 	{
 		User.doLogout(callback);
 	}
 	
-	public void create( string username, string password, Roar.Callback callback=null )
+	public void Create( string username, string password, Roar.Callback callback=null )
 	{
 		User.doCreate(username,password,callback);
 	}
 	
 	
-	public string whoami( Roar.Callback callback=null )
+	public string WhoAmI( Roar.Callback callback=null )
 	{
 		if (callback!=null) callback( new Roar.CallbackInfo<object>(Properties.getValue( "name" )) );
 		return Properties.getValue( "name" );
 	}
 	
-	public bool isDebug{ get { return Config.isDebug; } }
+	public bool IsDebug{ get { return Config.isDebug; } }
 	
-	public void doCoroutine( IEnumerator method )
+	public void DoCoroutine( IEnumerator method )
 	{
 		this.StartCoroutine(method);
 	}
 	
 	public Roar.implementation.DataStore DataStore
 	{
-		get { return data_store; }
+		get { return datastore; }
 	}
 	
 	public Logger Logger

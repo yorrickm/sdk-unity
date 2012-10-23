@@ -33,5 +33,5 @@ using System.Collections;
  */
 public interface IUnityObject
 {
-	void doCoroutine(IEnumerator methodName);
+	void DoCoroutine(IEnumerator methodName);
 }
