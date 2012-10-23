@@ -7,25 +7,38 @@ public abstract class RoarModuleInspector : RoarInspector
 	protected SerializedProperty customGUISkin;
 	protected SerializedProperty constrainToBounds;
 	protected SerializedProperty bounds;
+	protected SerializedProperty horizontalContentAlignment;
+	protected SerializedProperty verticalContentAlignment;
+	protected SerializedProperty horizontalContentOffset;
+	protected SerializedProperty verticalContentOffset;
 	
 	// background properties
 	protected SerializedProperty backgroundType;
 	protected SerializedProperty backgroundColor;
 	protected SerializedProperty backgroundImage;
-	protected SerializedProperty backgroundStyle;
+	protected SerializedProperty backgroundSolidColorStyle;
+	protected SerializedProperty backgroundImageStyle;
 	protected SerializedProperty extendedBackgroundWidth;
 	protected SerializedProperty extendedBackgroundHeight;
-
+	
+	protected bool showBoundsConstraintSettings = true;
+	protected bool showAlignmentConstraintSettings = true;
+	
 	protected override void OnEnable()
 	{
 		base.OnEnable();
 		customGUISkin = serializedObject.FindProperty("customGUISkin");
 		constrainToBounds = serializedObject.FindProperty("constrainToBounds");
 		bounds = serializedObject.FindProperty("bounds");
+		horizontalContentAlignment = serializedObject.FindProperty("horizontalContentAlignment");
+		verticalContentAlignment = serializedObject.FindProperty("verticalContentAlignment");
+		horizontalContentOffset = serializedObject.FindProperty("horizontalContentOffset");
+		verticalContentOffset = serializedObject.FindProperty("verticalContentOffset");
 		backgroundType = serializedObject.FindProperty("backgroundType");
 		backgroundColor = serializedObject.FindProperty("backgroundColor");
 		backgroundImage = serializedObject.FindProperty("backgroundImage");
-		backgroundStyle = serializedObject.FindProperty("backgroundStyle");
+		backgroundSolidColorStyle = serializedObject.FindProperty("backgroundSolidColorStyle");
+		backgroundImageStyle = serializedObject.FindProperty("backgroundImageStyle");
 		extendedBackgroundWidth = serializedObject.FindProperty("extendedBackgroundWidth");
 		extendedBackgroundHeight = serializedObject.FindProperty("extendedBackgroundHeight");
 	}
@@ -41,15 +54,29 @@ public abstract class RoarModuleInspector : RoarInspector
 		bool isController = (this is RoarModuleControllerInspector);
 		if (!isController)
 		{
-			Comment("UI boundary constraint.");
-			EditorGUILayout.PropertyField(constrainToBounds);
-			if (constrainToBounds.boolValue)
+			Comment("UI containment and alignment constraints.");
+			
+			if (showBoundsConstraintSettings)
 			{
-				EditorGUILayout.PropertyField(bounds);
-				Rect rect = bounds.rectValue;
-				if (rect.width < 0) rect.width = 0;
-				if (rect.height < 0) rect.height = 0;
-				bounds.rectValue = rect;
+				EditorGUILayout.PropertyField(constrainToBounds);
+				if (constrainToBounds.boolValue)
+				{
+					EditorGUILayout.PropertyField(bounds);
+					Rect rect = bounds.rectValue;
+					if (rect.width < 0) rect.width = 0;
+					if (rect.height < 0) rect.height = 0;
+					bounds.rectValue = rect;
+					if (showAlignmentConstraintSettings)
+						EditorGUILayout.Space();
+				}
+			}
+			
+			if (showAlignmentConstraintSettings)
+			{
+				EditorGUILayout.PropertyField(horizontalContentAlignment, new GUIContent("Horizontal Alignment"));
+				EditorGUILayout.PropertyField(horizontalContentOffset, new GUIContent("Horizontal Offset"));
+				EditorGUILayout.PropertyField(verticalContentAlignment, new GUIContent("Vertical Alignment"));
+				EditorGUILayout.PropertyField(verticalContentOffset, new GUIContent("Vertical Offset"));
 			}
 		}
 		
@@ -60,7 +87,8 @@ public abstract class RoarModuleInspector : RoarInspector
 		switch (backgroundType.enumValueIndex)
 		{
 		case 1: // SolidColor
-			EditorGUILayout.PropertyField(backgroundColor);
+			EditorGUILayout.PropertyField(backgroundSolidColorStyle, new GUIContent("Style"));
+			EditorGUILayout.PropertyField(backgroundColor, new GUIContent("Color"));
 			backgroundImage.objectReferenceValue = null;
 			break;
 		case 2: // Image
@@ -69,8 +97,8 @@ public abstract class RoarModuleInspector : RoarInspector
 				EditorGUILayout.HelpBox("Please set a background image.", MessageType.Warning);
 			break;
 		case 3: // ExtentedImage
-			EditorGUILayout.PropertyField(backgroundStyle);
-			EditorGUILayout.PropertyField(backgroundColor);
+			EditorGUILayout.PropertyField(backgroundImageStyle, new GUIContent("Style"));
+			EditorGUILayout.PropertyField(backgroundColor, new GUIContent("Color"));
 			EditorGUILayout.PropertyField(extendedBackgroundWidth, new GUIContent("Width"));
 			EditorGUILayout.PropertyField(extendedBackgroundHeight, new GUIContent("Height"));
 			backgroundImage.objectReferenceValue = null;

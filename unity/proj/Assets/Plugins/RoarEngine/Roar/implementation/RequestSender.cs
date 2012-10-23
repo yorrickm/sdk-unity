@@ -42,6 +42,7 @@ public class RequestSender : IRequestSender
 	{
       foreach (DictionaryEntry param in args)
       {
+		//Debug.Log(string.Format("{0} => {1}", param.Key, param.Value));
         post.AddField( param.Key as string, param.Value as string );
       }
 	}

@@ -14,6 +14,19 @@ public class RoarModuleControllerInspector : RoarModuleInspector
 	private RoarModulePanel displayedPanel = RoarModulePanel.Off;
 	private bool[] uiModulesEnabled;
 	
+	private static bool[] MODULES_USABLE = new bool[]
+	{
+		true,
+		true,
+		true,
+		false,
+		false,
+		false,
+		false,
+		false,
+		false,
+	};
+	
 	protected override void OnEnable()
 	{
 		base.OnEnable();
@@ -61,7 +74,7 @@ public class RoarModuleControllerInspector : RoarModuleInspector
 			Comment("Roar component modules to enable for use within the game.");
 			foreach (RoarModulePanel module in System.Enum.GetValues(typeof(RoarModulePanel)))
 			{
-				if (module != RoarModulePanel.Off)
+				if (module != RoarModulePanel.Off && MODULES_USABLE[(int)module])
 				{
 					ModuleEnablerUI(module);
 				}

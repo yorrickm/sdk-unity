@@ -141,6 +141,18 @@ public class RoarManager
 	public static void OnPropertiesReady() { if(propertiesReadyEvent!=null) propertiesReadyEvent(); }
 
 	/**
+	 * Fired when the data have been retrieved from the server.
+	 */
+	public static event Action leaderboardsReadyEvent;
+	public static void OnLeaderboardsReady() { if(leaderboardsReadyEvent!=null) leaderboardsReadyEvent(); }
+
+	/**
+	 * Fired when the data have been retrieved from the server.
+	 */
+	public static event Action rankingReadyEvent;
+	public static void OnRankingReady() { if(rankingReadyEvent!=null) rankingReadyEvent(); }
+	
+	/**
 	 * Fired when the data changes.
 	 */
 	public static event Action propertiesChangeEvent;
@@ -152,6 +164,18 @@ public class RoarManager
 	public static event Action shopReadyEvent;
 	public static void OnShopReady() { if(shopReadyEvent!=null) shopReadyEvent(); }
 
+	/**
+	 * Fired when the data have been retrieved from the server.
+	 */
+	public static event Action leaderboardsChangeEvent;
+	public static void OnLeaderboardsChange() { if(leaderboardsChangeEvent!=null) leaderboardsChangeEvent(); }
+
+	/**
+	 * Fired when the data have been retrieved from the server.
+	 */
+	public static event Action rankingChangeEvent;
+	public static void OnRankingChange() { if(rankingChangeEvent!=null) rankingChangeEvent(); }
+	
 	/**
 	 * Fired when the data changes.
 	 */
@@ -306,7 +330,12 @@ public class RoarManager
 		case "tasks":
 			OnTasksChange();
 			break;
-
+		case "leaderboards":
+			OnLeaderboardsChange();
+			break;
+		case "ranking":
+			OnRankingChange();
+			break;
 		default:
 			Debug.Log ("Component change event for "+name+" not yet implemented");
 			break;
@@ -337,7 +366,12 @@ public class RoarManager
 		case "tasks":
 			OnTasksReady();
 			break;
-
+		case "leaderboards":
+			OnLeaderboardsReady();
+			break;
+		case "ranking":
+			OnRankingReady();
+			break;
 		default:
 			Debug.Log ("Component ready event for "+name+" not yet implemented");
 			break;

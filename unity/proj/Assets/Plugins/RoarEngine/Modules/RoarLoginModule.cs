@@ -8,6 +8,7 @@ public class RoarLoginModule : RoarModule
 	public string statusNormalStyle = "StatusNormal";
 	public string statusErrorStyle = "StatusError";
 	
+	public string textfieldStyle = "LoginLabel";	
 	public float textfieldWidth = 240;
 	public float textfieldHeight = 32;
 	public float textFieldSpacing = 4;
@@ -68,13 +69,13 @@ public class RoarLoginModule : RoarModule
 	{		
 		GUI.Label(statusLabelRect, status, (isError) ? skin.FindStyle(statusErrorStyle) : skin.FindStyle(statusNormalStyle));
 		
-		GUI.Label(usernameLabelRect, "Username", skin.customStyles[(int)RoarUIStyles.LoginLabel]);
+		GUI.Label(usernameLabelRect, "Username", textfieldStyle);
 #if UNITY_EDITOR
 		GUI.SetNextControlName("u");
 #endif
 		username = GUI.TextField(usernameFieldRect, username);
 		
-		GUI.Label(passwordLabelRect, "Password", skin.customStyles[(int)RoarUIStyles.LoginLabel]);
+		GUI.Label(passwordLabelRect, "Password", textfieldStyle);
 #if UNITY_EDITOR
 		GUI.SetNextControlName("p");
 #endif

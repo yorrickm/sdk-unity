@@ -7,14 +7,18 @@ public class RoarStatsModule : RoarModule
 	public WhenToFetch whenToFetch = WhenToFetch.Occassionally;
 	public float howOftenToFetch = 60;
 	
-	private ArrayList properties;
 	private bool isFetching;
 	private float whenLastFetched;
+	private ArrayList stats;
+	
+	private Roar.Components.IProperties properties;
 	
 	void OnEnable()
 	{
+		properties = DefaultRoar.Instance.Properties;
+		
 		if (whenToFetch == WhenToFetch.OnEnable 
-		|| (whenToFetch == WhenToFetch.Once && properties == null)
+		|| (whenToFetch == WhenToFetch.Once && !properties.hasDataFromServer)
 		|| (whenToFetch == WhenToFetch.Occassionally && (whenLastFetched == 0 || Time.realtimeSinceStartup - whenLastFetched >= howOftenToFetch))
 		)
 		{
@@ -25,14 +29,14 @@ public class RoarStatsModule : RoarModule
 	public void Fetch()
 	{
 		isFetching = true;
-		roar.fetchProperties(OnRoarFetchPropertiesComplete);
+		properties.fetch(OnRoarFetchPropertiesComplete);
 	}
 
 	void OnRoarFetchPropertiesComplete(Roar.CallbackInfo info)
 	{
 		whenLastFetched = Time.realtimeSinceStartup;
 		isFetching = false;
-		properties = roar.properties();
+		stats = properties.list();
 	}
 		
 	protected override void DrawGUI()
@@ -44,8 +48,8 @@ public class RoarStatsModule : RoarModule
 		}
 		else
 		{
-			if (properties == null || properties.Count == 0)
-			GUI.Label(new Rect(Screen.width/2f - 256,Screen.height/2f - 32,512,64), "No stats to display", skin.FindStyle("StatusNormal"));
+			if (!properties.hasDataFromServer || stats == null || stats.Count == 0)
+				GUI.Label(new Rect(Screen.width/2f - 256,Screen.height/2f - 32,512,64), "No stats to display", skin.FindStyle("StatusNormal"));
 		}
 		// /TEMP
 	}

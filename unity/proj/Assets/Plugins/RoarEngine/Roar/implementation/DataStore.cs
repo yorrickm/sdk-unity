@@ -40,7 +40,8 @@ public class DataStore
     Actions_      = new DataModel("tasks", "tasks/list", "task", null, new DC.XmlToTaskHashtable(), api, logger);
     Gifts_        = new DataModel("gifts", "mail/what_can_i_send", "mailable", null, new DC.XmlToGiftHashtable(), api, logger);
     Achievements_ = new DataModel("achievements", "user/achievements", "achievement", null, new DC.XmlToAchievementHashtable(), api, logger);
-    Leaderboards_ = new DataModel("leaderboards", "leaderboards/list", "board", null, null, api, logger);
+    Leaderboards_ = new DataModel("leaderboards", "leaderboards/list", "board", null, new DC.XmlToLeaderboardsHashtable(), api, logger);
+    Ranking_      = new DataModel("ranking", "leaderboards/view", "ranking", null, new DC.XmlToRankingHashtable(), api, logger);
     Friends_      = new DataModel("friends", "friends/list", "friend", null, null, api, logger);
     Cache_        = new ItemCache("cache", "items/view", "item", null, new DC.XMLToItemHashtable(), api, logger);
     Appstore_     = new DataModel("appstore", "appstore/shop_list", "shopitem", null, new DC.XmlToAppstoreItemHashtable(), api, logger);
@@ -55,6 +56,7 @@ public class DataStore
     Gifts_.clear(x);
     Achievements_.clear(x);
     Leaderboards_.clear(x);
+    Ranking_.clear(x);
     Friends_.clear(x);
     Cache_.clear(x);
     Appstore_.clear(x);
@@ -67,6 +69,7 @@ public class DataStore
   public DataModel Gifts_;
   public DataModel Achievements_;
   public DataModel Leaderboards_;
+  public DataModel Ranking_;
   public DataModel Friends_;
   public DataModel Appstore_;
   public ItemCache Cache_;

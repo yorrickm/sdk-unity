@@ -32,7 +32,8 @@ public class Logger : Roar.ILogger
 {
 	public void DebugLog( string k )
 	{
-		Debug.Log (k);
+		if (Debug.isDebugBuild)
+			Debug.Log (k);
 	}
 }
 
@@ -74,6 +75,12 @@ public class DefaultRoar : MonoBehaviour, IRoar, IUnityObject
 	
 	public Roar.Components.IProperties Properties { get { return Properties_; } }
 	protected Roar.Components.IProperties Properties_;
+
+	public Roar.Components.ILeaderboards Leaderboards { get { return Leaderboards_; } }
+	protected Roar.Components.ILeaderboards Leaderboards_;
+
+	//public Roar.Components.IRanking Ranking { get { return Ranking_; } }
+	//protected Roar.Components.IRanking Ranking_;
 	
 	public Roar.Components.IInventory Inventory { get { return Inventory_; } }
 	protected Roar.Components.IInventory Inventory_ = null;
@@ -100,6 +107,8 @@ public class DefaultRoar : MonoBehaviour, IRoar, IUnityObject
 
 	private static DefaultRoar instance;	
 	private static IRoar api;	
+	private Roar.implementation.DataStore data_store;
+	private Logger logger = new Logger();
 	
 	/**
 	 * Access to the Roar Engine singleton.
@@ -148,9 +157,7 @@ public class DefaultRoar : MonoBehaviour, IRoar, IUnityObject
 		       key = key.Replace("_", "");
 		Config.game = key;
 		Config.isDebug = debug;
-		
-		Logger logger = new Logger();
-		
+				
 		switch (xmlParser)
 		{
 		case XMLType.System:
@@ -162,10 +169,12 @@ public class DefaultRoar : MonoBehaviour, IRoar, IUnityObject
 		}
 		
 		RequestSender api = new RequestSender(Config_,this,logger);
-		Roar.implementation.DataStore data_store = new Roar.implementation.DataStore(api, logger);
+		data_store = new Roar.implementation.DataStore(api, logger);
 		WebAPI_ = new global::WebAPI(api);
 		User_ = new Roar.implementation.Components.User(WebAPI_.user,data_store, logger);
 		Properties_ = new Roar.implementation.Components.Properties( data_store );
+		Leaderboards_ = new Roar.implementation.Components.Leaderboards(data_store, logger);
+		//Ranking_ = new Roar.implementation.Components.Ranking(data_store, logger);
 		Inventory_ = new Roar.implementation.Components.Inventory( WebAPI_.items, data_store, logger);
 		Shop_ = new Roar.implementation.Components.Shop( WebAPI_.shop, data_store, logger );
 		Actions_ = new Roar.implementation.Components.Actions( WebAPI_.tasks, data_store );
@@ -225,16 +234,6 @@ public class DefaultRoar : MonoBehaviour, IRoar, IUnityObject
 		return Properties.getValue( "name" );
 	}
 	
-	public void fetchProperties(Roar.Callback callback=null)
-	{
-		Properties_.fetch(callback);
-	}
-	
-	public ArrayList properties(Roar.Callback callback=null)
-	{
-		return Properties_.list(callback);
-	}
-	
 	public bool isDebug{ get { return Config.isDebug; } }
 	
 	public void doCoroutine( IEnumerator method )
@@ -242,6 +241,15 @@ public class DefaultRoar : MonoBehaviour, IRoar, IUnityObject
 		this.StartCoroutine(method);
 	}
 	
+	public Roar.implementation.DataStore DataStore
+	{
+		get { return data_store; }
+	}
+	
+	public Logger Logger
+	{
+		get { return logger; }
+	}
 	
 	#region EXTERNAL CALLBACKS
 	void OnAppstoreProductData(string productDataXml)

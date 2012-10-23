@@ -24,7 +24,9 @@ public class RoarLoginModuleInspector : RoarModuleInspector
 	protected override void OnEnable()
 	{
 		base.OnEnable();
-
+		showAlignmentConstraintSettings = false;
+		showBoundsConstraintSettings = false;
+		
 		statusWidth = serializedObject.FindProperty("statusWidth");
 		statusHeight = serializedObject.FindProperty("statusHeight");
 		statusNormalStyle = serializedObject.FindProperty("statusNormalStyle");
