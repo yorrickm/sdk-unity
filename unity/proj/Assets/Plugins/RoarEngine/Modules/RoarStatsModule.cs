@@ -1,5 +1,6 @@
 using UnityEngine;
 using System.Collections;
+using System.Collections.Generic;
 
 public class RoarStatsModule : RoarModule
 {
@@ -37,6 +38,14 @@ public class RoarStatsModule : RoarModule
 		{
 			whenLastFetched = Time.realtimeSinceStartup;
 			stats = properties.List();
+
+			foreach (Hashtable hashTable in stats)
+			{
+				foreach (DictionaryEntry kvp in hashTable)
+				{
+					Debug.Log(string.Format("{0} -> {1}", kvp.Key, kvp.Value));
+				}
+			}
 		}
 	}
 
@@ -61,8 +70,16 @@ public class RoarStatsModule : RoarModule
 			}
 			else
 			{
-				//Rect entry = new Rect(0,0,512,32);
-				
+				/*
+				Rect entry = new Rect(0,0,512,32);
+				foreach (Hashtable hashTable in stats)
+				{
+					foreach (DictionaryEntry kvp in hashTable)
+					{
+						Debug.Log(string.Format("{0} -> {1}", kvp.Key, kvp.Value));
+					}
+				}
+				*/
 			}
 		}
 	}
