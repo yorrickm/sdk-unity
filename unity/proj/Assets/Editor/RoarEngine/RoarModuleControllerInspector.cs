@@ -17,7 +17,7 @@ public class RoarModuleControllerInspector : RoarModuleInspector
 	private static bool[] MODULES_USABLE = new bool[]
 	{
 		true,
-		true,
+		false,
 		true,
 		false,
 		false,
