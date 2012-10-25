@@ -29,9 +29,26 @@ public class RoarObjectFactory : Editor
 	[MenuItem("GameObject/Create Other/Roar/Stats Widget", false, 2001)]
 	public static void CreateRoarStatsWidgetObject()
 	{
+		if (!ExistingComponentTypeExists(typeof(DefaultRoar)))
+		{
+			if (EditorUtility.DisplayDialog("Sorry!", "A DefaultRoar system component cannot be found in this scene. Add one now?", "OK", "Later"))
+			{
+				CreateRoarSceneObject();
+				_CreateRoarStatsWidgetObject();
+			}
+		}
+		else
+		{
+			_CreateRoarStatsWidgetObject();
+		}
+	}
+	private static void _CreateRoarStatsWidgetObject()
+	{
 		GameObject go = RoarObjectFactory.CreateGameObjectInScene("RoarStatsWidget");
 		go.AddComponent<RoarStatsWidget>();
-		go.transform.parent = null;
+	
+		DefaultRoar defaultRoar = GameObject.FindObjectOfType(typeof(DefaultRoar)) as DefaultRoar;
+		go.transform.parent = defaultRoar.transform;		
 		
 		Selection.activeGameObject = go;
 	}
