@@ -66,7 +66,7 @@ public class RoarStatsWidgetInspector : RoarUIWidgetInspector
 			SerializedProperty titleStyle = serializedObject.FindProperty(string.Format("{0}.{1}", path, "titleStyle"));
 			SerializedProperty valueFormat = serializedObject.FindProperty(string.Format("{0}.{1}", path, "valueFormat"));
 			SerializedProperty valueStyle = serializedObject.FindProperty(string.Format("{0}.{1}", path, "valueStyle"));
-			SerializedProperty valueType = serializedObject.FindProperty(string.Format("{0}.{1}", path, "valueType"));
+			//SerializedProperty valueType = serializedObject.FindProperty(string.Format("{0}.{1}", path, "valueType"));
 			
 			GUILayout.BeginVertical("box");
 			{
@@ -83,7 +83,7 @@ public class RoarStatsWidgetInspector : RoarUIWidgetInspector
 				}
 				EditorGUILayout.PropertyField(title);
 				EditorGUILayout.PropertyField(titleStyle);
-				EditorGUILayout.PropertyField(valueType);
+				//EditorGUILayout.PropertyField(valueType);
 				EditorGUILayout.PropertyField(valueStyle);
 				EditorGUILayout.PropertyField(valueFormat);
 				if (GUILayout.Button("Remove"))
