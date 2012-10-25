@@ -34,7 +34,8 @@ public class RoarStatsWidget : RoarUIWidget
 	
 	void Reset()
 	{
-		useScrollView = false;		
+		useScrollView = false;	
+		autoEnableOnLogIn = true;
 	}
 	
 	protected override void Awake()
@@ -68,7 +69,7 @@ public class RoarStatsWidget : RoarUIWidget
 		properties = DefaultRoar.Instance.Properties;
 		if (Debug.isDebugBuild && properties == null)
 		{
-			Debug.LogError("Properties is null; unable to render stats widget");
+			Debug.LogWarning("Properties is null; unable to render stats widget");
 		}
 		
 		if (properties != null)

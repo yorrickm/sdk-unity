@@ -24,6 +24,8 @@ public abstract class RoarUIWidgetInspector : RoarInspector
 	protected SerializedProperty initialContentHeight;
 	protected SerializedProperty alwaysShowHorizontalScrollBar;
 	protected SerializedProperty alwaysShowVerticalScrollBar;
+	protected SerializedProperty autoEnableOnLogIn;
+	protected SerializedProperty autoDisableOnLogout;
 	
 	protected override void OnEnable()
 	{
@@ -49,6 +51,8 @@ public abstract class RoarUIWidgetInspector : RoarInspector
 		initialContentHeight = serializedObject.FindProperty("initialContentHeight");
 		alwaysShowHorizontalScrollBar = serializedObject.FindProperty("alwaysShowHorizontalScrollBar");
 		alwaysShowVerticalScrollBar = serializedObject.FindProperty("alwaysShowVerticalScrollBar");
+		autoEnableOnLogIn = serializedObject.FindProperty("autoEnableOnLogIn");
+		autoDisableOnLogout = serializedObject.FindProperty("autoDisableOnLogout");
 	}
 
 	protected override void DrawGUI()
@@ -66,6 +70,8 @@ public abstract class RoarUIWidgetInspector : RoarInspector
 		EditorGUILayout.PropertyField(horizontalOffset);
 		EditorGUILayout.PropertyField(verticalAlignment);
 		EditorGUILayout.PropertyField(verticalOffset);
+		EditorGUILayout.PropertyField(autoEnableOnLogIn);
+		EditorGUILayout.PropertyField(autoDisableOnLogout);
 		
 		// boundary properties
 		Comment("Draw boundary properties.");

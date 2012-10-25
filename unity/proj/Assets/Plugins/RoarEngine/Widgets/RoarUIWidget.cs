@@ -29,6 +29,9 @@ public abstract class RoarUIWidget : MonoBehaviour
 	public bool alwaysShowHorizontalScrollBar = false;
 	public bool alwaysShowVerticalScrollBar = true;
 	
+	public bool autoEnableOnLogIn = false;
+	public bool autoDisableOnLogout = true;
+	
 	protected GUISkin skin;
 	protected DefaultRoar roar;
 	
@@ -40,6 +43,8 @@ public abstract class RoarUIWidget : MonoBehaviour
 	// scrolling
 	private Vector2 scrollPosition = Vector2.zero;
 	private Rect scrollViewRect;
+
+	private bool isLoggedIn;
 	
 	protected virtual void Awake()
 	{
@@ -59,6 +64,12 @@ public abstract class RoarUIWidget : MonoBehaviour
 			initialContentHeight = bounds.height;
 		scrollViewRect.width = initialContentWidth;
 		scrollViewRect.height = initialContentHeight;
+
+		// listen for log-in event
+		RoarLoginModule.OnFullyLoggedIn -= OnRoarLogin;
+		RoarLoginModule.OnFullyLoggedIn += OnRoarLogin;
+		RoarManager.loggedOutEvent -= OnRoarLogout;
+		RoarManager.loggedOutEvent += OnRoarLogout;
 		
 		switch (boundType)
 		{
@@ -109,6 +120,29 @@ public abstract class RoarUIWidget : MonoBehaviour
 	void Reset()
 	{
 		bounds = new Rect(0,0,512,386);
+	}
+	
+	void OnRoarLogin()
+	{
+		isLoggedIn = true;
+		if (autoEnableOnLogIn)
+		{
+			enabled = true;
+		}
+	}
+
+	void OnRoarLogout()
+	{
+		isLoggedIn = false;
+		if (autoDisableOnLogout)
+		{
+			enabled = false;
+		}
+	}
+	
+	protected bool IsLoggedIn
+	{
+		get { return isLoggedIn; }
 	}
 	
 	void OnGUI()

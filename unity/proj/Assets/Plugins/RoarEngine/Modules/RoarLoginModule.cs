@@ -3,6 +3,9 @@ using System.Collections;
 
 public class RoarLoginModule : RoarModule
 {
+	public delegate void RoarLoginModuleHandler();
+	public static event RoarLoginModuleHandler OnFullyLoggedIn; // logged in & stats fetched
+	
 	public float statusWidth = 320;
 	public float statusHeight = 48;
 	public string statusNormalStyle = "StatusNormal";
@@ -19,6 +22,7 @@ public class RoarLoginModule : RoarModule
 	public float spacingBetweenButtons = 4;
 	
 	public float verticalOffset = -40;
+	public bool fetchPropertiesOnLogin = true;
 	public bool saveUsername = true;
 	public bool savePassword = false;
 	
@@ -184,7 +188,8 @@ public class RoarLoginModule : RoarModule
 			uiController.CurrentModulePanel = RoarModulePanel.Off;
 			
 			// fetch the player's properties after successful login
-			DefaultRoar.Instance.Properties.Fetch(null);
+			if (fetchPropertiesOnLogin)
+				DefaultRoar.Instance.Properties.Fetch(OnRoarPropertiesFetched);
 			
 			break;
 		case 3: // Invalid name or password
@@ -212,6 +217,11 @@ public class RoarLoginModule : RoarModule
 			break;
 		}
 		networkActionInProgress = false;
+	}
+	
+	void OnRoarPropertiesFetched(Roar.CallbackInfo info)
+	{
+		if (OnFullyLoggedIn != null) OnFullyLoggedIn();
 	}
 
 	#region Utility

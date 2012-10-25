@@ -33,6 +33,8 @@ public class RoarModuleController : RoarModule
 		// listen for log-in event
 		RoarManager.loggedInEvent -= OnRoarLogin;
 		RoarManager.loggedInEvent += OnRoarLogin;
+		RoarManager.loggedOutEvent -= OnRoarLogout;
+		RoarManager.loggedOutEvent += OnRoarLogout;
 		
 		// set up background rectangle
 		if (fullScreenBackground)
@@ -85,6 +87,11 @@ public class RoarModuleController : RoarModule
 	void OnRoarLogin()
 	{
 		isLoggedIn = true;
+	}
+
+	void OnRoarLogout()
+	{
+		isLoggedIn = false;
 	}
 	
 	#region Utility

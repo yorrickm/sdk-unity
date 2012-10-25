@@ -20,6 +20,7 @@ public class RoarLoginModuleInspector : RoarModuleInspector
 	private SerializedProperty spacingBetweenButtons;
 
 	private SerializedProperty verticalOffset;
+	private SerializedProperty fetchPropertiesOnLogin;
 	private SerializedProperty saveUsername;
 	private SerializedProperty savePassword;
 	
@@ -44,6 +45,7 @@ public class RoarLoginModuleInspector : RoarModuleInspector
 		spacingBetweenButtons = serializedObject.FindProperty("spacingBetweenButtons");
 
 		verticalOffset = serializedObject.FindProperty("verticalOffset");
+		fetchPropertiesOnLogin = serializedObject.FindProperty("fetchPropertiesOnLogin");
 		saveUsername = serializedObject.FindProperty("saveUsername");
 		savePassword = serializedObject.FindProperty("savePassword");
 	}
@@ -74,6 +76,7 @@ public class RoarLoginModuleInspector : RoarModuleInspector
 		
 		Comment("Miscellaneous attributes.");
 		EditorGUILayout.PropertyField(verticalOffset);
+		EditorGUILayout.PropertyField(fetchPropertiesOnLogin);
 		EditorGUILayout.PropertyField(saveUsername);
 		EditorGUILayout.PropertyField(savePassword);
 	}
