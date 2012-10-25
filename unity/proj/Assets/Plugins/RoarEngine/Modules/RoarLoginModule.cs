@@ -185,20 +185,26 @@ public class RoarLoginModule : RoarModule
 		{
 		case 200: // (success)
 			isError = false;
-			uiController.CurrentModulePanel = RoarModulePanel.Off;
 			
 			// fetch the player's properties after successful login
 			if (fetchPropertiesOnLogin)
+			{
 				DefaultRoar.Instance.Properties.Fetch(OnRoarPropertiesFetched);
+			}
+			else
+			{
+				uiController.CurrentModulePanel = RoarModulePanel.Off;			
+				networkActionInProgress = false;
+			}
 			
 			break;
 		case 3: // Invalid name or password
 		default:
 			isError = true;
+			status = info.msg;
+			networkActionInProgress = false;
 			break;
 		}
-		status = info.msg;
-		networkActionInProgress = false;
 	}
 
 	void OnRoarAccountCreateComplete(Roar.CallbackInfo info)
@@ -221,6 +227,8 @@ public class RoarLoginModule : RoarModule
 	
 	void OnRoarPropertiesFetched(Roar.CallbackInfo info)
 	{
+		networkActionInProgress = false;
+		uiController.CurrentModulePanel = RoarModulePanel.Off;
 		if (OnFullyLoggedIn != null) OnFullyLoggedIn();
 	}
 
