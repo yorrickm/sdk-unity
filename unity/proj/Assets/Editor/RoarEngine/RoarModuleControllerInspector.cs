@@ -26,6 +26,19 @@ public class RoarModuleControllerInspector : RoarModuleInspector
 		false,
 		false,
 	};
+
+	private static bool[] MODULES_MODIFIABLE = new bool[]
+	{
+		false,
+		false,
+		true,
+		true,
+		true,
+		true,
+		true,
+		true,
+		true,
+	};
 	
 	protected override void OnEnable()
 	{
@@ -42,6 +55,13 @@ public class RoarModuleControllerInspector : RoarModuleInspector
 		{
 			SerializedProperty moduleProperty = (uiModules.arraySize >= i) ? serializedObject.FindProperty(string.Format("uiModules.Array.data[{0}]", i)) : null;
 			uiModulesEnabled[i] = moduleProperty != null && moduleProperty.objectReferenceValue != null;
+		}
+		
+		// if there is no login module attached, attach it now since it's required
+		if (!uiModulesEnabled[0])
+		{
+			AddModule(RoarModulePanel.Login);
+			serializedObject.ApplyModifiedProperties();
 		}
 	}
 	
@@ -76,7 +96,9 @@ public class RoarModuleControllerInspector : RoarModuleInspector
 			{
 				if (module != RoarModulePanel.Off && MODULES_USABLE[(int)module])
 				{
+					GUI.enabled = MODULES_MODIFIABLE[(int)module];
 					ModuleEnablerUI(module);
+					GUI.enabled = true;
 				}
 			}
 		}
@@ -110,31 +132,7 @@ public class RoarModuleControllerInspector : RoarModuleInspector
 			
 			if (moduleEnableState && (moduleProperty == null || moduleProperty.objectReferenceValue == null)) // add
 			{
-				// add the module
-				GameObject moduleGO = new GameObject(module.ToString());
-				moduleGO.transform.parent = roarModuleController.transform;
-				RoarModule roarModule = moduleGO.AddComponent(string.Format("Roar{0}Module", module)) as RoarModule;
-				roarModule.ResetToDefaultConfiguration();
-				roarModule.uiController = roarModuleController;
-				roarModule.parent = roarModuleController;
-				EditorUtility.SetDirty(moduleGO);
-				
-				// grow the uiModules array if necessary
-				if (uiModules.arraySize <= (int)module)
-				{
-					int currentSize = uiModules.arraySize;
-					uiModules.arraySize = (int)module + 1;
-					for (int i=currentSize; i<uiModules.arraySize; i++)
-					{
-						moduleProperty = serializedObject.FindProperty(System.String.Format("uiModules.Array.data[{0}]", i));
-						moduleProperty.objectReferenceValue = null;
-					}
-				}
-				
-				moduleProperty = serializedObject.FindProperty(System.String.Format("uiModules.Array.data[{0}]", (int)module));
-				moduleProperty.objectReferenceValue = roarModule;
-				uiModulesEnabled[(int)module] = true;
-				Selection.activeObject = roarModule;
+				Selection.activeObject = AddModule(module);
 			}
 			else // remove
 			{
@@ -149,4 +147,35 @@ public class RoarModuleControllerInspector : RoarModuleInspector
 		}
 	}
 	
+	private RoarModule AddModule(RoarModulePanel module)
+	{
+		// add the module
+		GameObject moduleGO = new GameObject(module.ToString());
+		moduleGO.transform.parent = roarModuleController.transform;
+		RoarModule roarModule = moduleGO.AddComponent(string.Format("Roar{0}Module", module)) as RoarModule;
+		roarModule.ResetToDefaultConfiguration();
+		roarModule.uiController = roarModuleController;
+		roarModule.parent = roarModuleController;
+		EditorUtility.SetDirty(moduleGO);
+		
+		SerializedProperty moduleProperty;
+		
+		// grow the uiModules array if necessary
+		if (uiModules.arraySize <= (int)module)
+		{
+			int currentSize = uiModules.arraySize;
+			uiModules.arraySize = (int)module + 1;
+			for (int i=currentSize; i<uiModules.arraySize; i++)
+			{
+				moduleProperty = serializedObject.FindProperty(System.String.Format("uiModules.Array.data[{0}]", i));
+				moduleProperty.objectReferenceValue = null;
+			}
+		}
+		
+		moduleProperty = serializedObject.FindProperty(System.String.Format("uiModules.Array.data[{0}]", (int)module));
+		moduleProperty.objectReferenceValue = roarModule;
+		uiModulesEnabled[(int)module] = true;
+		
+		return roarModule;
+	}
 }
