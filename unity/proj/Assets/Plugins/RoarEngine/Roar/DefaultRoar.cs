@@ -185,7 +185,7 @@ public class DefaultRoar : MonoBehaviour, IRoar, IUnityObject
 		
 		urbanAirship = new Roar.implementation.Adapters.UrbanAirship(webAPI);
 		
-		DontDestroyOnLoad( this );	
+		DontDestroyOnLoad(gameObject);	
 	}
 
 	public void Start()
