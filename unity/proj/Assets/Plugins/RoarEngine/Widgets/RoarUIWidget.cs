@@ -9,6 +9,7 @@ public abstract class RoarUIWidget : MonoBehaviour
 	
 	public int depth;
 	public Rect bounds;
+	public Rect contentBounds;
 	public Color color = Color.white;
 	public BoundType boundType = BoundType.Plain;
 	public string boundingStyle = "WidgetBoundingStyle";
@@ -190,12 +191,20 @@ public abstract class RoarUIWidget : MonoBehaviour
 			}
 			if (useScrollView)
 			{
-				scrollPosition = GUI.BeginScrollView(bounds, scrollPosition, scrollViewRect, alwaysShowHorizontalScrollBar, alwaysShowVerticalScrollBar);
+				scrollPosition = GUI.BeginScrollView(contentBounds, scrollPosition, scrollViewRect, alwaysShowHorizontalScrollBar, alwaysShowVerticalScrollBar);
+			}
+			else
+			{
+				GUI.BeginGroup(contentBounds);
 			}
 			DrawGUI(0);
 			if (useScrollView)
 			{
 				GUI.EndScrollView();
+			}
+			else
+			{
+				GUI.EndGroup();
 			}
 			
 			GUI.EndGroup();
@@ -211,12 +220,20 @@ public abstract class RoarUIWidget : MonoBehaviour
 		
 		if (useScrollView)
 		{
-			scrollPosition = GUI.BeginScrollView(bounds, scrollPosition, scrollViewRect, alwaysShowHorizontalScrollBar, alwaysShowVerticalScrollBar);
+			scrollPosition = GUI.BeginScrollView(contentBounds, scrollPosition, scrollViewRect, alwaysShowHorizontalScrollBar, alwaysShowVerticalScrollBar);
+		}
+		else
+		{
+			GUI.BeginGroup(contentBounds);
 		}
 		DrawGUI(windowId);
 		if (useScrollView)
 		{
 			GUI.EndScrollView();
+		}
+		else
+		{
+			GUI.EndGroup();
 		}
 		
 		GUI.EndGroup();
@@ -224,22 +241,24 @@ public abstract class RoarUIWidget : MonoBehaviour
 	
 	protected virtual void DrawDraggableWindow(int windowId)
 	{
-		//GUI.BeginGroup(bounds);
-		Rect inBounds = bounds;
-		inBounds.x = 0;
-		inBounds.y = 0;
-		
 		if (useScrollView)
 		{
-			scrollPosition = GUI.BeginScrollView(inBounds, scrollPosition, scrollViewRect, alwaysShowHorizontalScrollBar, alwaysShowVerticalScrollBar);
+			scrollPosition = GUI.BeginScrollView(contentBounds, scrollPosition, scrollViewRect, alwaysShowHorizontalScrollBar, alwaysShowVerticalScrollBar);
+		}
+		else
+		{
+			GUI.BeginGroup(contentBounds);
 		}
 		DrawGUI(windowId);
 		if (useScrollView)
 		{
 			GUI.EndScrollView();
 		}
+		else
+		{
+			GUI.EndGroup();
+		}
 		
-		//GUI.EndGroup();
 		GUI.DragWindow(draggableWindowBounds);
 	}
 	

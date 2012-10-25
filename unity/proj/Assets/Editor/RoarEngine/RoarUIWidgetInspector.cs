@@ -7,6 +7,7 @@ public abstract class RoarUIWidgetInspector : RoarInspector
 	protected SerializedProperty customGUISkin;
 	protected SerializedProperty depth;
 	protected SerializedProperty bounds;
+	protected SerializedProperty contentBounds;
 	protected SerializedProperty color;
 	protected SerializedProperty boundType;
 	protected SerializedProperty boundingStyle;
@@ -31,6 +32,7 @@ public abstract class RoarUIWidgetInspector : RoarInspector
 		customGUISkin = serializedObject.FindProperty("customGUISkin");
 		depth = serializedObject.FindProperty("depth");
 		bounds = serializedObject.FindProperty("bounds");
+		contentBounds = serializedObject.FindProperty("contentBounds");
 		color = serializedObject.FindProperty("color");
 		boundType = serializedObject.FindProperty("boundType");
 		boundingStyle = serializedObject.FindProperty("boundingStyle");
@@ -72,6 +74,11 @@ public abstract class RoarUIWidgetInspector : RoarInspector
 		if (bounds.rectValue.width <= 0 || bounds.rectValue.height <= 0)
 		{
 			EditorGUILayout.HelpBox("Since the render bounds width and/or height is 0, nothing will be visible.", MessageType.Warning);
+		}
+		EditorGUILayout.PropertyField(contentBounds, new GUIContent("Content Bounds"));
+		if (contentBounds.rectValue.width <= 0 || contentBounds.rectValue.height <= 0)
+		{
+			EditorGUILayout.HelpBox("Since the content bounds width and/or height is 0, nothing will be visible.", MessageType.Warning);
 		}
 		EditorGUILayout.Space();
 		if (boundType.enumValueIndex == 3) // DraggableWindow
