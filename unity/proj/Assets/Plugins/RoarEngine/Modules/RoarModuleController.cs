@@ -21,7 +21,8 @@ public class RoarModuleController : RoarModule
 	public bool fullScreenBackground = true;
 	public RoarModule[] uiModules;
 
-	private RoarModulePanel currentModule;
+	private RoarModulePanel currentModule = RoarModulePanel.Off;
+	private bool isLoggedIn;
 	
 	protected override void Awake()
 	{
@@ -29,10 +30,28 @@ public class RoarModuleController : RoarModule
 		enabled = !disableOnAwake;
 		constrainToBounds = true;
 		
+		// listen for log-in event
+		RoarManager.loggedInEvent -= OnRoarLogin;
+		RoarManager.loggedInEvent += OnRoarLogin;
+		
 		// set up background rectangle
 		if (fullScreenBackground)
 		{
 			bounds = new Rect(0, 0, Screen.width, Screen.height);
+		}
+	}
+	
+	protected override void Start()
+	{
+		base.Start();
+		CurrentModulePanel = RoarModulePanel.Login;
+	}
+	
+	void OnEnable()
+	{
+		if (!isLoggedIn)
+		{
+			CurrentModulePanel = RoarModulePanel.Login;
 		}
 	}
 	
@@ -62,7 +81,12 @@ public class RoarModuleController : RoarModule
 				uiModules[(int)currentModule].Enable(true);				
 		}
 	}
-
+	
+	void OnRoarLogin()
+	{
+		isLoggedIn = true;
+	}
+	
 	#region Utility
 	public override void ResetToDefaultConfiguration()
 	{
