@@ -4,7 +4,7 @@ using System.Collections;
 
 public class RoarObjectFactory : Editor
 {
-	[MenuItem("GameObject/Create Other/Roar/Scene Object", false, 2000)]
+	[MenuItem("GameObject/Create Other/Roar/System Object", false, 2000)]
 	public static void CreateRoarSceneObject()
 	{
 		if (ExistingComponentTypeExists(typeof(DefaultRoar)))
@@ -26,6 +26,16 @@ public class RoarObjectFactory : Editor
 		}
 	}
 
+	[MenuItem("GameObject/Create Other/Roar/Stats Widget", false, 2001)]
+	public static void CreateRoarStatsWidgetObject()
+	{
+		GameObject go = RoarObjectFactory.CreateGameObjectInScene("RoarStatsWidget");
+		go.AddComponent<RoarStatsWidget>();
+		go.transform.parent = null;
+		
+		Selection.activeGameObject = go;
+	}
+	
 	public static bool ExistingComponentTypeExists(System.Type type)
 	{
 		Component c = FindObjectOfType(type) as Component;
