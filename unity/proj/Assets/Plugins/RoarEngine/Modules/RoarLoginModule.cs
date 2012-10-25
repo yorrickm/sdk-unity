@@ -19,6 +19,11 @@ public class RoarLoginModule : RoarModule
 	public float spacingBetweenButtons = 4;
 	
 	public float verticalOffset = -40;
+	public bool saveUsername = true;
+	public bool savePassword = false;
+	
+	private static string KEY_USERNAME = "roar-username";
+	private static string KEY_PASSWORD = "roar-password";
 	
 	private string status = "Supply a username and password to log in or to register a new account.";
 	private bool isError;
@@ -35,6 +40,20 @@ public class RoarLoginModule : RoarModule
 	private Rect submitButtonRect;
 	private Rect createButtonRect;
 	private bool networkActionInProgress;
+	
+	protected override void Awake ()
+	{
+		base.Awake ();
+		
+		if (saveUsername)
+		{
+			username = PlayerPrefs.GetString(KEY_USERNAME, string.Empty);
+		}
+		if (savePassword)
+		{
+			password = PlayerPrefs.GetString(KEY_PASSWORD, string.Empty);
+		}
+	}
 	
 	protected override void Start()
 	{
@@ -62,7 +81,7 @@ public class RoarLoginModule : RoarModule
 		submitButtonRect = new Rect((parent.bounds.width/2 - buttonWidth/2), passwordFieldRect.y, buttonWidth, buttonHeight);
 		submitButtonRect.y += textfieldHeight + spacingAboveButtons;
 		createButtonRect = submitButtonRect;
-		createButtonRect.y += buttonHeight + spacingBetweenButtons;
+		createButtonRect.y += buttonHeight + spacingBetweenButtons;		
 	}
 	
 	protected override void DrawGUI()
@@ -94,10 +113,12 @@ public class RoarLoginModule : RoarModule
 				if (evt.keyCode == KeyCode.Backspace)
 				{
 					if (username.Length > 0)
-						username = username.Substring(0, username.Length-2);
+						username = username.Substring(0, username.Length-1);
 				}
-				else
+				else if (evt.character != '\0')
+				{
 					username += evt.character;
+				}
 				evt.Use();
 			}
 		}
@@ -108,10 +129,12 @@ public class RoarLoginModule : RoarModule
 				if (evt.keyCode == KeyCode.Backspace)
 				{
 					if (password.Length > 0)
-						password = password.Substring(0, password.Length-2);
+						password = password.Substring(0, password.Length-1);
 				}
-				else
+				else if (evt.character != '\0')
+				{
 					password += evt.character;
+				}
 				evt.Use();
 			}
 		}
@@ -124,7 +147,17 @@ public class RoarLoginModule : RoarModule
 			latchedNameOfFocusedControl = string.Empty;
 #endif
 			status = "Logging in...";
-			networkActionInProgress = true;
+			networkActionInProgress = true;			
+			if (saveUsername)
+			{
+				PlayerPrefs.SetString(KEY_USERNAME, username);
+			}
+			if (savePassword)
+			{
+				PlayerPrefs.SetString(KEY_PASSWORD, password);
+			}
+			if (Debug.isDebugBuild)
+				Debug.Log(string.Format("[Debug] Logging in as {0} with password {1}.", username, password));
 			roar.Login(username, password, OnRoarLoginComplete);
 		}
 		if (GUI.Button(createButtonRect, "Create Account"))

@@ -54,7 +54,8 @@ public abstract class RoarModuleInspector : RoarInspector
 		bool isController = (this is RoarModuleControllerInspector);
 		if (!isController)
 		{
-			Comment("UI containment and alignment constraints.");
+			if (showBoundsConstraintSettings || showAlignmentConstraintSettings)
+				Comment("UI containment and alignment constraints.");
 			
 			if (showBoundsConstraintSettings)
 			{
