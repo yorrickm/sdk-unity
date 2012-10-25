@@ -4,7 +4,7 @@ using System.Collections;
 public class RoarStatsWidget : RoarUIWidget
 {
 	public bool autoCalculateContentBounds = true;
-	public string defaultValueFormat = "{0}";
+	public string defaultValueFormat = "N0";
 	public Stat[] statsToDisplay;
 	
 	private Roar.Components.IProperties properties;
@@ -78,7 +78,10 @@ public class RoarStatsWidget : RoarUIWidget
 			{
 				if (stat != null && stat.key != null && stat.key.Length > 0)
 				{
-					stat.Value = string.Format(stat.valueFormat, properties.GetValue(stat.key));
+					if (stat.valueFormat.Length > 0)
+						stat.Value = string.Format("{0:"+stat.valueFormat+"}", properties.GetValue(stat.key));
+					else
+						stat.Value = properties.GetValue(stat.key);
 					
 					if (stat.title == null || stat.title.Length == 0)
 					{
