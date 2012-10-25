@@ -34,6 +34,7 @@ public class RoarStatsWidget : RoarUIWidget
 	
 	void Reset()
 	{
+		depth = -1;
 		useScrollView = false;	
 		autoEnableOnLogIn = true;
 	}
