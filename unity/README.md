@@ -2,73 +2,26 @@
 
 ## Using the roar sdk unity package
 
-The latest Roar.unityPackage can be downloaded from
+[A video tutorial on Setting up the RoarEngine Unity SDK package is available on our YouTube channel: http://www.youtube.com/watch?v=JBuFvBeIzuI](http://www.youtube.com/watch?v=JBuFvBeIzuI)
 
-https://github.com/roarengine/sdks/downloads
-
+1. The latest Roar.unityPackage can be downloaded from 
+https://github.com/roarengine/sdks/downloads 
 and imported into a newly created or existing unity project.
 
-Run the Unity Editor and open the project that you wish to use roar with or create a new one.
+2. Run the Unity Editor and open the project that you wish to use Roar with or create a new one.
 
-Import the Roar Unity sdk package via the menu item at
+3. Import the Roar Unity sdk package via the menu item at
 Assets->Import Package->Custom Package...
 
-Ensure that all files are selected for import and click 'Import'.
+4. Ensure that all files are selected for import and click 'Import'.
 This will add a Plugins/Roar folder to your project.
 
-After you have imported the roar sdk package into your unity project, you will need to
-setup an empty game object to attach the primary Roar script to.
+5. Next create a Roar game object via the menu item at
+Game Object->Create Other->Roar->Scene Object
 
-First ensure your project scene is open by double-clicking it from within the Project panel (it's the
-one with the black and white Unity icon) - create the scene if you don't already have one.
-
-Next create an empty game object and name it Roar via the menu item at
-Game Object->Create Empty
-
-From the Project panel, drag the Roar.cs file within the Plugins/Roar/ folder onto the Roar game object.
-
-Select the Roar game object in the Hierarchy panel
-
-The Inspector panel will show the scripts that are attached to the Roar game object.
-Ensure that Roar.cs is attached to the Roar object.
-
-Using the roar sdk from your application is done through the interface IRoar.
-You can setup access to this interface during initialization of your Unity application:
-
-~~~
-var roar_:IRoar;
-function Awake()
-{
-  roar_ = GetComponent(Roar) as IRoar;
-}
-~~~
-
-Additionally the use of a leightweight or system based XML parser must be selected,
-for the lightweight XML parser use:
-
-~~~
-IXMLNodeFactory.instance = new XMLNodeFactory();
-~~~
-
-and for the system XML parser use:
-
-~~~
-IXMLNodeFactory.instance = new SystemXMLNodeFactory();
-~~~
-
-We recommend using the lightweight implementation of the IXMLNodeFactory, however
-if you think that there may be something amiss then you can switch to the system
-implementation to compare behaviour.
-
-To begin using the roar sdk, at a minimum the game name must be set. This is the same
-name that you have used for the game in the roar admin website.
-
-~~~
-function Start()
-{
-  roar_.Config.game = "MyGameName";
-}
-~~~
+6. To begin using the Roar SDK, set the game key. This is the same
+name that you used when you created the game from the Roar Admin.
+e.g. http://api.roar.io/yourgamekey
 
 At this point you will be able to make calls to IRoar to interact with the roar server.
 
@@ -81,78 +34,63 @@ results of the call.
 
 For example, to handle the successful login of a user via an event, you could write:
 
-~~~
-function doLogin() {
-   function doLogin(username, password) {
-   roar.login(username, password, null);
-}
-
-RoarManager.loggedInEvent += onLogin;
-function onLogin()
-{
-   ...
-}
-~~~
+    function doLogin() {
+       function doLogin(username, password) {
+       roar.login(username, password, null);
+    }
+    
+    RoarManager.loggedInEvent += onLogin;
+    function onLogin()
+    {
+       ...
+    }
 
 or to handle the successful login of a user via a callback, you could write:
 
-~~~
-function doLogin() {
-   function doLogin(username, password) {
-   roar.login(username, password, onLogin);
-}
-
-function onLogin(d:Roar.CallbackInfo)
-{
-   ...
-}
-~~~
+    function doLogin() {
+       function doLogin(username, password) {
+       roar.login(username, password, onLogin);
+    }
+    
+    function onLogin(d:Roar.CallbackInfo)
+    {
+       ...
+    }
 
 Both of these approaches are fine, your approach will depend on which interface functions
 have roar sdk events and which support callbacks. For functions that support both, the
 choice is yours. 
 
-In summary, these are the steps to get the roar sdk setup in your Unity application.
+In summary, these are the steps to get the Roar SDK set up in your Unity application.
 
 1. Import the roar unity sdk into your project
-2. Create a Roar empty Game Object
-3. Attach the Roar.cs file to the Game Object
-4. For frequent use, make the IRoar interface a member of your game class(es) and assign it via GetComponent()
-5. Set the IXMLNodeFactory.instance
-6. Set the roar game name (you will need to create a game via the roar admin website)
-7. Configure roar sdk event handlers and callbacks
-8. Update your application to make calls to the roar server via the sdk interface IRoar
+2. Create a Roar Game Object
+3. Set the roar game name (you will need to create a game via the roar admin website)
+4. Configure roar sdk event handlers and callbacks
+5. Update your application to make calls to the roar server via the sdk interface IRoar
 
-For a simple example of using the roar unity sdk, you can try our augmented version of the Unity AngryBots tech demo.
+For a simple example of using the Roar Unity SDK, you can try our augmented version of the Unity AngryBots tech demo.
 
-## Building the roar unity package (Mac/Linux)
+## Building the Roar Unity package (Mac/Linux)
 
 You will need to have node.js installed for the build process to work.
 Inparticular we use jsonlint and underscore for generating some code from templates.
 You can install these by running the following command from the unity directory.
 
-~~~
-npm install -g jsonlint
-npm install underscore
-~~~
+    npm install -g jsonlint
+    npm install underscore
 
 You can then build the generated source code by running 
 
-~~~
-./build.sh
-~~~
+    ./build.sh
 
 You can then build the API documentation. This will require that you have doxygen installed.
 
-~~~
-make -f docs.Makefile
-~~~
+    make -f docs.Makefile
 
 And finally you can build the roar unity sdk package
 
-~~~
-make -f package.Makefile
-~~~
+    make -f package.Makefile
 
 This will produce the roar unity sdk package file Roar.unityPackage, which is to be used as described in
 the first section of this readme.
@@ -166,52 +104,40 @@ The node package manager (npm) will come with the node installer: http://nodejs.
 After you have installed node/npm make sure they are available in the windows command
 prompt by executing the following commands:
 
-~~~
-node -v
-npm -v
-~~~
+    node -v
+    npm -v
 
 If the commands do not exist check that the binaries for node and npm are on your path.
 
 The next step is to install jsonlint and underscore by running the following npm command from the unity directory.
 
-~~~
-cd sdks/unity
-npm install -g jsonlint
-npm install underscore
-~~~
+    cd sdks/unity
+    npm install -g jsonlint
+    npm install underscore
 
 You can then build the generated source code by running
 
-~~~
-build.bat
-~~~
+    build.bat
 
 You can then build the API documentation. This will require that you have doxygen installed on the command line.
 
-~~~
-doxygen api_docs.doxygen
-~~~
+    doxygen api_docs.doxygen
 
 And finally you can build the roar unity sdk package
 Before running this batch script from the command line, you will need to add the Unity editor executable to
 your windows PATH variable. The addition to PATH will be either:
 
-~~~
-;C:\Program Files (x86)\Unity\Editor
-~~~
+    ;C:\Program Files (x86)\Unity\Editor
+
 or 
-~~~
-;C:\Program Files\Unity\Editor
-~~~
+
+    ;C:\Program Files\Unity\Editor
 
 depending on the location of your Unity installation.
 
 You can then run the package script to build the unity package for the roar sdk.
 
-~~~
-package.bat
-~~~
+    package.bat
 
 This will produce the roar unity sdk package file Roar.unityPackage, which is to be used as described in
 the first section of this readme.
