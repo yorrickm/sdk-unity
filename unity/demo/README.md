@@ -1,3 +1,20 @@
+---
+# IMPORTANT UPDATE!!
+
+### November 2012
+### Code in FLUX - use with caution
+We're in the process of rapidly updating our beta SDK (on which the Angrybots demo is based). As such we strongly recommend **holding off** using the Angrybots demo, which may or *may not be in a functioning state* at any given time during the next few weeks.
+
+### What to do
+We recommend signing up for our full Unity Plugin **private beta** here: **http://roarengine.com/plugin**
+
+This plugin has a lot of new functionality that we'll be releasing into the Asset Store in December. Get a first look at it here and get sneak peek access to the latest Roar Unity functionality!
+
+Once the plugin is publicly released we will ensure the Angry Bots demo is properly updated. Thanks for your patience.
+
+---
+
+# CURRENTLY IN FLUX
 # How to setup the Roar Unity SDK AngryBots demo project in Unity
 
 ### PART 1: Import of project Assets
