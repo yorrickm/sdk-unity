@@ -111,7 +111,7 @@ using System.Collections;
  *       </li>
  *       <li>
  *         project readme on github<br/>
- *         https://github.com/roarengine/sdks/blob/master/unity/README.md
+ *         https://github.com/roarengine/sdk-unity/blob/master/README.md
  *       </li>
  *       <li>
  *         %Roar knowledge base<br/>
