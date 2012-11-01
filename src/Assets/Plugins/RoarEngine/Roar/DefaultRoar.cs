@@ -1,29 +1,3 @@
-/*
-Copyright (c) 2012, Run With Robots
-All rights reserved.
-
-Redistribution and use in source and binary forms, with or without
-modification, are permitted provided that the following conditions are met:
-    * Redistributions of source code must retain the above copyright
-      notice, this list of conditions and the following disclaimer.
-    * Redistributions in binary form must reproduce the above copyright
-      notice, this list of conditions and the following disclaimer in the
-      documentation and/or other materials provided with the distribution.
-    * Neither the name of the roar.io library nor the
-      names of its contributors may be used to endorse or promote products
-      derived from this software without specific prior written permission.
-
-THIS SOFTWARE IS PROVIDED BY RUN WITH ROBOTS ''AS IS'' AND ANY
-EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED
-WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE
-DISCLAIMED. IN NO EVENT SHALL MICHAEL ANDERSON BE LIABLE FOR ANY
-DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES
-(INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES;
-LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND
-ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
-(INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
-SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
-*/
 using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
@@ -55,7 +29,7 @@ public class Logger : Roar.ILogger
  */
 
 public class DefaultRoar : MonoBehaviour, IRoar, IUnityObject
-{	
+{
 	// These are purely to enable the values to show up in the unity UI.
 	public bool debug = true;
 	public bool appstoreSandbox = true;
@@ -63,16 +37,16 @@ public class DefaultRoar : MonoBehaviour, IRoar, IUnityObject
 	public enum XMLType { Lightweight, System };
 	public XMLType xmlParser = XMLType.Lightweight;
 	public GUISkin defaultGUISkin;
-	
+
 	public Roar.IConfig Config { get { return config; } }
 	protected Roar.IConfig config;
-	
+
 	public IWebAPI WebAPI { get { return webAPI; } }
 	protected IWebAPI webAPI;
-	
+
 	public Roar.Components.IUser User { get { return user; } }
 	protected Roar.Components.IUser user;
-	
+
 	public Roar.Components.IProperties Properties { get { return properties; } }
 	protected Roar.Components.IProperties properties;
 
@@ -81,35 +55,35 @@ public class DefaultRoar : MonoBehaviour, IRoar, IUnityObject
 
 	//public Roar.Components.IRanking Ranking { get { return Ranking_; } }
 	//protected Roar.Components.IRanking Ranking_;
-	
+
 	public Roar.Components.IInventory Inventory { get { return inventory; } }
 	protected Roar.Components.IInventory inventory = null;
-	
+
 	public Roar.Components.IShop Shop { get { return shop; } }
 	protected Roar.Components.IShop shop;
-	
+
 	public Roar.Components.IActions Actions { get { return actions; } }
 	protected Roar.Components.IActions actions;
-	
+
 	public Roar.Components.IAchievements Achievements { get { return achievements; } }
 	protected Roar.Components.IAchievements achievements;
-	
+
 	public Roar.Components.IGifts Gifts { get { return gifts; } }
 	protected Roar.Components.IGifts gifts;
-	
+
 	public Roar.Components.IInAppPurchase Appstore { get{ return appstore;} }
 	protected Roar.implementation.Components.InAppPurchase appstore;
-	
+
 	public Roar.Adapters.IUrbanAirship UrbanAirship { get{ return urbanAirship;} }
 	protected Roar.implementation.Adapters.UrbanAirship urbanAirship;
-	
+
 	public string AuthToken { get { return config.AuthToken; } }
 
-	private static DefaultRoar instance;	
-	private static IRoar api;	
+	private static DefaultRoar instance;
+	private static IRoar api;
 	private Roar.implementation.DataStore datastore;
 	private Logger logger = new Logger();
-	
+
 	/**
 	 * Access to the Roar Engine singleton.
 	 */
@@ -126,7 +100,7 @@ public class DefaultRoar : MonoBehaviour, IRoar, IUnityObject
 			return instance;
 		}
 	}
-	
+
 	/**
 	 * Access to the Roar Engine API singleton.
 	 */
@@ -143,7 +117,7 @@ public class DefaultRoar : MonoBehaviour, IRoar, IUnityObject
 			return api;
 		}
 	}
-	
+
 	/**
 	 * Called by unity when everything is ready to go.
 	 * We use this rather than the constructor as its what unity suggests.
@@ -151,13 +125,13 @@ public class DefaultRoar : MonoBehaviour, IRoar, IUnityObject
 	public void Awake()
 	{
 		config = new Roar.implementation.Config();
-		
+
 		// Apply public settings
 		string key = gameKey.ToLower();
 		       //key = key.Replace("_", "");
 		Config.Game = key;
 		Config.IsDebug = debug;
-				
+
 		switch (xmlParser)
 		{
 		case XMLType.System:
@@ -167,7 +141,7 @@ public class DefaultRoar : MonoBehaviour, IRoar, IUnityObject
 			IXMLNodeFactory.instance = new XMLNodeFactory();
 			break;
 		}
-		
+
 		RequestSender api = new RequestSender(config,this,logger);
 		datastore = new Roar.implementation.DataStore(api, logger);
 		webAPI = new global::WebAPI(api);
@@ -177,84 +151,84 @@ public class DefaultRoar : MonoBehaviour, IRoar, IUnityObject
 		inventory = new Roar.implementation.Components.Inventory( webAPI.items, datastore, logger);
 		shop = new Roar.implementation.Components.Shop( webAPI.shop, datastore, logger );
 		actions = new Roar.implementation.Components.Actions( webAPI.tasks, datastore );
-		
+
 		if (!Application.isEditor)
 		{
 			appstore = new Roar.implementation.Components.InAppPurchase( webAPI.appstore, "Roar", logger, appstoreSandbox );
 		}
-		
+
 		urbanAirship = new Roar.implementation.Adapters.UrbanAirship(webAPI);
-		
-		DontDestroyOnLoad(gameObject);	
+
+		DontDestroyOnLoad(gameObject);
 	}
 
 	public void Start()
 	{
 		if(urbanAirship!=null) urbanAirship.OnStart();
 	}
-	
+
 	public void OnUpdate()
 	{
 		if(urbanAirship!=null) urbanAirship.OnUpdate();
 	}
-	
+
 	string version="1.0.0";
-	
+
 	public string Version( Roar.Callback callback = null )
 	{
 		if(callback!=null) callback( new Roar.CallbackInfo<object>( version ) );
 		return version;
 	}
-	
+
 	public void Login( string username, string password, Roar.Callback callback=null )
 	{
 		User.DoLogin(username,password,callback);
 	}
-	
+
 	public void LoginFacebookOAuth( string oauth_token, Roar.Callback callback=null )
 	{
 		User.DoLoginFacebookOAuth(oauth_token,callback);
 	}
-	
+
 	public void Logout( Roar.Callback callback=null )
 	{
 		User.DoLogout(callback);
 	}
-	
+
 	public void Create( string username, string password, Roar.Callback callback=null )
 	{
 		User.DoCreate(username,password,callback);
 	}
-	
+
 	public string WhoAmI( Roar.Callback callback=null )
 	{
 		if (callback!=null) callback( new Roar.CallbackInfo<object>(Properties.GetValue( "name" )) );
 		return Properties.GetValue( "name" );
 	}
-	
+
 	public string PlayerId( Roar.Callback callback=null )
 	{
 		if (callback!=null) callback( new Roar.CallbackInfo<object>(Properties.GetValue( "id" )) );
 		return Properties.GetValue( "id" );
 	}
-	
+
 	public bool IsDebug{ get { return Config.IsDebug; } }
-	
+
 	public void DoCoroutine( IEnumerator method )
 	{
 		this.StartCoroutine(method);
 	}
-	
+
 	public Roar.implementation.DataStore DataStore
 	{
 		get { return datastore; }
 	}
-	
+
 	public Logger Logger
 	{
 		get { return logger; }
 	}
-	
+
 	#region EXTERNAL CALLBACKS
 	void OnAppstoreProductData(string productDataXml)
 	{

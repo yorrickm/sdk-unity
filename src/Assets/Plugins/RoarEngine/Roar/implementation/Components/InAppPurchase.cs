@@ -1,29 +1,3 @@
-/*
-Copyright (c) 2012, Run With Robots
-All rights reserved.
-
-Redistribution and use in source and binary forms, with or without
-modification, are permitted provided that the following conditions are met:
-    * Redistributions of source code must retain the above copyright
-      notice, this list of conditions and the following disclaimer.
-    * Redistributions in binary form must reproduce the above copyright
-      notice, this list of conditions and the following disclaimer in the
-      documentation and/or other materials provided with the distribution.
-    * Neither the name of the roar.io library nor the
-      names of its contributors may be used to endorse or promote products
-      derived from this software without specific prior written permission.
-
-THIS SOFTWARE IS PROVIDED BY RUN WITH ROBOTS ''AS IS'' AND ANY
-EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED
-WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE
-DISCLAIMED. IN NO EVENT SHALL MICHAEL ANDERSON BE LIABLE FOR ANY
-DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES
-(INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES;
-LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND
-ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
-(INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
-SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
-*/
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -60,7 +34,7 @@ namespace Roar.implementation.Components
 			logger.DebugLog (string.Format ("Can't call _StoreKitInit({0}) from Unity Editor", nativeCallbackGameObject));
     		#endif
 		}
-    
+
 		/**
 	     * Fetch has two stages:
 	     * 1. Retrieve the appstore product ids from roar.
@@ -106,17 +80,17 @@ namespace Roar.implementation.Components
 				return productIdentifiersList;
 			}
 		}
-    
+
 		public IList<Hashtable> List ()
 		{
 			return  productsList;
 		}
-    
+
 		public Hashtable GetShopItem (string productIdentifier)
 		{
 			return productsMap [productIdentifier];
 		}
-    
+
 		protected ArrayList GetProductIdentifiers (IXMLNode data)
 		{
 			ArrayList productIdentifiers = new ArrayList ();
@@ -137,14 +111,14 @@ namespace Roar.implementation.Components
 		}
 
 		public bool HasDataFromServer { get { return hasDataFromAppstore; } }
-    
+
 		protected void ValidateReceipt (string receiptId, Roar.Callback callback)
 		{
-      
+
 			Hashtable args = new Hashtable ();
 			args ["receipt"] = receiptId;
 			args ["sandbox"] = Convert.ToString (isSandbox);
-      
+
 			actions.buy (args, new OnReceiptValidation (callback, this, receiptId));
 		}
 
@@ -165,7 +139,7 @@ namespace Roar.implementation.Components
 				return receiptId;
 			}
 		}
-    
+
 		public void Purchase (string productId, Roar.Callback cb)
 		{
 			purchaseCallback = cb;
@@ -175,7 +149,7 @@ namespace Roar.implementation.Components
 			logger.DebugLog (string.Format ("Can't call _StoreKitPurchase({0}) from Unity Editor", productId));
    			#endif
 		}
-    
+
 		public void Purchase (string productId, int quantity, Roar.Callback cb)
 		{
 			purchaseCallback = cb;
@@ -197,10 +171,10 @@ namespace Roar.implementation.Components
 		}
 
 		// Store Kit wrapper to roar Unity client communication methods
-    
+
 		public void OnProductData (string productDataXml)
 		{
-	
+
 			hasDataFromAppstore = true;
 			productsList.Clear ();
 			productsMap.Clear ();
@@ -208,7 +182,7 @@ namespace Roar.implementation.Components
 			IXMLNode root = IXMLNodeFactory.instance.Create (productDataXml);
 			IXMLNode appstoreNode = root.GetFirstChild ("appstore");
 			IEnumerable<IXMLNode> children = appstoreNode.Children;
-			
+
 			if (children != null) {
 				foreach (IXMLNode shopItemXml in children) {
 					string pid = shopItemXml.GetAttribute ("product_identifier");
@@ -226,7 +200,7 @@ namespace Roar.implementation.Components
 				logger.DebugLog ("No products passed to OnProductData()");
 			}
 		}
-    
+
 		public void OnInvalidProductId (string invalidProductId)
 		{
 			logger.DebugLog (string.Format ("OnInvalidProductId() called with: {0}", invalidProductId));
@@ -240,7 +214,7 @@ namespace Roar.implementation.Components
 			string transactionIdentifier = purchaseNode.GetAttribute ("transaction_identifier");
 			ValidateReceipt (transactionIdentifier, purchaseCallback);
 		}
-    
+
 		public void OnPurchaseCancelled (string productIdentifier)
 		{
 			logger.DebugLog (string.Format ("OnPurchaseCancelled() called with: {0}", productIdentifier));
@@ -248,7 +222,7 @@ namespace Roar.implementation.Components
 				purchaseCallback (new CallbackInfo<string> (productIdentifier, IWebAPI.DISALLOWED, "Purchase cancelled by user"));
 			}
 		}
-    
+
 		public void OnPurchaseFailed (string errorXml)
 		{
 			logger.DebugLog (string.Format ("OnPurchaseFailed() called with: {0}", errorXml));
@@ -256,9 +230,9 @@ namespace Roar.implementation.Components
 				purchaseCallback (new CallbackInfo<string> (errorXml, IWebAPI.UNKNOWN_ERR, "Purchase failed"));
 			}
 		}
-    
+
 		// roar Unity client to Store Kit wrapper communication methods
-    
+
     #region DllImports
     #if UNITY_IOS
         [DllImport ("__Internal", CharSet = CharSet.Auto)]

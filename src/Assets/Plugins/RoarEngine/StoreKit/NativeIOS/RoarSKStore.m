@@ -1,29 +1,3 @@
-/*
-Copyright (c) 2012, Run With Robots
-All rights reserved.
-
-Redistribution and use in source and binary forms, with or without
-modification, are permitted provided that the following conditions are met:
-    * Redistributions of source code must retain the above copyright
-      notice, this list of conditions and the following disclaimer.
-    * Redistributions in binary form must reproduce the above copyright
-      notice, this list of conditions and the following disclaimer in the
-      documentation and/or other materials provided with the distribution.
-    * Neither the name of the roar.io library nor the
-      names of its contributors may be used to endorse or promote products
-      derived from this software without specific prior written permission.
-
-THIS SOFTWARE IS PROVIDED BY RUN WITH ROBOTS ''AS IS'' AND ANY
-EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED
-WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE
-DISCLAIMED. IN NO EVENT SHALL MICHAEL ANDERSON BE LIABLE FOR ANY
-DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES
-(INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES;
-LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND
-ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
-(INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
-SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
-*/
 
 #import "RoarSKStore.h"
 #import <StoreKit/SKProductsRequest.h>
@@ -37,7 +11,7 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 // gameObject.OnAppstoreRequestProductDataInvalidProductId(invalidProductId)
 // called when: invalid product identifier specified when requesting product data,
 //              called once for each invalid product identifier.
-// 
+//
 // gameObject.OnAppstoreProductPurchaseComplete(purchaseXml)
 // called when: invalid product identifier specified when requesting product data,
 //              called once for each invalid product identifier.
@@ -51,9 +25,9 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 // gameObject.OnAppstoreProductPurchaseFailed(errorXml)
 // called when: an error occurs during the purchase transaction.
 //              errorXml string will be of the format
-//              <shop_item_purchase_failure product_identifier='itunes connect product identifier' 
-//                                          code='integer error code' 
-//                                          description='localised error description' 
+//              <shop_item_purchase_failure product_identifier='itunes connect product identifier'
+//                                          code='integer error code'
+//                                          description='localised error description'
 //                                          failureReason='localised failure reason' />
 //
 // Based on the sample code in the official In-App Purchase Programming Guide.
@@ -87,10 +61,10 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 // use the product ids to get product details from the appstore
 // cProductIdentifiers is a comma-seperated list
 - (void)requestProductData:(const char*) cProductIdentifiers {
-	
+
 	NSString *productIdentifiers = [NSString stringWithUTF8String:cProductIdentifiers];
 	NSArray  *productIdentifiersList = [productIdentifiers componentsSeparatedByString:@","];
-	
+
 	// create a product data request object with the product identifiers
 	SKProductsRequest *request = [[SKProductsRequest alloc] initWithProductIdentifiers:[NSSet setWithArray: productIdentifiersList]];
     // this class will handle the response
@@ -104,38 +78,38 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 - (void)productsRequest:(SKProductsRequest *)request didReceiveResponse:(SKProductsResponse *)response
 {
     NSArray *products = response.products;
-    
+
     // let's build the xml payload intended for the unity app
     // using a simple string append approach
     // the problem here is that we don't have xml escaping out of the box like we would
     // if we used an xml library
     NSMutableString *productDataXml = [NSMutableString stringWithString:@"<appstore>"];
-    
+
     if([products count] > 0) {
-	    
+
 	    // the price formatter is used to provide two versions of the price as xml attributes
 	    //           @price : contains the price as a float
 	    // @formatted_price : contains the price as a float plus a locale specific currency suffix
 	    NSNumberFormatter *priceFormatter = [[[NSNumberFormatter alloc] init] autorelease];
 		[priceFormatter setNumberStyle:NSNumberFormatterCurrencyStyle];
-	    
+
 	    // represent each product as a <shop_item> that can be processed by the unity app
 	    for(int p=0;p<[products count];p++)
 		{
 			SKProduct *product = [products objectAtIndex:p];
 			[priceFormatter setLocale:product.priceLocale];
 			// TODO: escape the xml
-			[productDataXml appendString: 
+			[productDataXml appendString:
 				[NSString stringWithFormat:@"<shop_item product_identifier=\"%@\" title=\"%@\" description=\"%@\" price=\"%@\" price_formatted=\"%@\" />",
 					[product productIdentifier],
 					[product localizedTitle],
 					[product localizedDescription],
-					[[product price] stringValue],                 
+					[[product price] stringValue],
 					[priceFormatter stringFromNumber:product.price]]
 			];
 		}
     }
-    
+
     [productDataXml appendString: @"</appstore>"];
     [self informUnityListener:@"OnAppstoreProductData" withMessage:productDataXml];
 
@@ -154,16 +128,16 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 // purchase an appstore product
 - (void)purchaseProduct:(const char*) cProductIdentifier withQuantity:(int)quantity {
-	NSString *productIdentifier = [NSString stringWithUTF8String:cProductIdentifier];	
+	NSString *productIdentifier = [NSString stringWithUTF8String:cProductIdentifier];
 	SKMutablePayment *payment = [SKMutablePayment paymentWithProductIdentifier:productIdentifier];
 	payment.quantity = quantity;
 	[[SKPaymentQueue defaultQueue] addPayment:payment];
 }
 
-// 
+//
 - (void)onCompleteTransaction:(SKPaymentTransaction *)transaction forProduct:(NSString *)productIdentifier {
-	
-	NSString *productPurchasedXml = 
+
+	NSString *productPurchasedXml =
 		[NSString stringWithFormat:@"<shop_item_purchase_success product_identifier=\"%@\" transaction_identifier=\"%@\" />",
 			productIdentifier,
 			[transaction transactionIdentifier]];

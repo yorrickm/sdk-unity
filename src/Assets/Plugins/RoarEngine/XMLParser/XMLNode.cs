@@ -1,29 +1,3 @@
-/*
-Copyright (c) 2012, Run With Robots
-All rights reserved.
-
-Redistribution and use in source and binary forms, with or without
-modification, are permitted provided that the following conditions are met:
-    * Redistributions of source code must retain the above copyright
-      notice, this list of conditions and the following disclaimer.
-    * Redistributions in binary form must reproduce the above copyright
-      notice, this list of conditions and the following disclaimer in the
-      documentation and/or other materials provided with the distribution.
-    * Neither the name of the roar.io library nor the
-      names of its contributors may be used to endorse or promote products
-      derived from this software without specific prior written permission.
-
-THIS SOFTWARE IS PROVIDED BY RUN WITH ROBOTS ''AS IS'' AND ANY
-EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED
-WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE
-DISCLAIMED. IN NO EVENT SHALL MICHAEL ANDERSON BE LIABLE FOR ANY
-DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES
-(INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES;
-LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND
-ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
-(INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
-SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
-*/
 
 /*
  * Based on UnityScript Lieghtweight XML Parser by
@@ -34,14 +8,14 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  * http://twitter.com/flimgoblin
  * http://www.roguishness.com/unity/
  *
- * You may use this script under the terms of either the MIT License 
- * or the Gnu Lesser General Public License (LGPL) Version 3. 
+ * You may use this script under the terms of either the MIT License
+ * or the Gnu Lesser General Public License (LGPL) Version 3.
  * See:
  * http://www.roguishness.com/unity/lgpl-3.0-standalone.html
  * http://www.roguishness.com/unity/gpl-3.0-standalone.html
  * or
  * http://www.roguishness.com/unity/MIT-license.txt
- * 
+ *
  * Ported to C# by Michael Anderson (michael.anderson@runwithrobots.com)
  */
 using System.Collections;
@@ -56,9 +30,9 @@ public interface IXMLNode
 	IXMLNode GetFirstChild( string key );
 	string Text { get; set; }
 	string Name { get; }
-	
+
 	string DebugAsString();
-	
+
 	List<IXMLNode> GetNodeList(string path);
 	IXMLNode GetNode(string path);
 	string GetValue(string path);
@@ -102,7 +76,7 @@ public class XMLNode : IXMLNode
 	{
 		return new List<IXMLNode>(Children);
 	}
-	
+
 	public List<KeyValuePair<string,string> > AttributeList()
 	{
 		return new List<KeyValuePair<string, string>>(Attributes);
@@ -306,7 +280,7 @@ public class XMLNode : IXMLNode
 		string attValue="";
 		string nodeName="";
 		string textValue="";
-		
+
 		bool inMetaTag=false;
 		bool inComment=false;
 		bool inDoctype=false;
@@ -321,8 +295,8 @@ public class XMLNode : IXMLNode
 			char cn='\0';
 			char cnn='\0';
 			char cp='\0';
-			if((i+1)<content.Length) cn=content[i+1]; 
-			if((i+2)<content.Length) cnn=content[i+2]; 
+			if((i+1)<content.Length) cn=content[i+1];
+			if((i+2)<content.Length) cnn=content[i+2];
 			if(i>0)cp=content[i-1];
 
 			if(inMetaTag)
@@ -339,10 +313,10 @@ public class XMLNode : IXMLNode
 				if(!quoted && c==LT && cn==QMARK)
 				{
 					inMetaTag=true;
-					continue;	
+					continue;
 				}
 			}
-			
+
 			if(inDoctype)
 			{
 				if(cn==GT)
@@ -445,7 +419,7 @@ public class XMLNode : IXMLNode
 							XMLNode newNode=new XMLNode();
 							newNode.Text ="";
 							newNode.Name=nodeName;
-							
+
 							if(!currentNode.Children_.ContainsKey(nodeName))
 							{
 								currentNode.Children_.Add(nodeName, new XMLNodeList());
@@ -464,14 +438,14 @@ public class XMLNode : IXMLNode
 				}
 				else
 				{
-					
+
 					// 1. Checking for self closing node />
 					// while not in a quote
 					if(!quoted && c==SLASH && cn==GT)
 					{
 						inElement=false;
 						collectAttributeName=false;
-						collectAttributeValue=false;	
+						collectAttributeValue=false;
 						if(attName!=null && attName!="")
 						{
 							if(attValue!=null && attValue!="")
@@ -483,12 +457,12 @@ public class XMLNode : IXMLNode
 								currentNode.Attributes_[attName]="true";
 							}
 						}
-						
+
 						i++;
 						currentNode = parents[parents.Count-1];
 						parents.RemoveAt(parents.Count-1);
 						attName="";
-						attValue="";		
+						attValue="";
 					}
 
 					// 2. Check for Closing a node >
@@ -496,14 +470,14 @@ public class XMLNode : IXMLNode
 					{
 						inElement=false;
 						collectAttributeName=false;
-						collectAttributeValue=false;	
+						collectAttributeValue=false;
 						if(attName!=null && attName!="")
 						{
 							currentNode.Attributes_[attName]=attValue;
 						}
-						
+
 						attName="";
-						attValue="";	
+						attValue="";
 					}
 
 					// 3. Otherwise grab the attribute OR the attribValue
@@ -514,7 +488,7 @@ public class XMLNode : IXMLNode
 						{
 							if(c==SPACE || c==EQUALS)
 							{
-								collectAttributeName=false;	
+								collectAttributeName=false;
 								collectAttributeValue=true;
 							}
 							else
@@ -549,18 +523,18 @@ public class XMLNode : IXMLNode
 								if(quoted) attValue+=c;
 
 								// Otherwise if we're not in quote mode
-								else 
+								else
 								{
 									// And the character is a space, reset
 									// the attribute register
 									if(c==SPACE)
 									{
-										collectAttributeValue=false;	
-										//currentNode[ATTRIB_APPEND+attName]=attValue;								
+										collectAttributeValue=false;
+										//currentNode[ATTRIB_APPEND+attName]=attValue;
 										currentNode.Attributes_[attName]=attValue;
 										attValue="";
 										attName="";
-									}	
+									}
 								}
 							}
 						}
@@ -571,11 +545,11 @@ public class XMLNode : IXMLNode
 						// 3.d. For anything else, switch to Grab Attribute mode
 						else
 						{
-							collectAttributeName=true;							
+							collectAttributeName=true;
 							attName=""+c;
 							attValue="";
-							quoted=false;		
-						}	
+							quoted=false;
+						}
 					}
 				}
 			}
@@ -584,7 +558,7 @@ public class XMLNode : IXMLNode
 				if(c==LT)
 				{
 					inElement=true;
-					collectNodeName=true;	
+					collectNodeName=true;
 				}
 				else
 				{
@@ -620,10 +594,10 @@ public class XMLNode : IXMLNode
 					}
 					else
 					{
-						textValue+=c;	
+						textValue+=c;
 					}
 				}
-				
+
 			}
 		}
 
