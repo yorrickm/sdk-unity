@@ -161,7 +161,7 @@ public class RoarLoginModule : RoarModule
 				PlayerPrefs.SetString(KEY_PASSWORD, password);
 			}
 			if (Debug.isDebugBuild)
-				Debug.Log(string.Format("[Debug] Logging in as {0} with password {1}.", username, password));
+				Debug.Log(string.Format("[Debug] Logging in as [{0}] with password [{1}].", username, password));
 			roar.Login(username, password, OnRoarLoginComplete);
 		}
 		if (GUI.Button(createButtonRect, "Create Account"))

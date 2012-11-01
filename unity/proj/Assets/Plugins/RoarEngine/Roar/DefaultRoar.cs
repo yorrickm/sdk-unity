@@ -154,7 +154,7 @@ public class DefaultRoar : MonoBehaviour, IRoar, IUnityObject
 		
 		// Apply public settings
 		string key = gameKey.ToLower();
-		       key = key.Replace("_", "");
+		       //key = key.Replace("_", "");
 		Config.Game = key;
 		Config.IsDebug = debug;
 				

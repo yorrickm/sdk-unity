@@ -51,8 +51,9 @@ public class RequestSender : IRequestSender
 		// Fire call sending event
 		RoarManager.OnRoarNetworkStart();
 		
-		Debug.Log ( "roar_api_url = " + RoarAPIUrl );
-		Debug.Log ( "Requesting : " + RoarAPIUrl+GameKey+"/"+apicall+"/" );
+		//Debug.Log ( "roar_api_url = " + RoarAPIUrl );
+		if (Debug.isDebugBuild)
+			Debug.Log ( "Requesting : " + RoarAPIUrl+GameKey+"/"+apicall+"/" );
 		
 		var xhr = new WWW( RoarAPIUrl+GameKey+"/"+apicall+"/", post);
 		yield return xhr;
@@ -66,6 +67,15 @@ public class RequestSender : IRequestSender
 		var uc = apicall.Split("/"[0]);
 		var controller = uc[0];
 		var action = uc[1];
+		
+		Debug.Log(raw);
+		// TEMP
+		/*
+		if (apicall == "shop/list")
+		{
+			raw = "<roar tick=\"135170282509\"><shop><list status=\"ok\"><shopitem ikey=\"rocket_fuel\" label=\"Rocket Fuel\" description=\"\"><costs><stat_cost type=\"currency\" ikey=\"gamecoins\" value=\"10\" ok=\"true\"/></costs><modifiers><grant_stat type=\"currency\" ikey=\"rocket_fuel\" value=\"100\"/></modifiers><tags/></shopitem><shopitem ikey=\"neil_armstrong\" label=\"Neil Armstrong\" description=\"Best copilot in the world\"><costs><stat_cost type=\"currency\" ikey=\"premium_currency\" value=\"15\" ok=\"false\" reason=\"Insufficient Premium Currency\"/></costs><modifiers><grant_item ikey=\"npc_armstrong\"/></modifiers><tags><tag value=\"copilot\"/></tags></shopitem><shopitem ikey=\"starter_space_pack\" label=\"Starter Space Pack\" description=\"Get going!\"><costs><stat_cost type=\"currency\" ikey=\"gamecoins\" value=\"20\" ok=\"true\"/></costs><modifiers><grant_stat type=\"currency\" ikey=\"rocket_fuel\" value=\"30\"/><grant_item ikey=\"regular_space_helmet\"/><grant_item ikey=\"rocket_ship\"/></modifiers><tags><tag value=\"pack\"/></tags></shopitem></list></shop></roar>";
+		}
+		*/
 		
 		// Fire call complete event
 		RoarManager.OnRoarNetworkEnd("no id");
@@ -107,6 +117,8 @@ public class RequestSender : IRequestSender
 				if (callback_msg=="Must specify name and hash") { callback_code = IWebAPI.BAD_INPUTS; }
 				if (callback_msg=="Invalid name or password") { callback_code = IWebAPI.DISALLOWED; }
 				if (callback_msg=="Player already exists") { callback_code = IWebAPI.DISALLOWED; }
+
+				logger.DebugLog(string.Format("[roar] -- response error: {0} (api call = {1})", callback_msg, apicall));
 			}
 			
 			// Error: fire the callback
