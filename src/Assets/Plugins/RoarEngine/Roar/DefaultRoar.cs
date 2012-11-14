@@ -189,12 +189,22 @@ public class DefaultRoar : MonoBehaviour, IRoar, IUnityObject
 	{
 		User.DoLoginFacebookOAuth(oauth_token,callback);
 	}
-
+	
+	public void LoginFacebookSignedReq( string signedReq, Roar.Callback callback=null )
+	{
+		User.DoLoginFacebookSignedReq(signedReq,callback);
+	}
+	
 	public void Logout( Roar.Callback callback=null )
 	{
 		User.DoLogout(callback);
 	}
-
+	
+	public void CreateFacebookSignedReq( string username, string signedAuth, Roar.Callback callback=null )
+	{
+		User.DoCreateFacebookSignedReq(username,signedAuth,callback);
+	}
+	
 	public void Create( string username, string password, Roar.Callback callback=null )
 	{
 		User.DoCreate(username,password,callback);

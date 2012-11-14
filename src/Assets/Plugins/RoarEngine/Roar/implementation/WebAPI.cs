@@ -190,7 +190,7 @@ public class WebAPI : IWebAPI
 		}
 
 		public void friends (Hashtable obj, IRequestCallback<IXMLNode> cb)
-		{
+		{   
 			api.MakeCall ("facebook/friends", obj, cb);
 		}
 
@@ -492,6 +492,18 @@ public class WebAPI : IWebAPI
 		public void login (Hashtable obj, IRequestCallback<IXMLNode> cb)
 		{
 			api.MakeCall ("user/login", obj, cb);
+		}
+		
+		public void createSignedReq( Hashtable obj, IRequestCallback<IXMLNode> cb)
+		{
+			api.MakeCall("facebook/create_signed", obj, cb);	
+			
+		}
+		
+		public void loginSignedReq( Hashtable obj, IRequestCallback<IXMLNode> cb)
+		{
+			api.MakeCall("facebook/login_signed", obj, cb);	
+			
 		}
 
 		public void login_facebook_oauth (Hashtable obj, IRequestCallback<IXMLNode> cb)

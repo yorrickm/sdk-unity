@@ -138,8 +138,10 @@ public abstract class IWebAPI
 		void change_name( Hashtable obj, IRequestCallback<IXMLNode> cb);
 		void change_password( Hashtable obj, IRequestCallback<IXMLNode> cb);
 		void create( Hashtable obj, IRequestCallback<IXMLNode> cb);
+		void createSignedReq( Hashtable obj, IRequestCallback<IXMLNode> cb);
 		void login( Hashtable obj, IRequestCallback<IXMLNode> cb);
 		void login_facebook_oauth( Hashtable obj, IRequestCallback<IXMLNode> cb);
+		void loginSignedReq( Hashtable obj, IRequestCallback<IXMLNode> cb);
 		void logout( Hashtable obj, IRequestCallback<IXMLNode> cb);
 		void netdrive_save( Hashtable obj, IRequestCallback<IXMLNode> cb);
 		void netdrive_fetch( Hashtable obj, IRequestCallback<IXMLNode> cb);

@@ -78,6 +78,19 @@ namespace Roar.implementation.Components
 
 			userActions.login_facebook_oauth (args, new LoginFacebookOAuthCallback (cb, this));
 		}
+		
+		public void DoLoginFacebookSignedReq (string signedReq, Roar.Callback cb)
+		{
+			if (signedReq == "") {
+				logger.DebugLog ("[roar] -- Must specify signedReq for facebook login");
+				return;
+			}
+
+			Hashtable args = new Hashtable ();
+			args ["signed_request"] = signedReq;
+
+			userActions.loginSignedReq (args, new LoginCallback (cb, this));
+		}
 		class LoginFacebookOAuthCallback : SimpleRequestCallback<IXMLNode>
 		{
 			protected User user;
@@ -123,19 +136,19 @@ namespace Roar.implementation.Components
 			}
 
 		};
-
-
-		public void DoCreate (string name, string hash, Roar.Callback cb)
+		
+		public void DoCreateFacebookSignedReq (string name, string signedReq, Roar.Callback cb)
 		{
-			if (name == "" || hash == "") {
-				logger.DebugLog ("[roar] -- Must specify username and password for login");
+			if (name == "" || signedReq == "") {
+				logger.DebugLog ("[roar] -- Must specify username and signed req for creation");
 				return;
 			}
+			
 			Hashtable args = new Hashtable ();
 			args ["name"] = name;
-			args ["hash"] = hash;
+			args ["signed_request"] = signedReq;
 
-			userActions.create (args, new CreateCallback (cb, this));
+			userActions.createSignedReq (args, new CreateCallback (cb, this));
 		}
 		protected class CreateCallback : SimpleRequestCallback<IXMLNode>
 		{
@@ -158,6 +171,21 @@ namespace Roar.implementation.Components
 				return null;
 			}
 		}
+		
+
+		public void DoCreate (string name, string hash, Roar.Callback cb)
+		{
+			if (name == "" || hash == "") {
+				logger.DebugLog ("[roar] -- Must specify username and password for login");
+				return;
+			}
+			Hashtable args = new Hashtable ();
+			args ["name"] = name;
+			args ["hash"] = hash;
+
+			userActions.create (args, new CreateCallback (cb, this));
+		}
+		
 
 		//TODO: not sure this belongs in this class!
 		public void CacheFromInventory (Roar.Callback cb=null)
