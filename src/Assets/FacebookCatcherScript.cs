@@ -39,6 +39,13 @@ public class FacebookCatcherScript : MonoBehaviour {
         
 		GUI.Label(new Rect(0, 0, 200, 60), debugStr);
         GUILayout.BeginArea(new Rect(200, 200, 300, 500), "");
+
+        if (GUILayout.Button("check GET code"))
+        {
+            FacebookBinding.RequestFacebookGetCode();
+
+        }
+
         if (GUILayout.Button("check SignedReq"))
         {
             FacebookBinding.RequestFacebookSignedRequest();

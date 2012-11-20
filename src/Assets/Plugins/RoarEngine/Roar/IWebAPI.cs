@@ -53,10 +53,10 @@ public abstract class IWebAPI
 		void bind_signed( Hashtable obj, IRequestCallback<IXMLNode> cb);
 		void create_oauth( Hashtable obj, IRequestCallback<IXMLNode> cb);
 		void create_signed( Hashtable obj, IRequestCallback<IXMLNode> cb);
-		void fetch_oauth_token( Hashtable obj, IRequestCallback<IXMLNode> cb);
 		void friends( Hashtable obj, IRequestCallback<IXMLNode> cb);
-		void login_oauth( Hashtable obj, IRequestCallback<IXMLNode> cb);
+		void login_facebook_oauth( Hashtable obj, IRequestCallback<IXMLNode> cb);
 		void login_signed( Hashtable obj, IRequestCallback<IXMLNode> cb);
+        void fetch_facebook_oauth(Hashtable obj, IRequestCallback<IXMLNode> cb);
 		void shop_list( Hashtable obj, IRequestCallback<IXMLNode> cb);
 	}
 
@@ -138,10 +138,11 @@ public abstract class IWebAPI
 		void change_name( Hashtable obj, IRequestCallback<IXMLNode> cb);
 		void change_password( Hashtable obj, IRequestCallback<IXMLNode> cb);
 		void create( Hashtable obj, IRequestCallback<IXMLNode> cb);
-		void createSignedReq( Hashtable obj, IRequestCallback<IXMLNode> cb);
+		//void createSignedReq( Hashtable obj, IRequestCallback<IXMLNode> cb);
 		void login( Hashtable obj, IRequestCallback<IXMLNode> cb);
-		void login_facebook_oauth( Hashtable obj, IRequestCallback<IXMLNode> cb);
-		void loginSignedReq( Hashtable obj, IRequestCallback<IXMLNode> cb);
+        //void fetch_facebook_oauth(Hashtable obj, IRequestCallback<IXMLNode> cb);
+        //void login_facebook_oauth( Hashtable obj, IRequestCallback<IXMLNode> cb);
+        //void loginSignedReq( Hashtable obj, IRequestCallback<IXMLNode> cb);
 		void logout( Hashtable obj, IRequestCallback<IXMLNode> cb);
 		void netdrive_save( Hashtable obj, IRequestCallback<IXMLNode> cb);
 		void netdrive_fetch( Hashtable obj, IRequestCallback<IXMLNode> cb);

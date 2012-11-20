@@ -321,6 +321,24 @@ public interface IRoar
    **/
 	void LoginFacebookSignedReq(string signedReq, Roar.Callback callback = null);
 	
+
+    /**
+   * Fetches the facebook token that is necessary to login to facebook
+   *
+   * On success:
+   * - invokes a callback with the oauth token that can then be used to login to facebook
+   * 
+   *
+   * On failure:
+   * - invokes callback with empty data parameter, error code and error message
+   * 
+   *
+   * @param code the code obtained from the facebook login.
+   * @param cb the callback function to be passed the result of doLogin.
+   **/
+	void FetchFacebookOAuthToken(string code, Roar.Callback callback=null);
+
+
 	/**
    * Login a player using Facebook OAuth.
    *
