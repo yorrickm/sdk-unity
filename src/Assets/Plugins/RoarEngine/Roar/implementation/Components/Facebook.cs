@@ -122,6 +122,7 @@ namespace Roar.implementation.Components
 
             public override void OnFailure(CallbackInfo<IXMLNode> info)
             {
+
                 Debug.Log("OAuth Fetch Failed " + info.msg);
             }
 
@@ -172,6 +173,20 @@ namespace Roar.implementation.Components
 			args ["signed_request"] = signedReq;
 
 			facebook.create_signed (args, new FacebookCreateCallback (cb, this));
+		}
+
+        public void DoCreateFacebookOAuth (string name, string oAuthToken, Roar.Callback cb)
+		{
+			if (name == "" || oAuthToken == "") {
+				logger.DebugLog ("[roar] -- Must specify username and oauthToken for creation");
+				return;
+			}
+			
+			Hashtable args = new Hashtable ();
+			args ["name"] = name;
+			args ["oauth_token"] = oAuthToken;
+
+			facebook.create_oauth (args, new FacebookCreateCallback (cb, this));
 		}
 		
 

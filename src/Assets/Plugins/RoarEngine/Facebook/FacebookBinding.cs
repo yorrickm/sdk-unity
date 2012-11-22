@@ -12,8 +12,9 @@ public class FacebookBinding : MonoBehaviour
 	public string applicationID;
 	static bool isLoggedIn = false;
     static bool isAuthorized = false;
-    static string signedRequestString = null;
+    
 	static string codeParameter = null; //when using oauth this parameter is passed via a get parameter.
+    static string oAuthToken = null;
 
     static IRoar roar;
 
@@ -24,13 +25,12 @@ public class FacebookBinding : MonoBehaviour
         Debug.Log(info.code);
         Debug.Log(info.msg);
         Debug.Log(info.d);
+
+        //need to add an event for oauth token verified and saved here. Once the fetch code works.
     }
     
 
-	public static string GetSignedRequestString()
-	{
-		return signedRequestString;	
-	}
+	
 	
 	public static void Init( string applicationId )
 	{
@@ -40,6 +40,26 @@ public class FacebookBinding : MonoBehaviour
         
         roar = DefaultRoar.Instance;
 	}
+
+    static void onLogin(Roar.CallbackInfo info)
+    {
+        Debug.Log("facebook binding login");
+        //Debug.Log(info.d.ToString());
+        Debug.Log(info.msg.ToString());
+
+    }
+
+    //attempts to login to roar. If it fails it most likely means roar needs to create the player or something
+    //worse has gone wrong.
+    void AttemptLogin()
+    {
+        
+        Debug.Log("attempting login");
+        roar.LoginFacebookOAuth(oAuthToken, onLogin);
+        
+    }
+
+    
 	
 	/**
    * Function that is called from javascript and is handed the facebook code parameter. Call graph.authorize with this.
@@ -52,9 +72,9 @@ public class FacebookBinding : MonoBehaviour
 		roar = DefaultRoar.Instance;
 		if(paras.Split(' ')[0] == "")
 		{
-			
 			//Invoke redirect with authorization.
-			
+			//fire event that says we are redirecting to login/authorize.
+
 			Debug.Log("redirecting because of a blank code");
 			Application.OpenURL("https://graph.facebook.com/oauth/authorize?client_id="+applicationID+"&redirect_uri="+paras.Split(' ')[1]);
 			
@@ -64,10 +84,11 @@ public class FacebookBinding : MonoBehaviour
 			Debug.Log("got string para");
 			Debug.Log("string is "+paras);
         	codeParameter = paras.Split(' ')[0];
-			
+            //FacebookManager.OnOAuthTokenReady();
+            //AttemptLogin();
 			// move on to fetch oauth.
-			Hashtable h = new Hashtable();
-			h.Add("code", codeParameter);
+			//Hashtable h = new Hashtable();
+			//h.Add("code", codeParameter);
             roar.FetchFacebookOAuthToken(codeParameter, onOAuthTokenFetch);
 		
 		}
@@ -83,7 +104,36 @@ public class FacebookBinding : MonoBehaviour
    **/
 	void CatchFacebookRequest(string signedR)
     {
-        signedRequestString = signedR;
+        roar = DefaultRoar.Instance;
+        if (signedR == "")
+        {
+            //fire signed request event failed. go for the graph api method.
+            RequestFacebookGetCode();
+
+        }
+        else
+        {
+            //fire events related to signed request or signed auth.
+            oAuthToken = signedR;
+            AttemptLogin();
+            //roar.LoginFacebookOAuth(signedR);
+        }
+    }
+	
+	/**
+   * Creates a user based on the facebook oauth with the requested username.
+   * 
+   *   
+   * @param Requested name.
+   **/
+	public static void CreateFacebookOAuth(string requestedName)
+    {
+        roar = DefaultRoar.Instance;
+        if(oAuthToken != null)
+        {
+            
+            roar.CreateFacebookOAuthToken(requestedName, oAuthToken);
+        }
     }
 	
 	/**
@@ -108,19 +158,14 @@ public class FacebookBinding : MonoBehaviour
 		Application.ExternalCall("returnCodeIfAvailable");
 	}
 	
-	
+	// Try to collect a signed_request and if that is unavailable fire the graph.authorize
 	public static string GetAccessToken()
 	{
-		if( ! isLoggedIn )
-		{
-			Debug.LogError("FacebookBinding.getAccessToken used when not logged in");
-			return "invalid";
-		}
 
-		Debug.Log ("FacebookBinding.getAccessToken called" );
-		return "abefbedb123123b123abda_facebook_";
+        RequestFacebookSignedRequest();
+		return "";
 	}
-
+    // This function should trigger the whole login sequence. 
 	public static void Login()
 	{
 		isLoggedIn = true;
@@ -134,6 +179,8 @@ public class FacebookBinding : MonoBehaviour
 		Debug.Log ("FacebookBinding.logout called");
 		FacebookManager.OnLogout();
 	}
+
+
 
 }
 
